@@ -20,8 +20,9 @@ ttf-parser = "0.25.1"
 typst-kit = "0.13.1"
 typst-pdf = "0.13.1"
 typst-svg = "0.13.1"
+serde = "1.0.219"
 
 # Examples
 [[example]]
-name = "test"
-path = "examples/test/main.rs"
+name = "line"
+path = "examples/line/main.rs"

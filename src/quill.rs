@@ -12,29 +12,11 @@ use std::{
 
 use typst::{
     compile, 
-    diag::{eco_format, 
-        FileError, 
-        FileResult, 
-        PackageError, 
-        PackageResult
-    }, 
-    foundations::{
-        Bytes, 
-        Datetime
-    }, 
-    layout::{
-        PagedDocument,
-        Abs,
-    },
-    syntax::{
-        package::PackageSpec, 
-        FileId, 
-        Source
-    }, 
-    text::{
-        Font, 
-        FontBook
-    }, 
+    diag::{eco_format, FileError, FileResult, PackageError, PackageResult}, 
+    foundations::{Bytes, Datetime}, 
+    layout::{PagedDocument, Abs},
+    syntax::{package::PackageSpec, FileId, Source}, 
+    text::{Font, FontBook}, 
     utils::LazyHash, 
     Library, 
     World
