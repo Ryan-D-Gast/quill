@@ -4,25 +4,3 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-typst = "0.13.1"
-tera = "1.20.0"
-comemo = "0.4.0"
-
-zune-inflate = { version = "0.2", default-features = false, features = [
-  "gzip",
-  "std",
-] }
-tar = "0.4.44"
-ureq = "3.0.11"
-
-time = "0.3.41"
-ttf-parser = "0.25.1"
-typst-kit = "0.13.1"
-typst-pdf = "0.13.1"
-typst-svg = "0.13.1"
-serde = "1.0.219"
-
-# Examples
-[[example]]
-name = "line"
-path = "examples/line/main.rs"

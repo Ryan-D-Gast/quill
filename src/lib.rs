@@ -1,7 +1,2 @@
-//! Quill: An abstraction layer over the Typst typesetting engine to crate graphs and short reports in rust.
+//! Quill: A plotting library for Rust.
 
-mod quill;
-mod line;
-
-pub use quill::Quill;
-pub use line::LinePlot;
