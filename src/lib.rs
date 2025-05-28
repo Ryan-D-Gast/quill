@@ -1,6 +1,12 @@
 //! Quill: A plotting library for Rust.
 
-#![allow(dead_code)]
+// TODO: Turn draft in this one file into multiple files and broken up components.
+// Other things to add:
+// - Axis tick settings like log scales specialized ticks etc.
+// - Better legend styling
+// - Move all these constant plot style qualties into the plot builder
+// - Support annotations
+// - Add caption below the plot
 
 use bon::Builder;
 use raqote::{DrawTarget, PathBuilder, Source, SolidSource, DrawOptions, StrokeStyle, Point};
@@ -53,11 +59,33 @@ pub enum Range {
     Manual { min: f32, max: f32 },
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum LineStyle {
+    Solid,
+    Dashed,
+    Dotted,
+    None,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum PointStyle {
+    Circle,
+    Square,
+    Cross,
+    None,
+}
+
 #[derive(Builder)]
 pub struct Series {
-    name: String,
-    color: String,
     data: Vec<(f32, f32)>,
+    #[builder(default = "".to_string())]
+    name: String,
+    #[builder(default = "Black".to_string())]
+    color: String,
+    #[builder(default = LineStyle::Solid)]
+    line_style: LineStyle,
+    #[builder(default = PointStyle::None)]
+    point_style: PointStyle,
 }
 
 #[derive(Builder)]
@@ -594,30 +622,70 @@ impl Plot {
 
         // --- Data Series Drawing (now clipped) ---
         for series in &self.data {
-            if series.data.len() > 1 {
-                let mut pb_series = PathBuilder::new();
+            let series_rgb_tuple = match color(&series.color) {
+                Some(c) => c.rgb(),
+                None => (0, 0, 0), // Default to black if color name is invalid
+            };
+            let series_color_source = SolidSource {
+                r: series_rgb_tuple.0,
+                g: series_rgb_tuple.1,
+                b: series_rgb_tuple.2,
+                a: 0xff,
+            };
+
+            // Draw line for the series
+            if series.line_style != LineStyle::None && series.data.len() > 1 {
+                let mut pb_series_line = PathBuilder::new();
                 let first_point = series.data[0];
-                
-                pb_series.move_to(map_x(first_point.0), map_y(first_point.1));
+                pb_series_line.move_to(map_x(first_point.0), map_y(first_point.1));
 
                 for point in series.data.iter().skip(1) {
-                    pb_series.line_to(map_x(point.0), map_y(point.1));
+                    pb_series_line.line_to(map_x(point.0), map_y(point.1));
                 }
-                let path_series = pb_series.finish();
+                let path_series_line = pb_series_line.finish();
                 
-                let series_rgb_tuple = match color(&series.color) {
-                    Some(c) => c.rgb(),
-                    None => (0, 0, 0), // Default to black if color name is invalid
+                let line_stroke_style = StrokeStyle {
+                    width: 1.5, // Slightly thinner than default data stroke for better distinction if points are also drawn
+                    dash_array: match series.line_style {
+                        LineStyle::Dashed => vec![6.0, 3.0],
+                        LineStyle::Dotted => vec![2.0, 2.0],
+                        _ => vec![], // Solid or None (None handled by outer if)
+                    },
+                    dash_offset: 0.0,
+                    ..Default::default()
                 };
+                dt.stroke(&path_series_line, &Source::Solid(series_color_source), &line_stroke_style, &DrawOptions::new());
+            }
 
-                let series_color_source = SolidSource {
-                    r: series_rgb_tuple.0,
-                    g: series_rgb_tuple.1,
-                    b: series_rgb_tuple.2,
-                    a: 0xff,
-                };
-                let data_stroke_style = StrokeStyle { width: 2.0, ..Default::default() }; // Slightly thicker lines for data
-                dt.stroke(&path_series, &Source::Solid(series_color_source), &data_stroke_style, &DrawOptions::new());
+            // Draw points for the series
+            if series.point_style != PointStyle::None {
+                let point_size = 5.0; // Diameter for circle/square, size for cross
+                for &(data_x, data_y) in &series.data {
+                    let screen_x = map_x(data_x);
+                    let screen_y = map_y(data_y);
+                    let mut pb_point = PathBuilder::new();
+
+                    match series.point_style {
+                        PointStyle::Circle => {
+                            pb_point.arc(screen_x, screen_y, point_size / 2.0, 0.0, 2.0 * std::f32::consts::PI);
+                            dt.fill(&pb_point.finish(), &Source::Solid(series_color_source), &DrawOptions::new());
+                        }
+                        PointStyle::Square => {
+                            pb_point.rect(screen_x - point_size / 2.0, screen_y - point_size / 2.0, point_size, point_size);
+                            dt.fill(&pb_point.finish(), &Source::Solid(series_color_source), &DrawOptions::new());
+                        }
+                        PointStyle::Cross => {
+                            let half_size = point_size / 2.0;
+                            pb_point.move_to(screen_x - half_size, screen_y - half_size);
+                            pb_point.line_to(screen_x + half_size, screen_y + half_size);
+                            pb_point.move_to(screen_x - half_size, screen_y + half_size);
+                            pb_point.line_to(screen_x + half_size, screen_y - half_size);
+                            let point_stroke_style = StrokeStyle { width: 1.0, ..Default::default() }; 
+                            dt.stroke(&pb_point.finish(), &Source::Solid(series_color_source), &point_stroke_style, &DrawOptions::new());
+                        }
+                        PointStyle::None => {}
+                    }
+                }
             }
         }
         

@@ -15,13 +15,23 @@ fn main() {
         .data(vec![
             Series::builder()
                 .name("Series 1".to_string())
-                .color("Red".to_string())
+                .color("Dark Red".to_string())
                 .data(vec![(1.0, 1.0), (2.0, 3.0), (3.0, 2.0), (4.0, 5.0), (5.0, 4.0), (9.0, -1.0)])
+                .point_style(PointStyle::Circle)
+                .line_style(LineStyle::Dashed)
                 .build(),
             Series::builder()
                 .name("Series 2".to_string())
                 .color("Blue".to_string())
                 .data(vec![(1.0, 2.5), (2.0, 1.5), (3.0, 4.5), (4.0, 3.5), (5.0, 6.0)])
+                .point_style(PointStyle::Cross)
+                .line_style(LineStyle::Dotted)
+                .build(),
+            Series::builder()
+                .name("Series 3".to_string())
+                .data(vec![(1.0, 0.5), (2.0, 2.0), (3.0, 3.5), (4.0, 4.0), (5.0, 5.5)])
+                .point_style(PointStyle::Square)
+                .line_style(LineStyle::Solid)
                 .build(),
         ])
         .build();
