@@ -1,4 +1,4 @@
-use quill::{Plot, Series};
+use quill::*;
 
 fn main() {
     // Create a new plot with a builder
@@ -7,12 +7,11 @@ fn main() {
         .title("My First Plot".to_string())
         .x_label("X Axis".to_string())
         .y_label("Y Axis".to_string())
-        .x_min(0.0)
-        .x_max(10.0)
-        .y_min(0.0)
-        .y_max(10.0)
-        .legend(true)
-        .grid(true)
+        .x_range(Range::Manual { min: 0.0, max: 10.0 })
+        .y_range(Range::Manual { min: 0.0, max: 10.0 })
+        .legend(Legend::TopRight)
+        .grid(Grid::Dashed)
+        .font("Times New Roman".to_string())
         .data(vec![
             Series::builder()
                 .name("Series 1".to_string())
