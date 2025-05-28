@@ -4,3 +4,12 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bon = "3.6.3"
+font-kit = "0.14.3"
+pigment = "0.1.2"
+png = "0.17.16"
+raqote = "0.8.5"
+
+[[example]]
+name = "line_graph"
+path = "examples/line_graph.rs"
