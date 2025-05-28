@@ -11,5 +11,9 @@ png = "0.17.16"
 raqote = "0.8.5"
 
 [[example]]
-name = "line_graph"
-path = "examples/line_graph.rs"
+name = "investment_growth"
+path = "examples/investment_growth.rs"
+
+[[example]]
+name = "monthly_sales"
+path = "examples/monthly_sales.rs"
