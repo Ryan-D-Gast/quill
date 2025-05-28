@@ -4,12 +4,12 @@ fn main() {
     // Create a new plot with a builder
     let plot = Plot::builder()
         .dimensions((800, 600))
-        .title("My First Plot".to_string())
+        .title("Simple Line Plot".to_string())
         .x_label("X Axis".to_string())
         .y_label("Y Axis".to_string())
         .x_range(Range::Manual { min: 0.0, max: 10.0 })
         .y_range(Range::Manual { min: 0.0, max: 10.0 })
-        .legend(Legend::TopRight)
+        .legend(Legend::TopRightOutside)
         .grid(Grid::Dashed)
         .font("Times New Roman".to_string())
         .data(vec![
@@ -17,21 +17,21 @@ fn main() {
                 .name("Series 1".to_string())
                 .color("Dark Red".to_string())
                 .data(vec![(1.0, 1.0), (2.0, 3.0), (3.0, 2.0), (4.0, 5.0), (5.0, 4.0), (9.0, -1.0)])
-                .point_style(PointStyle::Circle)
-                .line_style(LineStyle::Dashed)
+                .marker(Marker::Circle)
+                .line(Line::Dashed)
                 .build(),
             Series::builder()
                 .name("Series 2".to_string())
                 .color("Blue".to_string())
                 .data(vec![(1.0, 2.5), (2.0, 1.5), (3.0, 4.5), (4.0, 3.5), (5.0, 6.0)])
-                .point_style(PointStyle::Cross)
-                .line_style(LineStyle::Dotted)
+                .marker(Marker::Cross)
+                .line(Line::Dotted)
                 .build(),
             Series::builder()
                 .name("Series 3".to_string())
                 .data(vec![(1.0, 0.5), (2.0, 2.0), (3.0, 3.5), (4.0, 4.0), (5.0, 5.5)])
-                .point_style(PointStyle::Square)
-                .line_style(LineStyle::Solid)
+                .marker(Marker::Square)
+                .line(Line::Solid)
                 .build(),
         ])
         .build();
