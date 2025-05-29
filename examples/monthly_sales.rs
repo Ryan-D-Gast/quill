@@ -48,6 +48,17 @@ fn main() {
                 .marker(Marker::Cross)
                 .line(Line::Dashed)
                 .build(),
+            Series::builder()
+                .name("Product D (Negative Trend)".to_string())
+                .color("Dark Orange".to_string())
+                // Product D launched in June (month 6)
+                .data(vec![
+                    (6.0, 200.0), (7.0, 190.0), (8.0, 180.0), (9.0, 170.0),
+                    (10.0, 160.0), (11.0, 150.0), (12.0, -40.0),
+                ])
+                .marker(Marker::None)
+                .line(Line::Dotted)
+                .build(),
         ])
         .build();
 

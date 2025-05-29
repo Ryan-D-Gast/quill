@@ -2,5 +2,6 @@
 pub enum Grid {
     Solid,
     Dashed,
+    Dotted,
     None,
 }

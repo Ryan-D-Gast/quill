@@ -15,6 +15,8 @@ pub use elements::*;
 pub mod style;
 pub use style::*;
 
+mod draw;
+
 mod series;
 pub use series::Series;
 
