@@ -12,4 +12,8 @@ pub struct Series {
     pub line: Line,
     #[builder(default = Marker::None)]
     pub marker: Marker,
+    #[builder(default = 1.0)]
+    pub marker_size: f32,
+    #[builder(default = 1.0)]
+    pub line_width: f32,
 }

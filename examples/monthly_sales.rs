@@ -52,8 +52,8 @@ fn main() {
         .build();
 
     // Plot the data to a PNG file in the gallery
-    match plot.plot("./gallery/monthly_sales.png") {
-        Ok(_) => println!("Plot created successfully at ./gallery/monthly_sales.png"),
+    match plot.plot("./gallery/monthly_sales.svg") {
+        Ok(_) => println!("Plot created successfully at ./gallery/monthly_sales.svg"),
         Err(e) => eprintln!("Error creating plot: {:?}", e),
     }
 }

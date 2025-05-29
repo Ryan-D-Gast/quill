@@ -5,15 +5,6 @@ edition = "2024"
 
 [dependencies]
 bon = "3.6.3"
-font-kit = "0.14.3"
 pigment = "0.1.2"
-png = "0.17.16"
-raqote = "0.8.5"
-
-[[example]]
-name = "investment_growth"
-path = "examples/investment_growth.rs"
-
-[[example]]
-name = "monthly_sales"
-path = "examples/monthly_sales.rs"
+usvg = "0.45.1"
+svg = "0.13"

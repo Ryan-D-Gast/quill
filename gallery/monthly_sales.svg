@@ -1,0 +1,179 @@
+<svg height="500" viewBox="0 0 900 500" width="900" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="500" width="900" x="0" y="0"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="20" text-anchor="middle" x="475" y="30">
+Monthly Sales Data - 2024
+</text>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="14" text-anchor="middle" x="475" y="465">
+Month
+</text>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="14" text-anchor="middle" transform="rotate(-90, 24, 245)" x="24" y="245">
+Units Sold
+</text>
+<rect fill="none" height="370" stroke="#000000" stroke-width="1.5" width="790" x="80" y="60"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="80" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="80" y="439">
+1.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="80" x2="80" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="151.81818" x2="151.81818" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="151.81818" x2="151.81818" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="151.81818" y="439">
+2.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="151.81818" x2="151.81818" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="223.63637" x2="223.63637" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="223.63637" x2="223.63637" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="223.63637" y="439">
+3.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="223.63637" x2="223.63637" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="295.45456" x2="295.45456" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="295.45456" x2="295.45456" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="295.45456" y="439">
+4.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="295.45456" x2="295.45456" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="367.27274" x2="367.27274" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="367.27274" x2="367.27274" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="367.27274" y="439">
+5.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="367.27274" x2="367.27274" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="439.0909" x2="439.0909" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="439.0909" x2="439.0909" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="439.0909" y="439">
+6.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="439.0909" x2="439.0909" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="510.90912" x2="510.90912" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="510.90912" x2="510.90912" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="510.90912" y="439">
+7.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="510.90912" x2="510.90912" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="582.7273" x2="582.7273" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="582.7273" x2="582.7273" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="582.7273" y="439">
+8.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="582.7273" x2="582.7273" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="654.5455" x2="654.5455" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="654.5455" x2="654.5455" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="654.5455" y="439">
+9.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="654.5455" x2="654.5455" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="726.36365" x2="726.36365" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="726.36365" x2="726.36365" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="726.36365" y="439">
+10.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="726.36365" x2="726.36365" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="798.1818" x2="798.1818" y1="60" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="798.1818" x2="798.1818" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="798.1818" y="439">
+11.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="798.1818" x2="798.1818" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="870" y1="430" y2="425"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Verdana" font-size="10" text-anchor="middle" x="870" y="439">
+12.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="870" x2="870" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="430" y2="430"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="430" y2="430"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="430">
+0.0
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="870" y1="368.33334" y2="368.33334"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="368.33334" y2="368.33334"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="368.33334" y2="368.33334"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="368.33334">
+50.0
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="870" y1="306.66666" y2="306.66666"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="306.66666" y2="306.66666"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="306.66666" y2="306.66666"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="306.66666">
+100.0
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="870" y1="245" y2="245"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="245" y2="245"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="245" y2="245"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="245">
+150.0
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="870" y1="183.33333" y2="183.33333"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="183.33333" y2="183.33333"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="183.33333" y2="183.33333"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="183.33333">
+200.0
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="870" y1="121.66669" y2="121.66669"/>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="121.66669" y2="121.66669"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="121.66669" y2="121.66669"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="121.66669">
+250.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="60" y2="60"/>
+<line stroke="#000000" stroke-width="1" x1="870" x2="865" y1="60" y2="60"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="10" text-anchor="end" x="72" y="60">
+300.0
+</text>
+<defs>
+<clipPath id="plotAreaClip">
+<rect height="370" width="790" x="80" y="60"/>
+</clipPath>
+</defs>
+<g clip-path="url(#plotAreaClip)">
+<path d="M80,245 L151.81818,232.66666 L223.63637,220.33333 L295.45456,238.83334 L367.27274,207.99998 L439.0909,195.66667 L510.90912,183.33333 L582.7273,201.83333 L654.5455,171 L726.36365,158.66666 L798.1818,134 L870,121.66669" fill="none" stroke="#0000ff" stroke-width="1"/>
+<circle cx="80" cy="245" fill="#0000ff" r="0.5"/>
+<circle cx="151.81818" cy="232.66666" fill="#0000ff" r="0.5"/>
+<circle cx="223.63637" cy="220.33333" fill="#0000ff" r="0.5"/>
+<circle cx="295.45456" cy="238.83334" fill="#0000ff" r="0.5"/>
+<circle cx="367.27274" cy="207.99998" fill="#0000ff" r="0.5"/>
+<circle cx="439.0909" cy="195.66667" fill="#0000ff" r="0.5"/>
+<circle cx="510.90912" cy="183.33333" fill="#0000ff" r="0.5"/>
+<circle cx="582.7273" cy="201.83333" fill="#0000ff" r="0.5"/>
+<circle cx="654.5455" cy="171" fill="#0000ff" r="0.5"/>
+<circle cx="726.36365" cy="158.66666" fill="#0000ff" r="0.5"/>
+<circle cx="798.1818" cy="134" fill="#0000ff" r="0.5"/>
+<circle cx="870" cy="121.66669" fill="#0000ff" r="0.5"/>
+<path d="M80,331.3333 L151.81818,325.16666 L223.63637,319 L295.45456,306.66666 L367.27274,312.83334 L439.0909,294.3333 L510.90912,300.5 L582.7273,282 L654.5455,269.6667 L726.36365,288.1667 L798.1818,257.3333 L870,245" fill="none" stroke="#b22222" stroke-width="1"/>
+<rect fill="#b22222" height="1" width="1" x="79.5" y="330.8333"/>
+<rect fill="#b22222" height="1" width="1" x="151.31818" y="324.66666"/>
+<rect fill="#b22222" height="1" width="1" x="223.13637" y="318.5"/>
+<rect fill="#b22222" height="1" width="1" x="294.95456" y="306.16666"/>
+<rect fill="#b22222" height="1" width="1" x="366.77274" y="312.33334"/>
+<rect fill="#b22222" height="1" width="1" x="438.5909" y="293.8333"/>
+<rect fill="#b22222" height="1" width="1" x="510.40912" y="300"/>
+<rect fill="#b22222" height="1" width="1" x="582.2273" y="281.5"/>
+<rect fill="#b22222" height="1" width="1" x="654.0455" y="269.1667"/>
+<rect fill="#b22222" height="1" width="1" x="725.86365" y="287.6667"/>
+<rect fill="#b22222" height="1" width="1" x="797.6818" y="256.8333"/>
+<rect fill="#b22222" height="1" width="1" x="869.5" y="244.5"/>
+<path d="M295.45456,393 L367.27274,374.5 L439.0909,356 L510.90912,343.66666 L582.7273,325.16666 L654.5455,306.66666 L726.36365,294.3333 L798.1818,275.83334 L870,257.3333" fill="none" stroke="#8fbc8f" stroke-dasharray="5 5" stroke-width="1"/>
+<path d="M294.95456,392.5 L295.95456,393.5 M294.95456,393.5 L295.95456,392.5" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M366.77274,374 L367.77274,375 M366.77274,375 L367.77274,374" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M438.5909,355.5 L439.5909,356.5 M438.5909,356.5 L439.5909,355.5" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M510.40912,343.16666 L511.40912,344.16666 M510.40912,344.16666 L511.40912,343.16666" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M582.2273,324.66666 L583.2273,325.66666 M582.2273,325.66666 L583.2273,324.66666" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M654.0455,306.16666 L655.0455,307.16666 M654.0455,307.16666 L655.0455,306.16666" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M725.86365,293.8333 L726.86365,294.8333 M725.86365,294.8333 L726.86365,293.8333" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M797.6818,275.33334 L798.6818,276.33334 M797.6818,276.33334 L798.6818,275.33334" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+<path d="M869.5,256.8333 L870.5,257.8333 M869.5,257.8333 L870.5,256.8333" fill="none" stroke="#8fbc8f" stroke-width="1"/>
+</g>
+<rect fill="white" height="74" stroke="#000000" stroke-width="1" width="148" x="90" y="70"/>
+<rect fill="#0000ff" height="14.400001" width="15" x="100" y="81.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="12" text-anchor="start" x="120" y="89">
+Product A
+</text>
+<rect fill="#b22222" height="14.400001" width="15" x="100" y="99.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="12" text-anchor="start" x="120" y="107">
+Product B
+</text>
+<rect fill="#8fbc8f" height="14.400001" width="15" x="100" y="117.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="12" text-anchor="start" x="120" y="125">
+Product C (New)
+</text>
+</svg>

@@ -1,15 +1,15 @@
-use raqote::SolidSource;
+use pigment::{color, Color};
 
 #[derive(Clone, Debug)]
 pub struct GridConfig {
-    pub color: SolidSource,
+    pub color: Color,
     pub line_width: f32,
 }
 
 impl Default for GridConfig {
     fn default() -> Self {
         Self {
-            color: SolidSource { r: 0xcc, g: 0xcc, b: 0xcc, a: 0xff }, // Light gray
+            color: color("lightgray").unwrap(),
             line_width: 0.5,
         }
     }

@@ -11,7 +11,7 @@ fn main() {
         .y_range(Range::Manual { min: 0.0, max: 15000.0 }) // Adjusted for potential investment values
         .legend(Legend::TopLeftInside)
         .grid(Grid::Dashed)
-        .font("Arial".to_string())
+        .font("Times New Roman".to_string())
         .data(vec![
             Series::builder()
                 .name("Low-Risk Investment".to_string())
@@ -74,8 +74,8 @@ fn main() {
         .build();
 
     // Plot the data to a PNG file in the gallery
-    match plot.plot("./gallery/investment_growth.png") {
-        Ok(_) => println!("Plot created successfully at ./gallery/investment_growth.png"),
+    match plot.plot("./gallery/investment_growth.svg") {
+        Ok(_) => println!("Plot created successfully at ./gallery/investment_growth.svg"),
         Err(e) => eprintln!("Error creating plot: {:?}", e),
     }
 }

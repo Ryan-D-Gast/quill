@@ -1,15 +1,15 @@
-use raqote::SolidSource;
+use pigment::{color, Color};
 
 #[derive(Clone, Debug)]
 pub struct AxisConfig {
-    pub color: SolidSource,
+    pub color: Color,
     pub line_width: f32,
 }
 
 impl Default for AxisConfig {
     fn default() -> Self {
         Self {
-            color: SolidSource { r: 0x00, g: 0x00, b: 0x00, a: 0xff }, // Black
+            color: color("black").unwrap(),
             line_width: 1.5,
         }
     }

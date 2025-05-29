@@ -1,17 +1,22 @@
 use bon::Builder;
-use raqote::{DrawTarget, PathBuilder, Source, SolidSource, DrawOptions, StrokeStyle, Point};
-use font_kit::{
-    family_name::FamilyName,
-    properties::Properties,
-    source::SystemSource
-};
-use pigment::color;
-use png::EncodingError;
+use pigment::{color, Color};
 use crate::{
     style::*,
     elements::*,
     series::Series,
 };
+use svg::node::element::{
+    Path, Rectangle, Text as SvgText, Line as SvgLine, Circle, Definitions, ClipPath, Group,
+    path::Data,
+};
+use svg::node::Text as SvgNodeText;
+use svg::Document;
+use std::io;
+
+fn to_svg_color_string(color: &Color) -> String {
+    let (r, g, b) = color.rgb();
+    format!("#{:02x}{:02x}{:02x}", r, g, b)
+}
 
 #[derive(Builder)]
 pub struct Plot {
@@ -37,7 +42,7 @@ pub struct Plot {
     #[builder(default = Grid::Solid)]
     pub grid: Grid,
     #[builder(default = "Times New Roman".to_string())]
-    pub font: String,
+    pub font: String, // Font name can remain for an abstract renderer
 
     // --- Style Configurations ---
     #[builder(default = Margin::default())]
@@ -62,10 +67,22 @@ pub struct Plot {
 }
 
 impl Plot {
-    /// Creates a png plot with the given dimensions, title, x and y labels, and data points.
-    pub fn plot(&self, file: &str) -> Result<(), EncodingError> {
+    /// Generates an SVG document representing the plot and saves it to a file.
+    pub fn plot(&self, filename: &str) -> Result<(), io::Error> {
         let (total_width, total_height) = self.dimensions;
-        let mut dt = DrawTarget::new(total_width, total_height);
+        let mut document = Document::new()
+            .set("width", total_width)
+            .set("height", total_height)
+            .set("viewBox", (0, 0, total_width, total_height));
+
+        // Background
+        let background = Rectangle::new()
+            .set("x", 0)
+            .set("y", 0)
+            .set("width", total_width)
+            .set("height", total_height)
+            .set("fill", "white");
+        document = document.add(background);
 
         // Determine x_min, x_max, y_min, y_max based on Range
         let (actual_x_min, actual_x_max) = match self.x_range {
@@ -81,7 +98,6 @@ impl Plot {
                             max_x = max_x.max(*x);
                         }
                     }
-                    // Add a small padding if min and max are the same
                     if (max_x - min_x).abs() < f32::EPSILON {
                         (min_x - 0.5, max_x + 0.5)
                     } else {
@@ -95,7 +111,7 @@ impl Plot {
         let (actual_y_min, actual_y_max) = match self.y_range {
             Range::Auto => {
                 if self.data.is_empty() || self.data.iter().all(|s| s.data.is_empty()) {
-                    (0.0, 1.0) // Default range if no data
+                    (0.0, 1.0)
                 } else {
                     let mut min_y = f32::MAX;
                     let mut max_y = f32::MIN;
@@ -115,173 +131,164 @@ impl Plot {
             Range::Manual { min, max } => (min, max),
         };
 
-        // Load font
-        let font_families = vec![FamilyName::Title(self.font.clone())];
-
-        let font = SystemSource::new()
-            .select_best_match(&font_families, &Properties::new())
-            .unwrap_or_else(|_| {
-                eprintln!("Warning: Specified font family '{:?}' not found or no suitable font. Falling back to generic sans-serif.", self.font);
-                SystemSource::new()
-                    .select_best_match(&[FamilyName::SansSerif], &Properties::new())
-                    .expect("Failed to find any sans-serif font as fallback")
-            })
-            .load()
-            .expect("Failed to load font");
-
-        // Background
-        let mut pb_bg = PathBuilder::new();
-        pb_bg.rect(0., 0., total_width as f32, total_height as f32);
-        let path_bg = pb_bg.finish();
-        dt.fill(&path_bg, &Source::Solid(SolidSource { r: 0xff, g: 0xff, b: 0xff, a: 0xff }), &DrawOptions::new());
-
-        // Calculate legend dimensions (width and height)
+        // Calculate legend dimensions
         let mut calculated_max_series_name_width = 0.0f32;
         if self.legend != Legend::None && !self.data.is_empty() {
             calculated_max_series_name_width = self.data.iter()
-                .map(|s| s.name.len() as f32 * self.legend_config.font_size * 0.6) // Use legend_config
+                .map(|s| s.name.len() as f32 * self.legend_config.font_size * 0.6)
                 .fold(0.0f32, |a, b| a.max(b));
         }
 
         let legend_actual_box_width = if self.legend != Legend::None && !self.data.is_empty() {
-            self.legend_config.color_swatch_width + self.legend_config.text_offset + calculated_max_series_name_width + self.legend_config.padding * 2.0 // Use legend_config
+            self.legend_config.color_swatch_width + self.legend_config.text_offset + calculated_max_series_name_width + self.legend_config.padding * 2.0
         } else {
             0.0
         };
         let legend_height = if self.legend != Legend::None && !self.data.is_empty() {
-            self.data.len()  as f32 * self.legend_config.item_height + self.legend_config.padding * 2.0 // Use legend_config
+            self.data.len()  as f32 * self.legend_config.item_height + self.legend_config.padding * 2.0
         } else {
             0.0
         };
 
-        // Adjust margins based on legend position if legend is active
+        // Adjust margins based on legend position
         let mut current_effective_margin_left = self.margin.left;
         let mut current_effective_margin_right = self.margin.right;
-
-        // These can be made mut later if legend bottom or top of title/x-axis label is supported in future
         let current_effective_margin_top = self.margin.top;
         let current_effective_margin_bottom = self.margin.bottom;
 
         if self.legend != Legend::None && !self.data.is_empty() {
             match self.legend {
                 Legend::TopRightOutside | Legend::RightCenterOutside | Legend::BottomRightOutside => {
-                    current_effective_margin_right += legend_actual_box_width + self.legend_config.padding; // Use legend_config
+                    current_effective_margin_right += legend_actual_box_width + self.legend_config.padding;
                 }
                 Legend::TopLeftOutside | Legend::LeftCenterOutside | Legend::BottomLeftOutside => {
-                    current_effective_margin_left += legend_actual_box_width + self.legend_config.padding; // Use legend_config
+                    current_effective_margin_left += legend_actual_box_width + self.legend_config.padding;
                 }
-                // Removed TopCenterOutside and BottomCenterOutside from margin adjustments
-                // For Inside, TopCenter, BottomCenter, None, no specific margin adjustment here as legend is within plot area or not present.
                 _ => {}
             }
         }
 
-        // Calculate plot area dimensions using potentially adjusted margins
+        // Calculate plot area dimensions
         let plot_area_x_start = current_effective_margin_left;
         let plot_area_y_start = current_effective_margin_top;
         let plot_area_width = total_width as f32 - current_effective_margin_left - current_effective_margin_right;
         let plot_area_height = total_height as f32 - current_effective_margin_top - current_effective_margin_bottom;
 
         if plot_area_width <= 0.0 || plot_area_height <= 0.0 {
-            eprintln!(
-                "Plot area is too small (width: {}, height: {}). Check dimensions and margins.",
-                plot_area_width,
-                plot_area_height
-            );
-            // Draw an error message on the image if it's too small
-            dt.draw_text(
-                &font, 
-                12.0, // Default error font size
-                "Error: Plot area too small", 
-                Point::new(10.0, 20.0), 
-                &Source::Solid(self.title_config.color), // Use a default color like title's
-                &DrawOptions::new()
-            );
-            return dt.write_png(file);
+            return Err(io::Error::new(io::ErrorKind::InvalidInput, format!("Plot area is too small (width: {}, height: {}). Check dimensions and margins.", plot_area_width, plot_area_height)));
         }
 
-        // Helper closures to map data coordinates to screen coordinates within the plot area
-        // Define these early as they might be used by axis drawing (e.g., for Centered style)
+        // Helper closures to map data coordinates to screen coordinates
         let map_x = |data_x: f32| -> f32 {
             if (actual_x_max - actual_x_min).abs() < f32::EPSILON {
-                return plot_area_x_start + plot_area_width / 2.0;
+                plot_area_x_start + plot_area_width / 2.0
+            } else {
+                plot_area_x_start + ((data_x - actual_x_min) / (actual_x_max - actual_x_min) * plot_area_width)
             }
-            plot_area_x_start + ((data_x - actual_x_min) / (actual_x_max - actual_x_min) * plot_area_width)
         };
         let map_y = |data_y: f32| -> f32 {
             if (actual_y_max - actual_y_min).abs() < f32::EPSILON {
-                return plot_area_y_start + plot_area_height / 2.0;
+                plot_area_y_start + plot_area_height / 2.0
+            } else {
+                plot_area_y_start + plot_area_height - ((data_y - actual_y_min) / (actual_y_max - actual_y_min) * plot_area_height)
             }
-            plot_area_y_start + plot_area_height - ((data_y - actual_y_min) / (actual_y_max - actual_y_min) * plot_area_height)
         };
-        
-        // Draw Title
-        let title_text_x = plot_area_x_start + (plot_area_width - (self.title.len() as f32 * self.title_config.font_size * 0.45)) / 2.0; // Use title_config
-        let title_text_y = current_effective_margin_top * 0.5 + self.title_config.font_size / 2.0; // Use title_config
-        dt.draw_text(
-            &font,
-            self.title_config.font_size, // Use title_config
-            &self.title,
-            Point::new(title_text_x.max(0.0), title_text_y.max(self.title_config.font_size)), // Use title_config
-            &Source::Solid(self.title_config.color), // Use title_config
-            &DrawOptions::new(),
-        );
 
-        // Draw X-axis Label
-        let x_label_text_x = plot_area_x_start + (plot_area_width - (self.x_label.len() as f32  * self.x_label_config.font_size * 0.45)) / 2.0; // Use x_label_config
-        let x_label_text_y = plot_area_y_start + plot_area_height + current_effective_margin_bottom * 0.6 + self.x_label_config.font_size / 2.0; // Use x_label_config
-        dt.draw_text(
-            &font,
-            self.x_label_config.font_size, // Use x_label_config
-            &self.x_label,
-            Point::new(x_label_text_x.max(0.0), x_label_text_y.max(plot_area_y_start + plot_area_height + self.x_label_config.font_size)), // Use x_label_config
-            &Source::Solid(self.x_label_config.color), // Use x_label_config
-            &DrawOptions::new(),
-        );
+        // --- Draw Title ---
+        if !self.title.is_empty() {
+            let title_text_x = plot_area_x_start + plot_area_width / 2.0;
+            let title_text_y = current_effective_margin_top * 0.5;
+            let title_svg = SvgText::new()
+                .set("x", title_text_x)
+                .set("y", title_text_y)
+                .set("font-family", self.font.clone())
+                .set("font-size", self.title_config.font_size)
+                .set("fill", to_svg_color_string(&self.title_config.color))
+                .set("text-anchor", "middle")
+                .set("dominant-baseline", "middle")
+                .add(SvgNodeText::new(self.title.clone()));
+            document = document.add(title_svg);
+        }
 
-        // Draw Y-axis Label
-        let y_label_text_x = current_effective_margin_left * 0.3 - (self.y_label.len() as f32 * self.y_label_config.font_size * 0.45) / 2.0; // Use y_label_config
-        let y_label_text_y = plot_area_y_start + plot_area_height / 2.0 + self.y_label_config.font_size / 2.0; // Use y_label_config
-        dt.draw_text(
-            &font,
-            self.y_label_config.font_size, // Use y_label_config
-            &self.y_label,
-            Point::new(y_label_text_x.max(0.0), y_label_text_y.max(plot_area_y_start + self.y_label_config.font_size)), // Use y_label_config
-            &Source::Solid(self.y_label_config.color), // Use y_label_config
-            &DrawOptions::new(),
-        );
+        // --- Draw X-axis Label ---
+        if !self.x_label.is_empty() {
+            let x_label_text_x = plot_area_x_start + plot_area_width / 2.0;
+            let x_label_text_y = plot_area_y_start + plot_area_height + current_effective_margin_bottom * 0.5;
+            let x_label_svg = SvgText::new()
+                .set("x", x_label_text_x)
+                .set("y", x_label_text_y)
+                .set("font-family", self.font.clone())
+                .set("font-size", self.x_label_config.font_size)
+                .set("fill", to_svg_color_string(&self.x_label_config.color))
+                .set("text-anchor", "middle")
+                .set("dominant-baseline", "middle")
+                .add(SvgNodeText::new(self.x_label.clone()));
+            document = document.add(x_label_svg);
+        }
 
-        // Draw Axis Lines
-        let axis_stroke_style = StrokeStyle { width: self.axis_config.line_width, ..Default::default() }; // Use axis_config
-        let mut pb_axis = PathBuilder::new();
+        // --- Draw Y-axis Label ---
+        if !self.y_label.is_empty() {
+            let y_label_text_x = current_effective_margin_left * 0.3;
+            let y_label_text_y = plot_area_y_start + plot_area_height / 2.0;
+            let y_label_svg = SvgText::new()
+                .set("x", y_label_text_x)
+                .set("y", y_label_text_y)
+                .set("font-family", self.font.clone())
+                .set("font-size", self.y_label_config.font_size)
+                .set("fill", to_svg_color_string(&self.y_label_config.color))
+                .set("text-anchor", "middle")
+                .set("dominant-baseline", "middle")
+                .set("transform", format!("rotate(-90, {}, {})", y_label_text_x, y_label_text_y))
+                .add(SvgNodeText::new(self.y_label.clone()));
+            document = document.add(y_label_svg);
+        }
+
+        // --- Draw Axis Lines ---
+        let axis_color = to_svg_color_string(&self.axis_config.color);
+        let axis_stroke_width = self.axis_config.line_width;
 
         match self.axis {
             Axis::BottomLeft => {
-                // X-axis (bottom)
-                pb_axis.move_to(plot_area_x_start, plot_area_y_start + plot_area_height);
-                pb_axis.line_to(plot_area_x_start + plot_area_width, plot_area_y_start + plot_area_height);
-                // Y-axis (left)
-                pb_axis.move_to(plot_area_x_start, plot_area_y_start);
-                pb_axis.line_to(plot_area_x_start, plot_area_y_start + plot_area_height);
+                let x_axis_line = SvgLine::new()
+                    .set("x1", plot_area_x_start)
+                    .set("y1", plot_area_y_start + plot_area_height)
+                    .set("x2", plot_area_x_start + plot_area_width)
+                    .set("y2", plot_area_y_start + plot_area_height)
+                    .set("stroke", axis_color.clone())
+                    .set("stroke-width", axis_stroke_width);
+                document = document.add(x_axis_line);
+
+                let y_axis_line = SvgLine::new()
+                    .set("x1", plot_area_x_start)
+                    .set("y1", plot_area_y_start)
+                    .set("x2", plot_area_x_start)
+                    .set("y2", plot_area_y_start + plot_area_height)
+                    .set("stroke", axis_color)
+                    .set("stroke-width", axis_stroke_width);
+                document = document.add(y_axis_line);
             }
             Axis::Box => {
-                pb_axis.rect(plot_area_x_start, plot_area_y_start, plot_area_width, plot_area_height);
+                let box_rect = Rectangle::new()
+                    .set("x", plot_area_x_start)
+                    .set("y", plot_area_y_start)
+                    .set("width", plot_area_width)
+                    .set("height", plot_area_height)
+                    .set("stroke", axis_color)
+                    .set("stroke-width", axis_stroke_width)
+                    .set("fill", "none");
+                document = document.add(box_rect);
             }
-        }
-        let path_axis = pb_axis.finish();
-        if !path_axis.ops.is_empty() { 
-            dt.stroke(&path_axis, &Source::Solid(self.axis_config.color), &axis_stroke_style, &DrawOptions::new()); // Use axis_config
         }
 
         // --- Tick Marks, Grid Lines, and Tick Labels ---
-        let num_x_ticks = (plot_area_width / self.tick_config.density_x).max(2.0) as usize; // Use tick_config
-        let num_y_ticks = (plot_area_height / self.tick_config.density_y).max(2.0) as usize; // Use tick_config
+        let num_x_ticks = (plot_area_width / self.tick_config.density_x).max(2.0) as usize;
+        let num_y_ticks = (plot_area_height / self.tick_config.density_y).max(2.0) as usize;
 
-        // Helper function to calculate nice tick values
         let calculate_ticks = |min_val: f32, max_val: f32, max_ticks: usize| -> Vec<f32> {
             if (max_val - min_val).abs() < f32::EPSILON { return vec![min_val]; }
             let range = max_val - min_val;
-            let rough_step = range / (max_ticks.saturating_sub(1) as f32);
+            let rough_step = range / (max_ticks.saturating_sub(1) as f32).max(1.0);
+            if rough_step == 0.0 { return vec![min_val]; }
             let exponent = rough_step.log10().floor();
             let fraction = rough_step / 10f32.powf(exponent);
             let nice_fraction = if fraction < 1.5 { 1.0 }
@@ -289,6 +296,8 @@ impl Plot {
             else if fraction < 7.5 { 5.0 }
             else { 10.0 };
             let step = nice_fraction * 10f32.powf(exponent);
+            if step == 0.0 { return vec![min_val, max_val].into_iter().collect() }
+
             let start_tick = (min_val / step).ceil() * step;
             let mut ticks = Vec::new();
             let mut current_tick = start_tick;
@@ -297,72 +306,89 @@ impl Plot {
                 current_tick += step;
                 if ticks.len() > max_ticks * 2 { break; }
             }
-            if ticks.is_empty() && min_val == max_val { ticks.push(min_val); }
-            else if ticks.len() < 2 && min_val != max_val {
-                ticks.clear();
-                ticks.push(min_val);
-                ticks.push(max_val);
+             if ticks.is_empty() {
+                if min_val == max_val { ticks.push(min_val); }
+                else { ticks.extend_from_slice(&[min_val, max_val]); }
+            } else if ticks.len() == 1 && min_val != max_val {
+                 ticks.push(max_val);
             }
             ticks
         };
 
         let x_ticks = calculate_ticks(actual_x_min, actual_x_max, num_x_ticks);
         let y_ticks = calculate_ticks(actual_y_min, actual_y_max, num_y_ticks);
-
-        let tick_line_stroke_style = StrokeStyle { width: 1.0, ..Default::default() }; // Assuming tick line width is fixed for now, or add to TickConfig
         
+        let tick_label_color_svg = to_svg_color_string(&self.tick_config.label_color);
+        let tick_line_color_svg = to_svg_color_string(&self.tick_config.line_color);
+        let grid_line_color_svg = to_svg_color_string(&self.grid_config.color);
+
         // X Ticks and Grid Lines
         for &tick_val in &x_ticks {
             let screen_x = map_x(tick_val);
-            // Basic check to draw ticks only within the plot area width, adjusted for tick length
-            if screen_x >= plot_area_x_start - self.tick_config.length && screen_x <= plot_area_x_start + plot_area_width + self.tick_config.length { // Use tick_config
+            if screen_x >= plot_area_x_start - 0.1 && screen_x <= plot_area_x_start + plot_area_width + 0.1 {
                 if self.grid != Grid::None {
-                    let mut pb_grid_x = PathBuilder::new();
-                    pb_grid_x.move_to(screen_x, plot_area_y_start);
-                    pb_grid_x.line_to(screen_x, plot_area_y_start + plot_area_height);
-                    let grid_stroke_style = StrokeStyle {
-                        width: self.grid_config.line_width, // Use grid_config
-                        dash_array: if self.grid == Grid::Dashed { vec![4.0, 4.0] } else { vec![] },
-                        ..Default::default()
-                    };
-                    let mut temp_clip_pb = PathBuilder::new();
-                    temp_clip_pb.rect(plot_area_x_start, plot_area_y_start, plot_area_width, plot_area_height);
-                    dt.push_clip(&temp_clip_pb.finish());
-                    dt.stroke(&pb_grid_x.finish(), &Source::Solid(self.grid_config.color), &grid_stroke_style, &DrawOptions::new()); // Use grid_config
-                    dt.pop_clip();
+                    let mut skip_grid_line = false;
+                    if (screen_x - plot_area_x_start).abs() < 0.1 {
+                        skip_grid_line = true;
+                    }
+                    if self.axis == Axis::Box && (screen_x - (plot_area_x_start + plot_area_width)).abs() < 0.1 {
+                        skip_grid_line = true;
+                    }
+
+                    if !skip_grid_line {
+                        let mut grid_line = SvgLine::new()
+                            .set("x1", screen_x)
+                            .set("y1", plot_area_y_start)
+                            .set("x2", screen_x)
+                            .set("y2", plot_area_y_start + plot_area_height)
+                            .set("stroke", grid_line_color_svg.clone())
+                            .set("stroke-width", self.grid_config.line_width);
+                        if self.grid == Grid::Dashed {
+                            grid_line = grid_line.set("stroke-dasharray", "4 4");
+                        }
+                        document = document.add(grid_line);
+                    }
                 }
 
                 if self.tick != Tick::None {
-                    let mut pb_tick_x = PathBuilder::new();
-                    let tick_label = format!("{:.1}", tick_val);
-                    let label_width_approx = tick_label.len() as f32 * self.tick_config.font_size * 0.5; // Use tick_config
-                    let tick_direction = if self.tick == Tick::Inward { -1.0 } else { 1.0 }; 
+                    let tick_direction = if self.tick == Tick::Inward { -1.0 } else { 1.0 };
+                    let tick_y_bottom = plot_area_y_start + plot_area_height;
+                    let tick_y_top = plot_area_y_start;
+                    let tick_label_offset = self.tick_config.font_size * 0.4 + 5.0;
 
-                    match self.axis { 
-                        Axis::BottomLeft => {
-                            pb_tick_x.move_to(screen_x, plot_area_y_start + plot_area_height);
-                            pb_tick_x.line_to(screen_x, plot_area_y_start + plot_area_height + self.tick_config.length * tick_direction); // Use tick_config
-                            if screen_x >= plot_area_x_start && screen_x <= plot_area_x_start + plot_area_width {
-                                dt.draw_text(&font, self.tick_config.font_size, &tick_label, // Use tick_config
-                                    Point::new(screen_x - label_width_approx / 2.0, plot_area_y_start + plot_area_height + self.tick_config.text_padding + self.tick_config.font_size), // Use tick_config
-                                    &Source::Solid(self.tick_config.label_color), &DrawOptions::new()); // Use tick_config
-                            }
-                        }
-                        Axis::Box => {
-                            pb_tick_x.move_to(screen_x, plot_area_y_start + plot_area_height);
-                            pb_tick_x.line_to(screen_x, plot_area_y_start + plot_area_height + self.tick_config.length * tick_direction); // Use tick_config
-                            pb_tick_x.move_to(screen_x, plot_area_y_start);
-                            pb_tick_x.line_to(screen_x, plot_area_y_start - self.tick_config.length * tick_direction); // Use tick_config
-                            if screen_x >= plot_area_x_start && screen_x <= plot_area_x_start + plot_area_width {
-                                dt.draw_text(&font, self.tick_config.font_size, &tick_label, // Use tick_config
-                                    Point::new(screen_x - label_width_approx / 2.0, plot_area_y_start + plot_area_height + self.tick_config.text_padding + self.tick_config.font_size), // Use tick_config
-                                    &Source::Solid(self.tick_config.label_color), &DrawOptions::new()); // Use tick_config
-                            }
+                    match self.axis {
+                        Axis::BottomLeft | Axis::Box => {
+                            let tick_line_bottom = SvgLine::new()
+                                .set("x1", screen_x)
+                                .set("y1", tick_y_bottom)
+                                .set("x2", screen_x)
+                                .set("y2", tick_y_bottom + self.tick_config.length * tick_direction)
+                                .set("stroke", tick_line_color_svg.clone())
+                                .set("stroke-width", 1.0);
+                            document = document.add(tick_line_bottom);
+
+                            let tick_label_text_bottom = format!("{:.1}", tick_val);
+                            let tick_label_svg_bottom = SvgText::new()
+                                .set("x", screen_x)
+                                .set("y", tick_y_bottom + tick_label_offset)
+                                .set("font-family", self.font.clone())
+                                .set("font-size", self.tick_config.font_size)
+                                .set("fill", tick_label_color_svg.clone())
+                                .set("text-anchor", "middle")
+                                .set("dominant-baseline", "hanging")
+                                .add(SvgNodeText::new(tick_label_text_bottom));
+                            document = document.add(tick_label_svg_bottom);
                         }
                     }
-                    let final_tick_path_x = pb_tick_x.finish();
-                    if !final_tick_path_x.ops.is_empty() {
-                        dt.stroke(&final_tick_path_x, &Source::Solid(self.tick_config.line_color), &tick_line_stroke_style, &DrawOptions::new()); // Use tick_config for color
+                    if self.axis == Axis::Box {
+                         let tick_line_top = SvgLine::new()
+                            .set("x1", screen_x)
+                            .set("y1", tick_y_top)
+                            .set("x2", screen_x)
+                            .set("y2", tick_y_top - self.tick_config.length * tick_direction)
+                            .set("stroke", tick_line_color_svg.clone())
+                            .set("stroke-width", 1.0);
+                        document = document.add(tick_line_top);
                     }
                 }
             }
@@ -371,226 +397,272 @@ impl Plot {
         // Y Ticks and Grid Lines
         for &tick_val in &y_ticks {
             let screen_y = map_y(tick_val);
-            if screen_y >= plot_area_y_start - self.tick_config.length && screen_y <= plot_area_y_start + plot_area_height + self.tick_config.length { // Use tick_config
+             if screen_y >= plot_area_y_start - 0.1 && screen_y <= plot_area_y_start + plot_area_height + 0.1 {
                 if self.grid != Grid::None {
-                    let mut pb_grid_y = PathBuilder::new();
-                    pb_grid_y.move_to(plot_area_x_start, screen_y);
-                    pb_grid_y.line_to(plot_area_x_start + plot_area_width, screen_y);
-                    let grid_stroke_style = StrokeStyle {
-                        width: self.grid_config.line_width, // Use grid_config
-                        dash_array: if self.grid == Grid::Dashed { vec![4.0, 4.0] } else { vec![] },
-                        ..Default::default()
-                    };
-                    let mut temp_clip_pb = PathBuilder::new();
-                    temp_clip_pb.rect(plot_area_x_start, plot_area_y_start, plot_area_width, plot_area_height);
-                    dt.push_clip(&temp_clip_pb.finish());
-                    dt.stroke(&pb_grid_y.finish(), &Source::Solid(self.grid_config.color), &grid_stroke_style, &DrawOptions::new()); // Use grid_config
-                    dt.pop_clip();
-                }
-                if self.tick != Tick::None {
-                    let mut pb_tick_y = PathBuilder::new();
-                    let tick_label = format!("{:.1}", tick_val);
-                    let label_width_approx = tick_label.len() as f32 * self.tick_config.font_size * 0.5; // Use tick_config
-                    let tick_direction = if self.tick == Tick::Inward { -1.0 } else { 1.0 }; 
+                    let mut skip_grid_line = false;
+                    if (screen_y - (plot_area_y_start + plot_area_height)).abs() < 0.1 {
+                        skip_grid_line = true;
+                    }
+                    if self.axis == Axis::Box && (screen_y - plot_area_y_start).abs() < 0.1 {
+                        skip_grid_line = true;
+                    }
 
-                    match self.axis { 
-                        Axis::BottomLeft => {
-                            // Tick line from axis outwards/inwards
-                            pb_tick_y.move_to(plot_area_x_start, screen_y);
-                            pb_tick_y.line_to(plot_area_x_start - self.tick_config.length * tick_direction, screen_y); // Use tick_config
-                            if screen_y >= plot_area_y_start && screen_y <= plot_area_y_start + plot_area_height {
-                                dt.draw_text(&font, self.tick_config.font_size, &tick_label, // Use tick_config
-                                    Point::new(plot_area_x_start - self.tick_config.text_padding - label_width_approx, screen_y + self.tick_config.font_size / 3.0), // Use tick_config
-                                    &Source::Solid(self.tick_config.label_color), &DrawOptions::new()); // Use tick_config
-                            }
+                    if !skip_grid_line {
+                        let mut grid_line = SvgLine::new()
+                            .set("x1", plot_area_x_start)
+                            .set("y1", screen_y)
+                            .set("x2", plot_area_x_start + plot_area_width)
+                            .set("y2", screen_y)
+                            .set("stroke", grid_line_color_svg.clone())
+                            .set("stroke-width", self.grid_config.line_width);
+                        if self.grid == Grid::Dashed {
+                            grid_line = grid_line.set("stroke-dasharray", "4 4");
                         }
-                        Axis::Box => {
-                            // Left Ticks
-                            pb_tick_y.move_to(plot_area_x_start, screen_y);
-                            pb_tick_y.line_to(plot_area_x_start - self.tick_config.length * tick_direction, screen_y); // Use tick_config
-                            // Right Ticks
-                            pb_tick_y.move_to(plot_area_x_start + plot_area_width, screen_y);
-                            pb_tick_y.line_to(plot_area_x_start + plot_area_width + self.tick_config.length * tick_direction, screen_y); // Use tick_config
-                            if screen_y >= plot_area_y_start && screen_y <= plot_area_y_start + plot_area_height {
-                                dt.draw_text(&font, self.tick_config.font_size, &tick_label, // Use tick_config
-                                    Point::new(plot_area_x_start - self.tick_config.text_padding - label_width_approx, screen_y + self.tick_config.font_size / 3.0), // Use tick_config
-                                    &Source::Solid(self.tick_config.label_color), &DrawOptions::new()); // Use tick_config
-                                // Optionally draw labels on the right for Box axis if needed
-                            }
+                        document = document.add(grid_line);
+                    }
+                }
+
+                if self.tick != Tick::None {
+                    let tick_direction = if self.tick == Tick::Inward { -1.0 } else { 1.0 };
+                    let tick_x_left = plot_area_x_start;
+                    let tick_x_right = plot_area_x_start + plot_area_width;
+
+                    match self.axis {
+                        Axis::BottomLeft | Axis::Box => {
+                            let tick_line_left = SvgLine::new()
+                                .set("x1", tick_x_left)
+                                .set("y1", screen_y)
+                                .set("x2", tick_x_left - self.tick_config.length * tick_direction)
+                                .set("y2", screen_y)
+                                .set("stroke", tick_line_color_svg.clone())
+                                .set("stroke-width", 1.0);
+                            document = document.add(tick_line_left);
                         }
                     }
-                    let final_tick_path_y = pb_tick_y.finish();
-                    if !final_tick_path_y.ops.is_empty() {
-                        dt.stroke(&final_tick_path_y, &Source::Solid(self.tick_config.line_color), &tick_line_stroke_style, &DrawOptions::new()); // Use tick_config for color
+                     if self.axis == Axis::Box {
+                        let tick_line_right = SvgLine::new()
+                            .set("x1", tick_x_right)
+                            .set("y1", screen_y)
+                            .set("x2", tick_x_right + self.tick_config.length * tick_direction)
+                            .set("y2", screen_y)
+                            .set("stroke", tick_line_color_svg.clone())
+                            .set("stroke-width", 1.0);
+                        document = document.add(tick_line_right);
                     }
+
+                    let tick_label_text = format!("{:.1}", tick_val);
+                    let tick_label_svg = SvgText::new()
+                        .set("x", tick_x_left - self.tick_config.text_padding - (if tick_direction > 0.0 { 0.0 } else { self.tick_config.length }))
+                        .set("y", screen_y)
+                        .set("font-family", self.font.clone())
+                        .set("font-size", self.tick_config.font_size)
+                        .set("fill", tick_label_color_svg.clone())
+                        .set("text-anchor", "end")
+                        .set("dominant-baseline", "middle")
+                        .add(SvgNodeText::new(tick_label_text));
+                    document = document.add(tick_label_svg);
                 }
             }
         }
-
+        
         // --- Clipping Path for Plot Area ---
-        let mut pb_clip = PathBuilder::new();
-        pb_clip.rect(plot_area_x_start, plot_area_y_start, plot_area_width, plot_area_height);
-        let plot_area_clip_path = pb_clip.finish();
-        dt.push_clip(&plot_area_clip_path); // Apply clipping FOR DATA SERIES
+        let clip_path_id = "plotAreaClip";
+        let clip_rect = Rectangle::new()
+            .set("x", plot_area_x_start)
+            .set("y", plot_area_y_start)
+            .set("width", plot_area_width)
+            .set("height", plot_area_height);
+        let clip_path = ClipPath::new().set("id", clip_path_id).add(clip_rect);
+        let mut defs = Definitions::new();
+        defs = defs.add(clip_path);
+        document = document.add(defs);
 
-        // --- Data Series Drawing (now clipped) ---
+        // Group for data series, applying the clip path
+        let mut data_group = Group::new().set("clip-path", format!("url(#{})", clip_path_id));
+
+        // --- Data Series Drawing ---
         for series in &self.data {
-            let series_rgb_tuple = match color(&series.color) {
-                Some(c) => c.rgb(),
-                None => (0, 0, 0), 
+            let color_val = match pigment::color(&series.color) {
+                Some(c) => c,
+                None => color("Black").unwrap(),
             };
-            let series_color_source = SolidSource { r: series_rgb_tuple.0, g: series_rgb_tuple.1, b: series_rgb_tuple.2, a: 0xff };
+            let series_color_svg = to_svg_color_string(&color_val);
 
-            // Draw line for the series
+            // Line
             if series.line != Line::None && series.data.len() > 1 {
-                let mut pb_series_line = PathBuilder::new();
-                let first_point = series.data[0];
-                pb_series_line.move_to(map_x(first_point.0), map_y(first_point.1));
-                for point in series.data.iter().skip(1) { pb_series_line.line_to(map_x(point.0), map_y(point.1)); }
-                let path_series_line = pb_series_line.finish();
-                let line_stroke_style = StrokeStyle {
-                    width: 1.5, 
-                    dash_array: match series.line {
-                        Line::Dashed => vec![6.0, 3.0],
-                        Line::Dotted => vec![2.0, 2.0],
-                        _ => vec![], 
-                    },
-                    ..Default::default()
-                };
-                dt.stroke(&path_series_line, &Source::Solid(series_color_source), &line_stroke_style, &DrawOptions::new());
+                let mut line_data = Data::new();
+                if let Some((first_x, first_y)) = series.data.first() {
+                    line_data = line_data.move_to((map_x(*first_x), map_y(*first_y)));
+                    for (x, y) in series.data.iter().skip(1) {
+                        line_data = line_data.line_to((map_x(*x), map_y(*y)));
+                    }
+                }
+                let mut line_path = Path::new()
+                    .set("d", line_data)
+                    .set("fill", "none")
+                    .set("stroke", series_color_svg.clone())
+                    .set("stroke-width", series.line_width);
+                
+                if series.line == Line::Dashed {
+                    line_path = line_path.set("stroke-dasharray", "5 5");
+                }
+                data_group = data_group.add(line_path);
             }
 
-            // Draw points for the series
+            // Markers
             if series.marker != Marker::None {
-                let point_size = 5.0; 
+                let marker_size = series.marker_size;
                 for &(data_x, data_y) in &series.data {
                     let screen_x = map_x(data_x);
                     let screen_y = map_y(data_y);
-                    let mut pb_point = PathBuilder::new();
+
                     match series.marker {
                         Marker::Circle => {
-                            pb_point.arc(screen_x, screen_y, point_size / 2.0, 0.0, 2.0 * std::f32::consts::PI);
-                            dt.fill(&pb_point.finish(), &Source::Solid(series_color_source), &DrawOptions::new());
+                            let circle = Circle::new()
+                                .set("cx", screen_x)
+                                .set("cy", screen_y)
+                                .set("r", marker_size / 2.0)
+                                .set("fill", series_color_svg.clone());
+                            data_group = data_group.add(circle);
                         }
                         Marker::Square => {
-                            pb_point.rect(screen_x - point_size / 2.0, screen_y - point_size / 2.0, point_size, point_size);
-                            dt.fill(&pb_point.finish(), &Source::Solid(series_color_source), &DrawOptions::new());
+                            let square = Rectangle::new()
+                                .set("x", screen_x - marker_size / 2.0)
+                                .set("y", screen_y - marker_size / 2.0)
+                                .set("width", marker_size)
+                                .set("height", marker_size)
+                                .set("fill", series_color_svg.clone());
+                            data_group = data_group.add(square);
                         }
                         Marker::Cross => {
-                            let half_size = point_size / 2.0;
-                            pb_point.move_to(screen_x - half_size, screen_y - half_size);
-                            pb_point.line_to(screen_x + half_size, screen_y + half_size);
-                            pb_point.move_to(screen_x - half_size, screen_y + half_size);
-                            pb_point.line_to(screen_x + half_size, screen_y - half_size);
-                            let point_stroke_style = StrokeStyle { width: 1.0, ..Default::default() }; 
-                            dt.stroke(&pb_point.finish(), &Source::Solid(series_color_source), &point_stroke_style, &DrawOptions::new());
+                            let d = marker_size / 2.0;
+                            let cross_data = Data::new()
+                                .move_to((screen_x - d, screen_y - d))
+                                .line_to((screen_x + d, screen_y + d))
+                                .move_to((screen_x - d, screen_y + d))
+                                .line_to((screen_x + d, screen_y - d));
+                            let cross_path = Path::new()
+                                .set("d", cross_data)
+                                .set("stroke", series_color_svg.clone())
+                                .set("stroke-width", 1.0)
+                                .set("fill", "none");
+                            data_group = data_group.add(cross_path);
                         }
                         Marker::None => {}
                     }
                 }
             }
         }
+        document = document.add(data_group);
         
-        dt.pop_clip(); // Remove clipping
-
         // --- Legend Drawing ---
         if self.legend != Legend::None && !self.data.is_empty() {
-            let legend_x;
-            let legend_y;
+            let legend_x_base;
+            let legend_y_base;
 
             match self.legend {
                 Legend::TopRightInside => {
-                    legend_x = plot_area_x_start + plot_area_width - legend_actual_box_width - self.legend_config.padding;
-                    legend_y = plot_area_y_start + self.legend_config.padding;
+                    legend_x_base = plot_area_x_start + plot_area_width - legend_actual_box_width - self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + self.legend_config.padding;
                 }
                 Legend::TopRightOutside => {
-                    legend_x = total_width as f32 - current_effective_margin_right + self.legend_config.padding;
-                    legend_y = plot_area_y_start + self.legend_config.padding;
+                    legend_x_base = total_width as f32 - current_effective_margin_right + self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + self.legend_config.padding;
                 }
                 Legend::BottomRightInside => {
-                    legend_x = plot_area_x_start + plot_area_width - legend_actual_box_width - self.legend_config.padding;
-                    legend_y = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
+                    legend_x_base = plot_area_x_start + plot_area_width - legend_actual_box_width - self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
                 }
                 Legend::BottomRightOutside => {
-                    legend_x = total_width as f32 - current_effective_margin_right + self.legend_config.padding;
-                    legend_y = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
+                    legend_x_base = total_width as f32 - current_effective_margin_right + self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
                 }
                 Legend::TopLeftInside => {
-                    legend_x = plot_area_x_start + self.legend_config.padding;
-                    legend_y = plot_area_y_start + self.legend_config.padding;
+                    legend_x_base = plot_area_x_start + self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + self.legend_config.padding;
                 }
                 Legend::TopLeftOutside => {
-                    legend_x = self.margin.left - legend_actual_box_width - self.legend_config.padding; 
-                    legend_y = plot_area_y_start + self.legend_config.padding;
+                    legend_x_base = current_effective_margin_left - legend_actual_box_width - self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + self.legend_config.padding;
                 }
                 Legend::BottomLeftInside => {
-                    legend_x = plot_area_x_start + self.legend_config.padding;
-                    legend_y = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
+                    legend_x_base = plot_area_x_start + self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
                 }
                 Legend::BottomLeftOutside => {
-                    legend_x = self.margin.left - legend_actual_box_width - self.legend_config.padding;
-                    legend_y = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
+                    legend_x_base = self.margin.left - legend_actual_box_width - self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
                 }
                 Legend::RightCenterInside => {
-                    legend_x = plot_area_x_start + plot_area_width - legend_actual_box_width - self.legend_config.padding;
-                    legend_y = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
+                    legend_x_base = plot_area_x_start + plot_area_width - legend_actual_box_width - self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
                 }
                 Legend::RightCenterOutside => {
-                    legend_x = total_width as f32 - current_effective_margin_right + self.legend_config.padding;
-                    legend_y = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
+                    legend_x_base = total_width as f32 - current_effective_margin_right + self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
                 }
                 Legend::LeftCenterInside => {
-                    legend_x = plot_area_x_start + self.legend_config.padding;
-                    legend_y = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
+                    legend_x_base = plot_area_x_start + self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
                 }
                 Legend::LeftCenterOutside => {
-                    legend_x = self.margin.left - legend_actual_box_width - self.legend_config.padding;
-                    legend_y = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
+                    legend_x_base = self.margin.left - legend_actual_box_width - self.legend_config.padding;
+                    legend_y_base = plot_area_y_start + (plot_area_height - legend_height) / 2.0;
                 }
-                Legend::TopCenter => { 
-                    legend_x = plot_area_x_start + (plot_area_width - legend_actual_box_width) / 2.0;
-                    legend_y = plot_area_y_start + self.legend_config.padding;
+                Legend::TopCenter => {
+                    legend_x_base = plot_area_x_start + (plot_area_width - legend_actual_box_width) / 2.0;
+                    legend_y_base = plot_area_y_start + self.legend_config.padding;
                 }
-                Legend::BottomCenter => { 
-                    legend_x = plot_area_x_start + (plot_area_width - legend_actual_box_width) / 2.0;
-                    legend_y = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
+                Legend::BottomCenter => {
+                    legend_x_base = plot_area_x_start + (plot_area_width - legend_actual_box_width) / 2.0;
+                    legend_y_base = plot_area_y_start + plot_area_height - legend_height - self.legend_config.padding;
                 }
-                Legend::None => { legend_x = 0.0; legend_y = 0.0; }
+                Legend::None => { legend_x_base = 0.0; legend_y_base = 0.0; }
             }
 
-            // Draw legend box
-            let mut pb_legend_box = PathBuilder::new();
-            pb_legend_box.rect(legend_x, legend_y, legend_actual_box_width, legend_height);
-            let legend_box_path = pb_legend_box.finish();
-            dt.stroke(&legend_box_path, &Source::Solid(self.legend_config.border_color), &StrokeStyle { width: 1.0, ..Default::default() }, &DrawOptions::new()); // Use legend_config
+            let legend_box_svg = Rectangle::new()
+                .set("x", legend_x_base)
+                .set("y", legend_y_base)
+                .set("width", legend_actual_box_width)
+                .set("height", legend_height)
+                .set("fill", "white")
+                .set("stroke", to_svg_color_string(&self.legend_config.border_color))
+                .set("stroke-width", 1.0);
+            document = document.add(legend_box_svg);
 
-            // Draw legend items
             for (i, series) in self.data.iter().enumerate() {
-                let series_rgb_tuple = match color(&series.color) { Some(c) => c.rgb(), None => (0,0,0) };
-                let series_color_source = SolidSource { r: series_rgb_tuple.0, g: series_rgb_tuple.1, b: series_rgb_tuple.2, a: 0xff };
+                let item_base_y = legend_y_base + self.legend_config.padding + i as f32 * self.legend_config.item_height;
+                let swatch_x = legend_x_base + self.legend_config.padding;
+                let swatch_y = item_base_y + (self.legend_config.item_height - self.legend_config.item_height * 0.8) / 2.0;
+                
+                let color_val = match pigment::color(&series.color) {
+                    Some(c) => c,
+                    None => color("Black").unwrap(),
+                };
 
-                let item_y = legend_y + self.legend_config.padding + i as f32 * self.legend_config.item_height; // Use legend_config
-                let swatch_x = legend_x + self.legend_config.padding; // Use legend_config
-                let text_x = swatch_x + self.legend_config.color_swatch_width + self.legend_config.text_offset; // Use legend_config
+                let swatch_svg = Rectangle::new()
+                    .set("x", swatch_x)
+                    .set("y", swatch_y)
+                    .set("width", self.legend_config.color_swatch_width)
+                    .set("height", self.legend_config.item_height * 0.8)
+                    .set("fill", to_svg_color_string(&color_val));
+                document = document.add(swatch_svg);
 
-                // Draw color swatch
-                let mut pb_swatch = PathBuilder::new();
-                pb_swatch.rect(swatch_x, item_y, self.legend_config.color_swatch_width, self.legend_config.item_height * 0.8); // Use legend_config
-                dt.fill(&pb_swatch.finish(), &Source::Solid(series_color_source), &DrawOptions::new());
-
-                // Draw series name
-                dt.draw_text(
-                    &font,
-                    self.legend_config.font_size, // Use legend_config
-                    &series.name,
-                    Point::new(text_x, item_y + self.legend_config.font_size * 0.8), // Use legend_config
-                    &Source::Solid(self.legend_config.text_color), // Use legend_config
-                    &DrawOptions::new(),
-                );
+                let text_x = swatch_x + self.legend_config.color_swatch_width + self.legend_config.text_offset;
+                let text_y = item_base_y + self.legend_config.item_height / 2.0;
+                
+                let legend_text_svg = SvgText::new()
+                    .set("x", text_x)
+                    .set("y", text_y)
+                    .set("font-family", self.font.clone())
+                    .set("font-size", self.legend_config.font_size)
+                    .set("fill", to_svg_color_string(&self.legend_config.text_color))
+                    .set("text-anchor", "start")
+                    .set("dominant-baseline", "middle")
+                    .add(SvgNodeText::new(series.name.clone()));
+                document = document.add(legend_text_svg);
             }
         }
-
-        // Save to file
-        dt.write_png(file)
+        svg::save(filename, &document)
     }
 }
