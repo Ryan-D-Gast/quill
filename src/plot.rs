@@ -135,12 +135,12 @@ impl Plot {
         }
 
         let legend_actual_box_width = if self.legend != Legend::None && !self.data.is_empty() {
-            self.legend_config.color_swatch_width + self.legend_config.text_offset + calculated_max_series_name_width + self.legend_config.padding * 2.0
+            self.legend_config.color_swatch_width + self.legend_config.text_offset + calculated_max_series_name_width
         } else {
             0.0
         };
         let legend_height = if self.legend != Legend::None && !self.data.is_empty() {
-            self.data.len()  as f32 * self.legend_config.item_height + self.legend_config.padding * 2.0
+            self.data.len() as f32 * self.legend_config.item_height + self.legend_config.padding * 2.0
         } else {
             0.0
         };
@@ -170,19 +170,64 @@ impl Plot {
             return Err(std::io::Error::new(std::io::ErrorKind::InvalidInput, format!("Plot area is too small (width: {}, height: {}). Check dimensions and margins.", plot_area_width, plot_area_height)));
         }
 
-        // Helper closures to map data coordinates to screen coordinates
+        // --- Calculate Ticks and Extend Axis Range to Nice Values ---
+        let calculate_ticks_and_range = |min_val: f32, max_val: f32, max_ticks: usize| -> (Vec<f32>, f32, f32) {
+            if (max_val - min_val).abs() < f32::EPSILON {
+                return (vec![min_val], min_val, max_val);
+            }
+            let range = max_val - min_val;
+            let rough_step = range / (max_ticks.saturating_sub(1) as f32).max(1.0);
+            if rough_step == 0.0 {
+                return (vec![min_val], min_val, max_val);
+            }
+            let exponent = rough_step.log10().floor();
+            let fraction = rough_step / 10f32.powf(exponent);
+            let nice_fraction = if fraction < 1.5 { 1.0 }
+                else if fraction < 3.5 { 2.0 }
+                else if fraction < 7.5 { 5.0 }
+                else { 10.0 };
+            let step = nice_fraction * 10f32.powf(exponent);
+            if step == 0.0 {
+                return (vec![min_val, max_val], min_val, max_val);
+            }
+            // Extend axis min/max to nearest step
+            let axis_min = (min_val / step).floor() * step;
+            let axis_max = (max_val / step).ceil() * step;
+            let mut ticks = Vec::new();
+            let mut current_tick = axis_min;
+            while current_tick <= axis_max + step * 0.5 {
+                ticks.push(current_tick);
+                current_tick += step;
+                if ticks.len() > max_ticks * 3 { break; }
+            }
+            if ticks.is_empty() {
+                if min_val == max_val { ticks.push(min_val); }
+                else { ticks.extend_from_slice(&[min_val, max_val]); }
+            } else if ticks.len() == 1 && min_val != max_val {
+                ticks.push(max_val);
+            }
+            (ticks, axis_min, axis_max)
+        };
+
+        // --- Use extended axis min/max for mapping and ticks ---
+        let num_x_ticks = (plot_area_width / self.tick_config.density_x).max(2.0) as usize;
+        let num_y_ticks = (plot_area_height / self.tick_config.density_y).max(2.0) as usize;
+        let (x_ticks, extended_x_min, extended_x_max) = calculate_ticks_and_range(actual_x_min, actual_x_max, num_x_ticks);
+        let (y_ticks, extended_y_min, extended_y_max) = calculate_ticks_and_range(actual_y_min, actual_y_max, num_y_ticks);
+
+        // Update mapping functions to use extended min/max
         let map_x = |data_x: f32| -> f32 {
-            if (actual_x_max - actual_x_min).abs() < f32::EPSILON {
+            if (extended_x_max - extended_x_min).abs() < f32::EPSILON {
                 plot_area_x_start + plot_area_width / 2.0
             } else {
-                plot_area_x_start + ((data_x - actual_x_min) / (actual_x_max - actual_x_min) * plot_area_width)
+                plot_area_x_start + ((data_x - extended_x_min) / (extended_x_max - extended_x_min) * plot_area_width)
             }
         };
         let map_y = |data_y: f32| -> f32 {
-            if (actual_y_max - actual_y_min).abs() < f32::EPSILON {
+            if (extended_y_max - extended_y_min).abs() < f32::EPSILON {
                 plot_area_y_start + plot_area_height / 2.0
             } else {
-                plot_area_y_start + plot_area_height - ((data_y - actual_y_min) / (actual_y_max - actual_y_min) * plot_area_height)
+                plot_area_y_start + plot_area_height - ((data_y - extended_y_min) / (extended_y_max - extended_y_min) * plot_area_height)
             }
         };
 
@@ -198,44 +243,6 @@ impl Plot {
         // --- Draw Axis Lines ---
         document = draw_axis_lines(document, self.axis, &self.axis_config, plot_area_x_start, plot_area_y_start, plot_area_width, plot_area_height);
 
-        // --- Tick Marks, Grid Lines, and Tick Labels ---
-        let num_x_ticks = (plot_area_width / self.tick_config.density_x).max(2.0) as usize;
-        let num_y_ticks = (plot_area_height / self.tick_config.density_y).max(2.0) as usize;
-
-        let calculate_ticks = |min_val: f32, max_val: f32, max_ticks: usize| -> Vec<f32> {
-            if (max_val - min_val).abs() < f32::EPSILON { return vec![min_val]; }
-            let range = max_val - min_val;
-            let rough_step = range / (max_ticks.saturating_sub(1) as f32).max(1.0);
-            if rough_step == 0.0 { return vec![min_val]; }
-            let exponent = rough_step.log10().floor();
-            let fraction = rough_step / 10f32.powf(exponent);
-            let nice_fraction = if fraction < 1.5 { 1.0 }
-            else if fraction < 3.5 { 2.0 }
-            else if fraction < 7.5 { 5.0 }
-            else { 10.0 };
-            let step = nice_fraction * 10f32.powf(exponent);
-            if step == 0.0 { return vec![min_val, max_val].into_iter().collect() }
-
-            let start_tick = (min_val / step).ceil() * step;
-            let mut ticks = Vec::new();
-            let mut current_tick = start_tick;
-            while current_tick <= max_val + step * 0.5 {
-                ticks.push(current_tick);
-                current_tick += step;
-                if ticks.len() > max_ticks * 2 { break; }
-            }
-             if ticks.is_empty() {
-                if min_val == max_val { ticks.push(min_val); }
-                else { ticks.extend_from_slice(&[min_val, max_val]); }
-            } else if ticks.len() == 1 && min_val != max_val {
-                 ticks.push(max_val);
-            }
-            ticks
-        };
-
-        let x_ticks = calculate_ticks(actual_x_min, actual_x_max, num_x_ticks);
-        let y_ticks = calculate_ticks(actual_y_min, actual_y_max, num_y_ticks);
-        
         document = draw_ticks_and_grids(
             document,
             self.axis,

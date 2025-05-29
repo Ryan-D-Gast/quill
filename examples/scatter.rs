@@ -24,7 +24,7 @@ fn main() {
                 .color("Red".to_string())
                 .data(scatter_data())
                 .marker(Marker::Circle)
-                .marker_size(8.0)
+                .marker_size(5.0)
                 .line(Line::None)
                 .build(),
         ])

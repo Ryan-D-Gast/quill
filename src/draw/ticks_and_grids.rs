@@ -30,14 +30,15 @@ where
     let tick_line_color_svg = to_svg_color_string(&tick_config.line_color);
     let grid_line_color_svg = to_svg_color_string(&grid_config.color);
     let mut document = document;
-    for &tick_val in x_ticks {
+    for &tick_val in x_ticks.iter() {
         let screen_x = map_x(tick_val);
+        let is_origin = (screen_x - plot_area_x_start).abs() < 0.1;
         if screen_x >= plot_area_x_start - 0.1 && screen_x <= plot_area_x_start + plot_area_width + 0.1 {
             match grid {
                 Grid::None => {}
                 Grid::Solid | Grid::Dashed | Grid::Dotted => {
                     let mut skip_grid_line = false;
-                    if (screen_x - plot_area_x_start).abs() < 0.1 {
+                    if is_origin {
                         skip_grid_line = true;
                     }
                     if axis == Axis::Box && (screen_x - (plot_area_x_start + plot_area_width)).abs() < 0.1 {
@@ -60,13 +61,9 @@ where
                             }
                             Grid::Solid | Grid::None => {}
                         }
-                        if let Grid::Dashed = grid {
-                            grid_line = grid_line.set("stroke-dasharray", "4 4");
-                        }
                         document = document.add(grid_line);
                     }
                 }
-                // Add new grid options here
             }
             if tick != Tick::None {
                 let tick_direction = if tick == Tick::Inward { -1.0 } else { 1.0 };
@@ -109,7 +106,7 @@ where
             }
         }
     }
-    for &tick_val in y_ticks {
+    for &tick_val in y_ticks.iter() {
         let screen_y = map_y(tick_val);
         if screen_y >= plot_area_y_start - 0.1 && screen_y <= plot_area_y_start + plot_area_height + 0.1 {
             match grid {
@@ -142,7 +139,6 @@ where
                         document = document.add(grid_line);
                     }
                 }
-                // Add new grid options here
             }
             if tick != Tick::None {
                 let tick_direction = if tick == Tick::Inward { -1.0 } else { 1.0 };

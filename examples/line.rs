@@ -1,7 +1,7 @@
 use quill::*;
 
 fn line_data() -> Vec<(f32, f32)> {
-    // Sine wave with a linear trend
+    // Simple sine wave data for line graph
     (0..=100).map(|x| {
         let xf = x as f32 * 0.1;
         (xf, xf.sin())

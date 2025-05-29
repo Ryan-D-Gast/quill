@@ -1,0 +1,203 @@
+<svg height="600" viewBox="0 0 800 600" width="800" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="600" width="800" x="0" y="0"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="20" text-anchor="middle" x="415" y="30">
+Hypothetical Investment Growth
+</text>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" x="415" y="576">
+Years
+</text>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" transform="rotate(-90, 18, 300)" x="18" y="300">
+Value ($)
+</text>
+<rect fill="none" height="480" stroke="#000000" stroke-width="1.5" width="710" x="60" y="60"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="60" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="60" y="549">
+0.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="60" x2="60" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="131" x2="131" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="131" x2="131" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="131" y="549">
+1.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="131" x2="131" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="202" x2="202" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="202" x2="202" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="202" y="549">
+2.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="202" x2="202" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="273" x2="273" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="273" x2="273" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="273" y="549">
+3.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="273" x2="273" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="344" x2="344" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="344" x2="344" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="344" y="549">
+4.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="344" x2="344" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="415" x2="415" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="415" x2="415" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="415" y="549">
+5.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="415" x2="415" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="486.00003" x2="486.00003" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="486.00003" x2="486.00003" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="486.00003" y="549">
+6.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="486.00003" x2="486.00003" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="557" x2="557" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="557" x2="557" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="557" y="549">
+7.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="557" x2="557" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="628" x2="628" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="628" x2="628" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="628" y="549">
+8.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="628" x2="628" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="699" x2="699" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="699" x2="699" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="699" y="549">
+9.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="699" x2="699" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="770" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="770" y="549">
+10.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="770" x2="770" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="540" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="540" y2="540"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="540">
+500.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="496.36365" y2="496.36365"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="496.36365" y2="496.36365"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="496.36365" y2="496.36365"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="496.36365">
+1000.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="452.72726" y2="452.72726"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="452.72726" y2="452.72726"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="452.72726" y2="452.72726"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="452.72726">
+1500.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="409.0909" y2="409.0909"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="409.0909" y2="409.0909"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="409.0909" y2="409.0909"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="409.0909">
+2000.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="365.45453" y2="365.45453"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="365.45453" y2="365.45453"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="365.45453" y2="365.45453"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="365.45453">
+2500.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="321.81818" y2="321.81818"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="321.81818" y2="321.81818"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="321.81818" y2="321.81818"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="321.81818">
+3000.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="278.18182" y2="278.18182"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="278.18182" y2="278.18182"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="278.18182" y2="278.18182"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="278.18182">
+3500.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="234.54547" y2="234.54547"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="234.54547" y2="234.54547"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="234.54547" y2="234.54547"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="234.54547">
+4000.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="190.90909" y2="190.90909"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="190.90909" y2="190.90909"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="190.90909" y2="190.90909"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="190.90909">
+4500.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="147.27274" y2="147.27274"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="147.27274" y2="147.27274"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="147.27274" y2="147.27274"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="147.27274">
+5000.0
+</text>
+<line stroke="#d3d3d3" stroke-dasharray="1 2" stroke-width="0.5" x1="60" x2="770" y1="103.63635" y2="103.63635"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="103.63635" y2="103.63635"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="103.63635" y2="103.63635"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="103.63635">
+5500.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="60" y2="60"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="60" y2="60"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="60">
+6000.0
+</text>
+<defs>
+<clipPath id="plotAreaClip">
+<rect height="480" width="710" x="60" y="60"/>
+</clipPath>
+</defs>
+<g clip-path="url(#plotAreaClip)">
+<path d="M60,496.36365 L131,492 L202,487.41818 L273,482.60947 L344,477.55637 L415,472.25018 L486.00003,466.6822 L557,460.8349 L628,454.69092 L699,448.25018 L770,441.4778" fill="none" stroke="#00ff00" stroke-width="1"/>
+<circle cx="60" cy="496.36365" fill="#00ff00" r="0.5"/>
+<circle cx="131" cy="492" fill="#00ff00" r="0.5"/>
+<circle cx="202" cy="487.41818" fill="#00ff00" r="0.5"/>
+<circle cx="273" cy="482.60947" fill="#00ff00" r="0.5"/>
+<circle cx="344" cy="477.55637" fill="#00ff00" r="0.5"/>
+<circle cx="415" cy="472.25018" fill="#00ff00" r="0.5"/>
+<circle cx="486.00003" cy="466.6822" fill="#00ff00" r="0.5"/>
+<circle cx="557" cy="460.8349" fill="#00ff00" r="0.5"/>
+<circle cx="628" cy="454.69092" fill="#00ff00" r="0.5"/>
+<circle cx="699" cy="448.25018" fill="#00ff00" r="0.5"/>
+<circle cx="770" cy="441.4778" fill="#00ff00" r="0.5"/>
+<path d="M60,496.36365 L131,487.63635 L202,478.03638 L273,467.47638 L344,455.86035 L415,443.08362 L486.00003,429.024 L557,413.568 L628,396.55853 L699,377.85602 L770,357.2771" fill="none" stroke="#ff7f00" stroke-width="1"/>
+<rect fill="#ff7f00" height="1" width="1" x="59.5" y="495.86365"/>
+<rect fill="#ff7f00" height="1" width="1" x="130.5" y="487.13635"/>
+<rect fill="#ff7f00" height="1" width="1" x="201.5" y="477.53638"/>
+<rect fill="#ff7f00" height="1" width="1" x="272.5" y="466.97638"/>
+<rect fill="#ff7f00" height="1" width="1" x="343.5" y="455.36035"/>
+<rect fill="#ff7f00" height="1" width="1" x="414.5" y="442.58362"/>
+<rect fill="#ff7f00" height="1" width="1" x="485.50003" y="428.524"/>
+<rect fill="#ff7f00" height="1" width="1" x="556.5" y="413.068"/>
+<rect fill="#ff7f00" height="1" width="1" x="627.5" y="396.05853"/>
+<rect fill="#ff7f00" height="1" width="1" x="698.5" y="377.35602"/>
+<rect fill="#ff7f00" height="1" width="1" x="769.5" y="356.7771"/>
+<path d="M60,496.36365 L131,478.9091 L202,505.0909 L273,452.72726 L344,409.0909 L415,426.54547 L486.00003,365.45453 L557,278.18182 L628,147.27274 L699,190.90909 L770,60" fill="none" stroke="#ff0000" stroke-dasharray="5 5" stroke-width="1"/>
+<path d="M59.5,495.86365 L60.5,496.86365 M59.5,496.86365 L60.5,495.86365" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M130.5,478.4091 L131.5,479.4091 M130.5,479.4091 L131.5,478.4091" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M201.5,504.5909 L202.5,505.5909 M201.5,505.5909 L202.5,504.5909" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M272.5,452.22726 L273.5,453.22726 M272.5,453.22726 L273.5,452.22726" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M343.5,408.5909 L344.5,409.5909 M343.5,409.5909 L344.5,408.5909" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M414.5,426.04547 L415.5,427.04547 M414.5,427.04547 L415.5,426.04547" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M485.50003,364.95453 L486.50003,365.95453 M485.50003,365.95453 L486.50003,364.95453" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M556.5,277.68182 L557.5,278.68182 M556.5,278.68182 L557.5,277.68182" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M627.5,146.77274 L628.5,147.77274 M627.5,147.77274 L628.5,146.77274" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M698.5,190.40909 L699.5,191.40909 M698.5,191.40909 L699.5,190.40909" fill="none" stroke="#ff0000" stroke-width="1"/>
+<path d="M769.5,59.5 L770.5,60.5 M769.5,60.5 L770.5,59.5" fill="none" stroke="#ff0000" stroke-width="1"/>
+</g>
+<rect fill="white" height="74" stroke="#000000" stroke-width="1" width="178.40001" x="70" y="70"/>
+<rect fill="#00ff00" height="14.400001" width="15" x="80" y="81.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="100" y="89">
+Low-Risk Investment
+</text>
+<rect fill="#ff7f00" height="14.400001" width="15" x="80" y="99.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="100" y="107">
+Medium-Risk Investment
+</text>
+<rect fill="#ff0000" height="14.400001" width="15" x="80" y="117.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="100" y="125">
+High-Risk Investment
+</text>
+</svg>

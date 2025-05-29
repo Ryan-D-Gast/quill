@@ -3,81 +3,116 @@
 <text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="20" text-anchor="middle" x="264" y="30">
 Line Graph Example
 </text>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" x="264" y="365">
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" x="264" y="376">
 X Axis
 </text>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" transform="rotate(-90, 24, 195)" x="24" y="195">
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" transform="rotate(-90, 18, 200)" x="18" y="200">
 Y Axis
 </text>
-<rect fill="none" height="270" stroke="#000000" stroke-width="1.5" width="368" x="80" y="60"/>
-<line stroke="#000000" stroke-width="1" x1="80" x2="80" y1="330" y2="325"/>
-<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="80" y="339">
+<rect fill="none" height="280" stroke="#000000" stroke-width="1.5" width="408" x="60" y="60"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="60" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="60" y="349">
 0.0
 </text>
-<line stroke="#000000" stroke-width="1" x1="80" x2="80" y1="60" y2="65"/>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="153.6" x2="153.6" y1="60" y2="330"/>
-<line stroke="#000000" stroke-width="1" x1="153.6" x2="153.6" y1="330" y2="325"/>
-<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="153.6" y="339">
+<line stroke="#000000" stroke-width="1" x1="60" x2="60" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="100.8" x2="100.8" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="100.8" x2="100.8" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="100.8" y="349">
+1.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="100.8" x2="100.8" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="141.6" x2="141.6" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="141.6" x2="141.6" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="141.6" y="349">
 2.0
 </text>
-<line stroke="#000000" stroke-width="1" x1="153.6" x2="153.6" y1="60" y2="65"/>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="227.2" x2="227.2" y1="60" y2="330"/>
-<line stroke="#000000" stroke-width="1" x1="227.2" x2="227.2" y1="330" y2="325"/>
-<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="227.2" y="339">
+<line stroke="#000000" stroke-width="1" x1="141.6" x2="141.6" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="182.4" x2="182.4" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="182.4" x2="182.4" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="182.4" y="349">
+3.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="182.4" x2="182.4" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="223.2" x2="223.2" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="223.2" x2="223.2" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="223.2" y="349">
 4.0
 </text>
-<line stroke="#000000" stroke-width="1" x1="227.2" x2="227.2" y1="60" y2="65"/>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="300.8" x2="300.8" y1="60" y2="330"/>
-<line stroke="#000000" stroke-width="1" x1="300.8" x2="300.8" y1="330" y2="325"/>
-<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="300.8" y="339">
+<line stroke="#000000" stroke-width="1" x1="223.2" x2="223.2" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="264" x2="264" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="264" x2="264" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="264" y="349">
+5.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="264" x2="264" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="304.8" x2="304.8" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="304.8" x2="304.8" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="304.8" y="349">
 6.0
 </text>
-<line stroke="#000000" stroke-width="1" x1="300.8" x2="300.8" y1="60" y2="65"/>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="374.4" x2="374.4" y1="60" y2="330"/>
-<line stroke="#000000" stroke-width="1" x1="374.4" x2="374.4" y1="330" y2="325"/>
-<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="374.4" y="339">
+<line stroke="#000000" stroke-width="1" x1="304.8" x2="304.8" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="345.6" x2="345.6" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="345.6" x2="345.6" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="345.6" y="349">
+7.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="345.6" x2="345.6" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="386.4" x2="386.4" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="386.4" x2="386.4" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="386.4" y="349">
 8.0
 </text>
-<line stroke="#000000" stroke-width="1" x1="374.4" x2="374.4" y1="60" y2="65"/>
-<line stroke="#000000" stroke-width="1" x1="448" x2="448" y1="330" y2="325"/>
-<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="448" y="339">
+<line stroke="#000000" stroke-width="1" x1="386.4" x2="386.4" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="427.19998" x2="427.19998" y1="60" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="427.19998" x2="427.19998" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="427.19998" y="349">
+9.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="427.19998" x2="427.19998" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="468" y1="340" y2="335"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="468" y="349">
 10.0
 </text>
-<line stroke="#000000" stroke-width="1" x1="448" x2="448" y1="60" y2="65"/>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="448" y1="262.49338" y2="262.49338"/>
-<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="262.49338" y2="262.49338"/>
-<line stroke="#000000" stroke-width="1" x1="448" x2="443" y1="262.49338" y2="262.49338"/>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="72" y="262.49338">
+<line stroke="#000000" stroke-width="1" x1="468" x2="468" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="340" y2="340"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="340" y2="340"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="340">
+-1.0
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="468" y1="270" y2="270"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="270" y2="270"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="270" y2="270"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="270">
 -0.5
 </text>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="448" y1="194.9764" y2="194.9764"/>
-<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="194.9764" y2="194.9764"/>
-<line stroke="#000000" stroke-width="1" x1="448" x2="443" y1="194.9764" y2="194.9764"/>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="72" y="194.9764">
+<line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="468" y1="200" y2="200"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="200" y2="200"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="200" y2="200"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="200">
 0.0
 </text>
-<line stroke="#d3d3d3" stroke-width="0.5" x1="80" x2="448" y1="127.45941" y2="127.45941"/>
-<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="127.45941" y2="127.45941"/>
-<line stroke="#000000" stroke-width="1" x1="448" x2="443" y1="127.45941" y2="127.45941"/>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="72" y="127.45941">
+<line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="468" y1="130" y2="130"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="130" y2="130"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="130" y2="130"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="130">
 0.5
 </text>
-<line stroke="#000000" stroke-width="1" x1="80" x2="85" y1="59.942444" y2="59.942444"/>
-<line stroke="#000000" stroke-width="1" x1="448" x2="443" y1="59.942444" y2="59.942444"/>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="72" y="59.942444">
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="60" y2="60"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="60" y2="60"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="60">
 1.0
 </text>
 <defs>
 <clipPath id="plotAreaClip">
-<rect height="270" width="368" x="80" y="60"/>
+<rect height="280" width="408" x="60" y="60"/>
 </clipPath>
 </defs>
 <g clip-path="url(#plotAreaClip)">
-<path d="M80,194.9764 L83.68,181.49548 L87.36,168.14928 L91.04,155.07112 L94.72,142.3917 L98.4,130.23766 L102.08,118.730484 L105.76,107.98512 L109.44,98.10895 L113.12,89.20065 L116.8,81.34924 L120.479996,74.63313 L124.16,69.11948 L127.840004,64.86331 L131.52,61.907227 L135.2,60.28067 L138.88,60 L142.56,61.067963 L146.24,63.473877 L149.92,67.193726 L153.6,72.19037 L157.28,78.41382 L160.95999,85.80191 L164.64,94.28085 L168.32,103.76593 L172,114.16234 L175.68001,125.36623 L179.36,137.26561 L183.04001,149.74162 L186.72,162.66963 L190.4,175.9204 L194.08,189.36162 L197.76,202.85889 L201.44,216.2774 L205.12,229.48314 L208.8,242.34406 L212.48001,254.73169 L216.16,266.52228 L219.84,277.598 L223.52,287.8482 L227.2,297.17044 L230.88,305.4716 L234.56001,312.66873 L238.24,318.6899 L241.92,323.475 L245.59999,326.97617 L249.28,329.15842 L252.96,330 L256.64,329.49246 L260.32,327.64087 L264,324.46375 L267.68,319.99283 L271.36002,314.27277 L275.04,307.36075 L278.72,299.32584 L282.40002,290.2483 L286.08002,280.21884 L289.76,269.33762 L293.44,257.71344 L297.12,245.46243 L300.8,232.70697 L304.48,219.57452 L308.16,206.19624 L311.84,192.70592 L315.52,179.23828 L319.2,165.92789 L322.88,152.90775 L326.56,140.30786 L330.24,128.25429 L333.91998,116.86737 L337.6,106.26088 L341.28,96.54082 L344.96002,87.80426 L348.64,80.13855 L352.32,73.62027 L356,68.314545 L359.68,64.27435 L363.36002,61.5401 L367.04,60.1391 L370.72,60.08539 L374.4,61.379425 L378.08002,64.00836 L381.76,67.9458 L385.44,73.15256 L389.12003,79.57655 L392.80002,87.1535 L396.48,95.80788 L400.16,105.45302 L403.84,115.99272 L407.52002,127.321625 L411.19998,139.3264 L414.88,151.88733 L418.56,164.87866 L422.24,178.17085 L425.92,191.63094 L429.6,205.12434 L433.28003,218.51648 L436.96,231.67328 L440.64,244.46355 L444.32004,256.75934 L448,268.4377" fill="none" stroke="#0000ff" stroke-width="1"/>
+<path d="M60,200 L64.08,186.02333 L68.16,172.1863 L72.24,158.62717 L76.32,145.48143 L80.4,132.88042 L84.48,120.95006 L88.56,109.809525 L92.64,99.570145 L96.72,90.33424 L100.8,82.19406 L104.880005,75.23096 L108.96001,69.51453 L113.04001,65.10187 L117.119995,62.037018 L121.2,60.350708 L125.28,60.059692 L129.36,61.16693 L133.44,63.661346 L137.51999,67.518005 L141.6,72.698364 L145.68,79.150696 L149.76001,86.81052 L153.84,95.60127 L157.92001,105.43515 L162,116.2139 L166.08002,127.82982 L170.16,140.16682 L174.23999,153.10165 L178.32,166.50511 L182.4,180.24321 L186.48001,194.17873 L190.56,208.17238 L194.64,222.08438 L198.72,235.77577 L202.8,249.10965 L206.88,261.95288 L210.96,274.17706 L215.04,285.6601 L219.12001,296.2873 L223.2,305.95236 L227.28,314.55878 L231.36,322.02063 L235.44,328.26324 L239.52,333.2243 L243.59999,336.85422 L247.68,339.11673 L251.76001,339.98926 L255.84001,339.46304 L259.91998,337.54337 L264,334.2494 L268.08002,329.61407 L272.16003,323.68362 L276.24,316.51743 L280.32,308.187 L284.40002,298.77563 L288.47998,288.37735 L292.56003,277.09595 L296.64,265.04428 L300.72003,252.34271 L304.8,239.11816 L308.88,225.50276 L312.96002,211.63248 L317.04,197.64603 L321.12,183.6831 L325.19998,169.88321 L329.28,156.38422 L333.36002,143.32097 L337.44,130.82411 L341.52,119.01842 L345.6,108.02188 L349.68,97.944336 L353.76,88.886475 L357.84,80.93887 L361.92,74.18088 L366,68.67999 L370.08,64.49127 L374.16,61.656433 L378.24002,60.20392 L382.32,60.148193 L386.4,61.48987 L390.48,64.215454 L394.56,68.29773 L398.64,73.69595 L402.72,80.3562 L406.80002,88.21179 L410.88,97.18445 L414.96,107.184296 L419.04,118.1116 L423.12003,129.85715 L427.19998,142.30342 L431.28,155.32628 L435.36,168.79538 L439.44,182.5764 L443.52002,196.53151 L447.6,210.52116 L451.68002,224.40579 L455.75998,238.04646 L459.84,251.3071 L463.92,264.0551 L468,276.16296" fill="none" stroke="#0000ff" stroke-width="1"/>
 </g>
-<rect fill="white" height="38" stroke="#000000" stroke-width="1" width="112" x="458" y="70"/>
-<rect fill="#0000ff" height="14.400001" width="15" x="468" y="81.8"/>
-<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="488" y="89">
+<rect fill="white" height="38" stroke="#000000" stroke-width="1" width="92" x="478" y="70"/>
+<rect fill="#0000ff" height="14.400001" width="15" x="488" y="81.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="508" y="89">
 Sine Curve
 </text>
 </svg>

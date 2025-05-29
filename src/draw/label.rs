@@ -25,7 +25,7 @@ pub fn draw_title(document: Document, title: &str, font: &str, title_config: &Ti
 pub fn draw_x_label(document: Document, x_label: &str, font: &str, x_label_config: &LabelConfig, plot_area_x_start: f32, plot_area_width: f32, plot_area_y_start: f32, plot_area_height: f32, current_effective_margin_bottom: f32) -> Document {
     if !x_label.is_empty() {
         let x_label_text_x = plot_area_x_start + plot_area_width / 2.0;
-        let x_label_text_y = plot_area_y_start + plot_area_height + current_effective_margin_bottom * 0.5;
+        let x_label_text_y = plot_area_y_start + plot_area_height + current_effective_margin_bottom * 0.6;
         let x_label_svg = Text::new()
             .set("x", x_label_text_x)
             .set("y", x_label_text_y)

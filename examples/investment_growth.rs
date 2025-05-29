@@ -8,7 +8,6 @@ fn main() {
         .x_label("Years".to_string())
         .y_label("Value ($)".to_string())
         .x_range(Range::Manual { min: 0.0, max: 10.0 })
-        .y_range(Range::Manual { min: 0.0, max: 15000.0 }) // Adjusted for potential investment values
         .legend(Legend::TopLeftInside)
         .grid(Grid::Dotted)
         .font("Times New Roman".to_string())

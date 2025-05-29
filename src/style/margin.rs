@@ -10,8 +10,8 @@ impl Default for Margin {
     fn default() -> Self {
         Self {
             top: 60.0,
-            bottom: 70.0,
-            left: 80.0,
+            bottom: 60.0,
+            left: 60.0,
             right: 30.0,
         }
     }
