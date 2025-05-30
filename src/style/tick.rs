@@ -1,4 +1,5 @@
 use pigment::{Color, color};
+use crate::elements::Scale;
 
 #[derive(Clone, Debug)]
 pub struct TickConfig {
@@ -9,6 +10,7 @@ pub struct TickConfig {
     pub text_padding: f32,
     pub density_x: f32,
     pub density_y: f32,
+    pub y_scale_type: Scale,
 }
 
 impl Default for TickConfig {
@@ -21,6 +23,7 @@ impl Default for TickConfig {
             text_padding: 3.0,
             density_x: 50.0,
             density_y: 50.0,
+            y_scale_type: Scale::Engineering,
         }
     }
 }

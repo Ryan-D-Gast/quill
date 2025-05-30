@@ -14,6 +14,7 @@ fn main() {
         .legend(Legend::TopLeftInside)
         .grid(Grid::Solid)
         .font("Verdana".to_string())
+        .margin(Margin::default().add_left(10.0))
         .data(vec![
             Series::builder()
                 .name("Product A".to_string())
