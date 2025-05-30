@@ -3,14 +3,16 @@ use crate::{
     style::*,
     elements::*,
     series::Series,
+    draw::{
+        draw_title, draw_x_label, draw_y_label, draw_axis_lines, draw_ticks_and_grids,
+        draw_data_series, draw_legend,
+    }
 };
-use svg::node::element::{
-    Rectangle, Definitions, ClipPath,
-};
-use svg::Document;
-use crate::draw::{
-    draw_title, draw_x_label, draw_y_label, draw_axis_lines, draw_ticks_and_grids,
-    draw_data_series, draw_legend,
+use svg::{
+    Document,
+    node::element::{
+        Rectangle, Definitions, ClipPath,
+    },
 };
 
 #[derive(Builder)]
