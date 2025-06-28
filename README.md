@@ -208,6 +208,9 @@ Series::builder()
     .build()
 ```
 
+Note the Colors are derived from the `pigment` crate. More information at [pigment](https://github.com/crazywolf132/pigment).
+
+
 ### Output Options
 
 ```rust
