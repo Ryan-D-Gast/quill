@@ -2,6 +2,15 @@
 name = "quill"
 version = "0.1.0"
 edition = "2024"
+description = "A lightweight Rust plotting library for creating simple SVG 2D plots"
+license = "Apache-2.0"
+authors = ["Ryan D. Gast <ryan.d.gast@gmail.com>"]
+repository = "https://github.com/Ryan-D-Gast/quill"
+homepage = "https://github.com/Ryan-D-Gast/quill"
+documentation = "https://docs.rs/quill"
+readme = "README.md"
+keywords = ["plotting", "svg", "charts", "graphs", "visualization"]
+categories = ["visualization", "graphics"]
 
 [dependencies]
 bon = "3.6.3"
