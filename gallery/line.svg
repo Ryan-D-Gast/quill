@@ -74,6 +74,11 @@ Y Axis
 10.0
 </text>
 <line stroke="#000000" stroke-width="1" x1="468" x2="468" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="340.01074" y2="340.01074"/>
+<line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="340.01074" y2="340.01074"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="340.01074">
+-1.0
+</text>
 <line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="468" y1="269.99313" y2="269.99313"/>
 <line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="269.99313" y2="269.99313"/>
 <line stroke="#000000" stroke-width="1" x1="468" x2="463" y1="269.99313" y2="269.99313"/>

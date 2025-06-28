@@ -65,13 +65,19 @@ pub struct Plot<T: PlotValue = f32> {
 }
 
 impl<T: PlotValue> Plot<T> {
-    /// Generates an SVG document representing the plot and saves it to a file.
+    /// Creates a new plot with the specified dimensions.
     pub fn to_svg(&self, filename: &str) -> Result<(), std::io::Error> {
         let document = self.plot()?;
         svg::save(filename, &document)?;
         Ok(())
     }
 
+    /// Converts the plot to an SVG document.
+    pub fn to_document(&self) -> Result<Document, std::io::Error> {
+        self.plot()
+    }
+
+    /// Generates an SVG document representing the plot.
     fn plot(&self) -> Result<Document, std::io::Error> {
         let (total_width, total_height) = self.dimensions;
         let mut document = Document::new()
@@ -231,15 +237,19 @@ impl<T: PlotValue> Plot<T> {
             let step = nice_fraction * 10f32.powf(exponent);
             if step == 0.0 { return vec![min_val, max_val].into_iter().collect() }
 
-            let start_tick = (min_val / step).ceil() * step;
+            let start_tick = (min_val / step).floor() * step;
             let mut ticks = Vec::new();
             let mut current_tick = start_tick;
+            
             while current_tick <= max_val + step * 0.5 {
-                ticks.push(current_tick);
+                if current_tick >= min_val - step * 0.1 && current_tick <= max_val + step * 0.1 {
+                    ticks.push(current_tick);
+                }
                 current_tick += step;
                 if ticks.len() > max_ticks * 2 { break; }
             }
-             if ticks.is_empty() {
+            
+            if ticks.is_empty() {
                 if min_val == max_val { ticks.push(min_val); }
                 else { ticks.extend_from_slice(&[min_val, max_val]); }
             } else if ticks.len() == 1 && min_val != max_val {
