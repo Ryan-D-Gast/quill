@@ -73,7 +73,7 @@ fn main() {
         .build();
 
     // Plot the data to a PNG file in the gallery
-    match plot.plot("./gallery/investment_growth.svg") {
+    match plot.to_svg("./gallery/investment_growth.svg") {
         Ok(_) => println!("Plot created successfully at ./gallery/investment_growth.svg"),
         Err(e) => eprintln!("Error creating plot: {:?}", e),
     }

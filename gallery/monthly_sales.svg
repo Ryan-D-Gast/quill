@@ -1,7 +1,7 @@
 <svg height="500" viewBox="0 0 900 500" width="900" xmlns="http://www.w3.org/2000/svg">
 <rect fill="white" height="500" width="900" x="0" y="0"/>
 <text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="20" text-anchor="middle" x="470" y="30">
-Monthly Sales Data - 2024
+Sales Data
 </text>
 <text dominant-baseline="middle" fill="#000000" font-family="Verdana" font-size="14" text-anchor="middle" x="470" y="476">
 Month

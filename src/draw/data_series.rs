@@ -2,12 +2,14 @@ use svg::node::element::{Rectangle, Path, Group};
 use pigment::{color, Color};
 use crate::series::Series;
 use crate::elements::{Line, Marker};
+use crate::PlotValue;
 use super::to_svg_color_string;
 
-pub fn draw_data_series<Fx, Fy>(data: &[Series], color_fn: fn(&str) -> Option<Color>, map_x: Fx, map_y: Fy) -> Group
+pub fn draw_data_series<T, Fx, Fy>(data: &[Series<T>], color_fn: fn(&str) -> Option<Color>, map_x: Fx, map_y: Fy) -> Group
 where
-    Fx: Fn(f32) -> f32,
-    Fy: Fn(f32) -> f32,
+    T: PlotValue,
+    Fx: Fn(T) -> f32,
+    Fy: Fn(T) -> f32,
 {
     let mut data_group = Group::new().set("clip-path", "url(#plotAreaClip)");
     for series in data {

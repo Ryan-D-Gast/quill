@@ -3,6 +3,7 @@ use crate::{
     style::*,
     elements::*,
     series::Series,
+    PlotValue,
     draw::{
         draw_title, draw_x_label, draw_y_label, draw_axis_lines, draw_ticks_and_grids,
         draw_data_series, draw_legend,
@@ -16,7 +17,7 @@ use svg::{
 };
 
 #[derive(Builder)]
-pub struct Plot {
+pub struct Plot<T: PlotValue = f32> {
     // --- Plot Settings ---
     #[builder(default = (800, 600))]
     pub dimensions: (i32, i32),
@@ -27,9 +28,9 @@ pub struct Plot {
     #[builder(default = "".to_string())]
     pub y_label: String,
     #[builder(default = Range::Auto)]
-    pub x_range: Range,
+    pub x_range: Range<T>,
     #[builder(default = Range::Auto)]
-    pub y_range: Range,
+    pub y_range: Range<T>,
     #[builder(default = Legend::None)]
     pub legend: Legend,
     #[builder(default = Axis::Box)]
@@ -60,12 +61,18 @@ pub struct Plot {
     pub grid_config: GridConfig,
 
     // --- Data ---
-    pub data: Vec<Series>,
+    pub data: Vec<Series<T>>,
 }
 
-impl Plot {
+impl<T: PlotValue> Plot<T> {
     /// Generates an SVG document representing the plot and saves it to a file.
-    pub fn plot(&self, filename: &str) -> Result<(), std::io::Error> {
+    pub fn to_svg(&self, filename: &str) -> Result<(), std::io::Error> {
+        let document = self.plot()?;
+        svg::save(filename, &document)?;
+        Ok(())
+    }
+
+    fn plot(&self) -> Result<Document, std::io::Error> {
         let (total_width, total_height) = self.dimensions;
         let mut document = Document::new()
             .set("width", total_width)
@@ -85,18 +92,18 @@ impl Plot {
         let (actual_x_min, actual_x_max) = match self.x_range {
             Range::Auto => {
                 if self.data.is_empty() || self.data.iter().all(|s| s.data.is_empty()) {
-                    (0.0, 1.0)
+                    (T::from_f32(0.0), T::from_f32(1.0))
                 } else {
-                    let mut min_x = f32::MAX;
-                    let mut max_x = f32::MIN;
+                    let mut min_x = T::max_value();
+                    let mut max_x = T::min_value();
                     for series in &self.data {
                         for (x, _) in &series.data {
-                            min_x = min_x.min(*x);
-                            max_x = max_x.max(*x);
+                            if *x < min_x { min_x = *x; }
+                            if *x > max_x { max_x = *x; }
                         }
                     }
-                    if (max_x - min_x).abs() < f32::EPSILON {
-                        (min_x - 0.5, max_x + 0.5)
+                    if (max_x - min_x) < T::epsilon() {
+                        (min_x - T::from_f32(0.5), max_x + T::from_f32(0.5))
                     } else {
                         (min_x, max_x)
                     }
@@ -108,18 +115,18 @@ impl Plot {
         let (actual_y_min, actual_y_max) = match self.y_range {
             Range::Auto => {
                 if self.data.is_empty() || self.data.iter().all(|s| s.data.is_empty()) {
-                    (0.0, 1.0)
+                    (T::from_f32(0.0), T::from_f32(1.0))
                 } else {
-                    let mut min_y = f32::MAX;
-                    let mut max_y = f32::MIN;
+                    let mut min_y = T::max_value();
+                    let mut max_y = T::min_value();
                     for series in &self.data {
                         for (_, y) in &series.data {
-                            min_y = min_y.min(*y);
-                            max_y = max_y.max(*y);
+                            if *y < min_y { min_y = *y; }
+                            if *y > max_y { max_y = *y; }
                         }
                     }
-                    if (max_y - min_y).abs() < f32::EPSILON {
-                        (min_y - 0.5, max_y + 0.5)
+                    if (max_y - min_y) < T::epsilon() {
+                        (min_y - T::from_f32(0.5), max_y + T::from_f32(0.5))
                     } else {
                         (min_y, max_y)
                     }
@@ -173,18 +180,24 @@ impl Plot {
         }
 
         // Helper closures to map data coordinates to screen coordinates
-        let map_x = |data_x: f32| -> f32 {
-            if (actual_x_max - actual_x_min).abs() < f32::EPSILON {
+        let map_x = |data_x: T| -> f32 {
+            if (actual_x_max - actual_x_min) < T::epsilon() {
                 plot_area_x_start + plot_area_width / 2.0
             } else {
-                plot_area_x_start + ((data_x - actual_x_min) / (actual_x_max - actual_x_min) * plot_area_width)
+                let data_x_f32 = data_x.to_f32();
+                let actual_x_min_f32 = actual_x_min.to_f32();
+                let actual_x_max_f32 = actual_x_max.to_f32();
+                plot_area_x_start + ((data_x_f32 - actual_x_min_f32) / (actual_x_max_f32 - actual_x_min_f32) * plot_area_width)
             }
         };
-        let map_y = |data_y: f32| -> f32 {
-            if (actual_y_max - actual_y_min).abs() < f32::EPSILON {
+        let map_y = |data_y: T| -> f32 {
+            if (actual_y_max - actual_y_min) < T::epsilon() {
                 plot_area_y_start + plot_area_height / 2.0
             } else {
-                plot_area_y_start + plot_area_height - ((data_y - actual_y_min) / (actual_y_max - actual_y_min) * plot_area_height)
+                let data_y_f32 = data_y.to_f32();
+                let actual_y_min_f32 = actual_y_min.to_f32();
+                let actual_y_max_f32 = actual_y_max.to_f32();
+                plot_area_y_start + plot_area_height - ((data_y_f32 - actual_y_min_f32) / (actual_y_max_f32 - actual_y_min_f32) * plot_area_height)
             }
         };
 
@@ -235,8 +248,8 @@ impl Plot {
             ticks
         };
 
-        let x_ticks = calculate_ticks(actual_x_min, actual_x_max, num_x_ticks);
-        let y_ticks = calculate_ticks(actual_y_min, actual_y_max, num_y_ticks);
+        let x_ticks = calculate_ticks(actual_x_min.to_f32(), actual_x_max.to_f32(), num_x_ticks);
+        let y_ticks = calculate_ticks(actual_y_min.to_f32(), actual_y_max.to_f32(), num_y_ticks);
         
         document = draw_ticks_and_grids(
             document,
@@ -252,8 +265,8 @@ impl Plot {
             plot_area_height,
             &x_ticks,
             &y_ticks,
-            &map_x,
-            &map_y,
+            |x_f32| map_x(T::from_f32(x_f32)),
+            |y_f32| map_y(T::from_f32(y_f32)),
         );
 
         // --- Clipping Path for Plot Area ---
@@ -336,6 +349,6 @@ impl Plot {
                 legend_height,
             );
         }
-        svg::save(filename, &document)
+        Ok(document)
     }
 }

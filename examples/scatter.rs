@@ -29,5 +29,5 @@ fn main() {
                 .build(),
         ])
         .build();
-    scatter_plot.plot("./gallery/scatter.svg").unwrap();
+    scatter_plot.to_svg("./gallery/scatter.svg").unwrap();
 }

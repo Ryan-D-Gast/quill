@@ -1,5 +1,5 @@
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub enum Range {
+pub enum Range<T = f32> {
     Auto,
-    Manual { min: f32, max: f32 },
+    Manual { min: T, max: T },
 }

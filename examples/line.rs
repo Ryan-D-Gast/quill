@@ -1,9 +1,9 @@
 use quill::*;
 
-fn line_data() -> Vec<(f32, f32)> {
+fn line_data() -> Vec<(f64, f64)> {
     // Simple sine wave data for line graph
     (0..=100).map(|x| {
-        let xf = x as f32 * 0.1;
+        let xf = x as f64 * 0.1;
         (xf, xf.sin())
     }).collect()
 }
@@ -26,5 +26,5 @@ fn main() {
                 .build(),
         ])
         .build();
-    line_plot.plot("./gallery/line.svg").unwrap();
+    line_plot.to_svg("./gallery/line.svg").unwrap();
 }

@@ -2,8 +2,8 @@ use bon::Builder;
 use crate::{Line, Marker};
 
 #[derive(Builder)]
-pub struct Series {
-    pub data: Vec<(f32, f32)>,
+pub struct Series<T = f32> {
+    pub data: Vec<(T, T)>,
     #[builder(default = "".to_string())]
     pub name: String,
     #[builder(default = "Black".to_string())]

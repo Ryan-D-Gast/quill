@@ -4,7 +4,7 @@ fn main() {
     // Create a new plot with a builder
     let plot = Plot::builder()
         .dimensions((900, 500))
-        .title("Monthly Sales Data - 2024".to_string())
+        .title("Sales Data".to_string())
         .x_label("Month".to_string())
         .y_label("Units Sold".to_string())
         // Using 1-12 for months, and then mapping to names for ticks would be ideal,
@@ -64,7 +64,7 @@ fn main() {
         .build();
 
     // Plot the data to a PNG file in the gallery
-    match plot.plot("./gallery/monthly_sales.svg") {
+    match plot.to_svg("./gallery/monthly_sales.svg") {
         Ok(_) => println!("Plot created successfully at ./gallery/monthly_sales.svg"),
         Err(e) => eprintln!("Error creating plot: {:?}", e),
     }

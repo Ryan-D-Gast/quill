@@ -4,11 +4,12 @@ use svg::Document;
 use pigment::{color, Color};
 use crate::series::Series;
 use crate::style::*;
+use crate::PlotValue;
 use super::to_svg_color_string;
 
-pub fn draw_legend(
+pub fn draw_legend<T: PlotValue>(
     document: Document,
-    data: &[Series],
+    data: &[Series<T>],
     font: &str,
     legend_config: &LegendConfig,
     legend_x_base: f32,
