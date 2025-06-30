@@ -4,21 +4,21 @@ fn main() {
     // Create a new plot with a builder
     let plot = Plot::builder()
         .dimensions((900, 500))
-        .title("Sales Data".to_string())
-        .x_label("Month".to_string())
-        .y_label("Units Sold".to_string())
+        .title("Sales Data")
+        .x_label("Month")
+        .y_label("Units Sold")
         // Using 1-12 for months, and then mapping to names for ticks would be ideal,
         // but for simplicity with current library features, we'll use numbers.
         .x_range(Range::Manual { min: 1.0, max: 12.0 })
         .y_range(Range::Manual { min: 0.0, max: 300.0 })
         .legend(Legend::TopLeftInside)
         .grid(Grid::Solid)
-        .font("Verdana".to_string())
+        .font("Verdana")
         .margin(Margin::default().add_left(10.0))
         .data(vec![
             Series::builder()
-                .name("Product A".to_string())
-                .color("Blue".to_string())
+                .name("Product A")
+                .color("Blue")
                 .data(vec![
                     (1.0, 150.0), (2.0, 160.0), (3.0, 170.0), (4.0, 155.0),
                     (5.0, 180.0), (6.0, 190.0), (7.0, 200.0), (8.0, 185.0),
@@ -28,8 +28,8 @@ fn main() {
                 .line(Line::Solid)
                 .build(),
             Series::builder()
-                .name("Product B".to_string())
-                .color("Firebrick".to_string())
+                .name("Product B")
+                .color("Firebrick")
                 .data(vec![
                     (1.0, 80.0), (2.0, 85.0), (3.0, 90.0), (4.0, 100.0),
                     (5.0, 95.0), (6.0, 110.0), (7.0, 105.0), (8.0, 120.0),
@@ -39,8 +39,8 @@ fn main() {
                 .line(Line::Dotted)
                 .build(),
             Series::builder()
-                .name("Product C (New)".to_string())
-                .color("Dark Sea Green".to_string())
+                .name("Product C (New)")
+                .color("Dark Sea Green")
                 // Product C launched in April (month 4)
                 .data(vec![
                     (4.0, 30.0), (5.0, 45.0), (6.0, 60.0), (7.0, 70.0),
@@ -50,8 +50,8 @@ fn main() {
                 .line(Line::Dashed)
                 .build(),
             Series::builder()
-                .name("Product D (Negative Trend)".to_string())
-                .color("Dark Orange".to_string())
+                .name("Product D (Negative Trend)")
+                .color("Dark Orange")
                 // Product D launched in June (month 6)
                 .data(vec![
                     (6.0, 200.0), (7.0, 190.0), (8.0, 180.0), (9.0, 170.0),

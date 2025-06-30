@@ -4,17 +4,17 @@ fn main() {
     // Create a new plot with a builder
     let plot = Plot::builder()
         .dimensions((800, 600))
-        .title("Hypothetical Investment Growth".to_string())
-        .x_label("Years".to_string())
-        .y_label("Value ($)".to_string())
+        .title("Hypothetical Investment Growth")
+        .x_label("Years")
+        .y_label("Value ($)")
         .x_range(Range::Manual { min: 0.0, max: 10.0 })
         .legend(Legend::TopLeftInside)
         .grid(Grid::Dotted)
-        .font("Times New Roman".to_string())
+        .font("Times New Roman")
         .data(vec![
             Series::builder()
-                .name("Low-Risk Investment".to_string())
-                .color("Green".to_string())
+                .name("Low-Risk Investment")
+                .color("Green")
                 .data(vec![
                     (0.0, 1000.0),
                     (1.0, 1050.0),
@@ -32,8 +32,8 @@ fn main() {
                 .line(Line::Solid)
                 .build(),
             Series::builder()
-                .name("Medium-Risk Investment".to_string())
-                .color("Orange".to_string())
+                .name("Medium-Risk Investment")
+                .color("Orange")
                 .data(vec![
                     (0.0, 1000.0),
                     (1.0, 1100.0),
@@ -51,8 +51,8 @@ fn main() {
                 .line(Line::Solid)
                 .build(),
             Series::builder()
-                .name("High-Risk Investment".to_string())
-                .color("Red".to_string())
+                .name("High-Risk Investment")
+                .color("Red")
                 .data(vec![
                     (0.0, 1000.0),
                     (1.0, 1200.0),

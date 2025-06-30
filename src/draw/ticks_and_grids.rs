@@ -163,13 +163,13 @@ where
     }
     // Draw Y-axis scale factor label if needed
     if y_scale_factor != 1.0 && tick_config.y_scale_type != Scale::None {
-        let exponent_str = scale_exponent.to_string();
+        let exponent_str = scale_exponent;
         let base_text_node = SvgNodeText::new("·10");
         
         let exponent_tspan = svg::node::element::TSpan::new()
             .set("dy", "-0.4em") // Shift exponent upwards. Adjust value if needed.
             .set("dx", "-0.2em") // Shift left to align with base
-            .add(SvgNodeText::new(exponent_str));
+            .add(SvgNodeText::new(exponent_str.to_string()));
 
         let scale_label_svg = Text::new()
             .set("x", plot_area_x_start + tick_config.text_padding)

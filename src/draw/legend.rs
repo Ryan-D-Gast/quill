@@ -52,7 +52,7 @@ pub fn draw_legend<T: PlotValue>(
             .set("fill", to_svg_color_string(&legend_config.text_color))
             .set("text-anchor", "start")
             .set("dominant-baseline", "middle")
-            .add(SvgNodeText::new(series.name.clone()));
+            .add(SvgNodeText::new(series.name));
         document = document.add(legend_text_svg);
     }
     document

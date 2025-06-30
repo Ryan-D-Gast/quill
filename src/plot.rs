@@ -17,16 +17,16 @@ use svg::{
 };
 
 #[derive(Builder)]
-pub struct Plot<T: PlotValue = f32> {
+pub struct Plot<'a, T: PlotValue = f32> {
     // --- Plot Settings ---
     #[builder(default = (800, 600))]
     pub dimensions: (i32, i32),
-    #[builder(default = "".to_string())]
-    pub title: String,
-    #[builder(default = "".to_string())]
-    pub x_label: String,
-    #[builder(default = "".to_string())]
-    pub y_label: String,
+    #[builder(default = "")]
+    pub title: &'a str,
+    #[builder(default = "")]
+    pub x_label: &'a str,
+    #[builder(default = "")]
+    pub y_label: &'a str,
     #[builder(default = Range::Auto)]
     pub x_range: Range<T>,
     #[builder(default = Range::Auto)]
@@ -39,8 +39,8 @@ pub struct Plot<T: PlotValue = f32> {
     pub tick: Tick,
     #[builder(default = Grid::Solid)]
     pub grid: Grid,
-    #[builder(default = "Times New Roman".to_string())]
-    pub font: String,
+    #[builder(default = "Times New Roman")]
+    pub font: &'a str,
 
     // --- Style Configurations ---
     #[builder(default = Margin::default())]
@@ -61,10 +61,10 @@ pub struct Plot<T: PlotValue = f32> {
     pub grid_config: GridConfig,
 
     // --- Data ---
-    pub data: Vec<Series<T>>,
+    pub data: Vec<Series<'a, T>>,
 }
 
-impl<T: PlotValue> Plot<T> {
+impl<'a, T: PlotValue> Plot<'a, T> {
     /// Creates a new plot with the specified dimensions.
     pub fn to_svg(&self, filename: &str) -> Result<(), std::io::Error> {
         let document = self.plot()?;

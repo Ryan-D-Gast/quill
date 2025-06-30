@@ -33,13 +33,13 @@ fn main() {
 
     let plot = Plot::builder()
         .dimensions((600, 400))
-        .title("Sine Wave".to_string())
-        .x_label("X Axis".to_string())
-        .y_label("Y Axis".to_string())
+        .title("Sine Wave")
+        .x_label("X Axis")
+        .y_label("Y Axis")
         .data(vec![
             Series::builder()
-                .name("sin(x)".to_string())
-                .color("Blue".to_string())
+                .name("sin(x)")
+                .color("Blue")
                 .data(data)
                 .line(Line::Solid)
                 .build(),
@@ -65,15 +65,15 @@ use quill::*;
 
 let line_plot = Plot::builder()
     .dimensions((600, 400))
-    .title("Line Graph Example".to_string())
-    .x_label("X Axis".to_string())
-    .y_label("Y Axis".to_string())
+    .title("Line Graph Example")
+    .x_label("X Axis")
+    .y_label("Y Axis")
     .legend(Legend::TopRightOutside)
     .grid(Grid::Solid)
     .data(vec![
         Series::builder()
-            .name("Sine Curve".to_string())
-            .color("Blue".to_string())
+            .name("Sine Curve")
+            .color("Blue")
             .data(line_data())
             .marker(Marker::None)
             .line(Line::Solid)
@@ -92,13 +92,13 @@ use quill::*;
 
 let scatter_plot = Plot::builder()
     .dimensions((600, 400))
-    .title("Scatter Graph Example".to_string())
+    .title("Scatter Graph Example")
     .legend(Legend::TopRightOutside)
     .grid(Grid::Dashed)
     .data(vec![
         Series::builder()
-            .name("Lissajous Curve".to_string())
-            .color("Red".to_string())
+            .name("Lissajous Curve")
+            .color("Red")
             .data(scatter_data())
             .marker(Marker::Circle)
             .marker_size(5.0)
@@ -118,22 +118,22 @@ use quill::*;
 
 let plot = Plot::builder()
     .dimensions((900, 500))
-    .title("Sales Data".to_string())
-    .x_label("Month".to_string())
-    .y_label("Units Sold".to_string())
+    .title("Sales Data")
+    .x_label("Month")
+    .y_label("Units Sold")
     .legend(Legend::TopLeftInside)
     .grid(Grid::Solid)
     .data(vec![
         Series::builder()
-            .name("Product A".to_string())
-            .color("Blue".to_string())
+            .name("Product A")
+            .color("Blue")
             .data(product_a_data)
             .marker(Marker::Circle)
             .line(Line::Solid)
             .build(),
         Series::builder()
-            .name("Product B".to_string())
-            .color("Firebrick".to_string())
+            .name("Product B")
+            .color("Firebrick")
             .data(product_b_data)
             .marker(Marker::Square)
             .line(Line::Dotted)
@@ -153,17 +153,17 @@ use quill::*;
 
 let plot = Plot::builder()
     .dimensions((800, 600))
-    .title("Hypothetical Investment Growth".to_string())
-    .x_label("Years".to_string())
-    .y_label("Value ($)".to_string())
+    .title("Hypothetical Investment Growth")
+    .x_label("Years")
+    .y_label("Value ($)")
     .x_range(Range::Manual { min: 0.0, max: 10.0 })
     .legend(Legend::TopLeftInside)
     .grid(Grid::Dotted)
-    .font("Times New Roman".to_string())
+    .font("Times New Roman")
     .data(vec![
         Series::builder()
-            .name("Low-Risk Investment".to_string())
-            .color("Green".to_string())
+            .name("Low-Risk Investment")
+            .color("Green")
             .data(low_risk_data)
             .marker(Marker::Circle)
             .line(Line::Solid)
@@ -181,14 +181,14 @@ Configure your plot with the builder pattern:
 ```rust
 Plot::builder()
     .dimensions((width, height))           // Plot size
-    .title("Plot Title".to_string())       // Chart title
-    .x_label("X Axis".to_string())         // X-axis label
-    .y_label("Y Axis".to_string())         // Y-axis label
+    .title("Plot Title")       // Chart title
+    .x_label("X Axis")         // X-axis label
+    .y_label("Y Axis")         // Y-axis label
     .x_range(Range::Auto)                  // X-axis range (Auto or Manual)
     .y_range(Range::Auto)                  // Y-axis range (Auto or Manual)
     .legend(Legend::TopRightOutside)       // Legend position
     .grid(Grid::Solid)                     // Grid style
-    .font("Arial".to_string())             // Font family
+    .font("Arial")             // Font family
     .margin(Margin::default())             // Plot margins
     .data(vec![series])                    // Data series
     .build()
@@ -199,8 +199,8 @@ Define data series with markers and line styling:
 
 ```rust
 Series::builder()
-    .name("Series Name".to_string())       // Legend name
-    .color("Blue".to_string())             // Line/marker color
+    .name("Series Name")       // Legend name
+    .color("Blue")             // Line/marker color
     .data(vec![(x, y)])                    // Data points (f32, f64, i32, or i64 tuples)
     .marker(Marker::Circle)                // Point markers
     .marker_size(5.0)                      // Marker size

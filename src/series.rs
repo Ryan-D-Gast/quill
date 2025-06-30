@@ -2,12 +2,12 @@ use bon::Builder;
 use crate::{Line, Marker};
 
 #[derive(Builder)]
-pub struct Series<T = f32> {
+pub struct Series<'a, T = f32> {
     pub data: Vec<(T, T)>,
-    #[builder(default = "".to_string())]
-    pub name: String,
-    #[builder(default = "Black".to_string())]
-    pub color: String,
+    #[builder(default = "")]
+    pub name: &'a str,
+    #[builder(default = "Black")]
+    pub color: &'a str,
     #[builder(default = Line::Solid)]
     pub line: Line,
     #[builder(default = Marker::None)]
