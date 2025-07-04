@@ -181,14 +181,14 @@ Configure your plot with the builder pattern:
 ```rust
 Plot::builder()
     .dimensions((width, height))           // Plot size
-    .title("Plot Title")       // Chart title
-    .x_label("X Axis")         // X-axis label
-    .y_label("Y Axis")         // Y-axis label
+    .title("Plot Title")                   // Chart title
+    .x_label("X Axis")                     // X-axis label
+    .y_label("Y Axis")                     // Y-axis label
     .x_range(Range::Auto)                  // X-axis range (Auto or Manual)
     .y_range(Range::Auto)                  // Y-axis range (Auto or Manual)
     .legend(Legend::TopRightOutside)       // Legend position
     .grid(Grid::Solid)                     // Grid style
-    .font("Arial")             // Font family
+    .font("Arial")                         // Font family
     .margin(Margin::default())             // Plot margins
     .data(vec![series])                    // Data series
     .build()
@@ -201,10 +201,10 @@ Define data series with markers and line styling:
 Series::builder()
     .name("Series Name")       // Legend name
     .color("Blue")             // Line/marker color
-    .data(vec![(x, y)])                    // Data points (f32, f64, i32, or i64 tuples)
-    .marker(Marker::Circle)                // Point markers
-    .marker_size(5.0)                      // Marker size
-    .line(Line::Solid)                     // Line style (or Line::None for scatter)
+    .data(vec![(x, y)])        // Data points (f32, f64, i32, or i64 tuples)
+    .marker(Marker::Circle)    // Point markers
+    .marker_size(5.0)          // Marker size
+    .line(Line::Solid)         // Line style (or Line::None for scatter)
     .build()
 ```
 
