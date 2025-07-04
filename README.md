@@ -36,7 +36,7 @@ fn main() {
         .title("Sine Wave")
         .x_label("X Axis")
         .y_label("Y Axis")
-        .data(vec![
+        .data([
             Series::builder()
                 .name("sin(x)")
                 .color("Blue")
@@ -70,7 +70,7 @@ let line_plot = Plot::builder()
     .y_label("Y Axis")
     .legend(Legend::TopRightOutside)
     .grid(Grid::Solid)
-    .data(vec![
+    .data([
         Series::builder()
             .name("Sine Curve")
             .color("Blue")
@@ -95,7 +95,7 @@ let scatter_plot = Plot::builder()
     .title("Scatter Graph Example")
     .legend(Legend::TopRightOutside)
     .grid(Grid::Dashed)
-    .data(vec![
+    .data([
         Series::builder()
             .name("Lissajous Curve")
             .color("Red")
@@ -123,7 +123,7 @@ let plot = Plot::builder()
     .y_label("Units Sold")
     .legend(Legend::TopLeftInside)
     .grid(Grid::Solid)
-    .data(vec![
+    .data([
         Series::builder()
             .name("Product A")
             .color("Blue")
@@ -160,7 +160,7 @@ let plot = Plot::builder()
     .legend(Legend::TopLeftInside)
     .grid(Grid::Dotted)
     .font("Times New Roman")
-    .data(vec![
+    .data([
         Series::builder()
             .name("Low-Risk Investment")
             .color("Green")
@@ -190,7 +190,7 @@ Plot::builder()
     .grid(Grid::Solid)                     // Grid style
     .font("Arial")                         // Font family
     .margin(Margin::default())             // Plot margins
-    .data(vec![series])                    // Data series
+    .data([Series])                        // Data series
     .build()
 ```
 
