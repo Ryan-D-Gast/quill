@@ -15,7 +15,7 @@ fn main() {
         .grid(Grid::Solid)
         .font("Verdana")
         .margin(Margin::default().add_left(10.0))
-        .data(vec![
+        .data([
             Series::builder()
                 .name("Product A")
                 .color("Blue")

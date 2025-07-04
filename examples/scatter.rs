@@ -18,7 +18,7 @@ fn main() {
         .y_label("Y Axis")
         .legend(Legend::TopRightOutside)
         .grid(Grid::Dashed)
-        .data(vec![
+        .data([
             Series::builder()
                 .name("Lissajous Curve")
                 .color("Red")

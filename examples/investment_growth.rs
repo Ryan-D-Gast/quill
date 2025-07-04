@@ -11,7 +11,7 @@ fn main() {
         .legend(Legend::TopLeftInside)
         .grid(Grid::Dotted)
         .font("Times New Roman")
-        .data(vec![
+        .data([
             Series::builder()
                 .name("Low-Risk Investment")
                 .color("Green")

@@ -35,7 +35,7 @@ fn main() {
         .legend(Legend::TopRightOutside)
         .grid(Grid::Solid)
         .font("Arial")
-        .data(vec![
+        .data([
             Series::builder()
                 .name("Temperature (°F)")
                 .color("Red")

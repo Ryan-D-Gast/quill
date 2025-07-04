@@ -17,7 +17,7 @@ use svg::{
 };
 
 #[derive(Builder)]
-pub struct Plot<'a, T: PlotValue = f32> {
+pub struct Plot<'a, T: PlotValue = f32, const N: usize = 1> {
     // --- Plot Settings ---
     #[builder(default = (800, 600))]
     pub dimensions: (i32, i32),
@@ -61,10 +61,10 @@ pub struct Plot<'a, T: PlotValue = f32> {
     pub grid_config: GridConfig,
 
     // --- Data ---
-    pub data: Vec<Series<'a, T>>,
+    pub data: [Series<'a, T>; N],
 }
 
-impl<'a, T: PlotValue> Plot<'a, T> {
+impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
     /// Creates a new plot with the specified dimensions.
     pub fn to_svg(&self, filename: &str) -> Result<(), std::io::Error> {
         let document = self.plot()?;
@@ -292,7 +292,7 @@ impl<'a, T: PlotValue> Plot<'a, T> {
         document = document.add(defs);
 
         // --- Data Series Drawing ---
-        let data_group = draw_data_series(&self.data, pigment::color, &map_x, &map_y);
+        let data_group = draw_data_series(&self.data[..], pigment::color, &map_x, &map_y);
         document = document.add(data_group);
         
         // --- Legend Drawing ---
@@ -349,7 +349,7 @@ impl<'a, T: PlotValue> Plot<'a, T> {
 
             document = draw_legend(
                 document,
-                &self.data,
+                &self.data[..],
                 &self.font,
                 &self.legend_config,
                 legend_x_base,

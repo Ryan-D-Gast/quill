@@ -16,7 +16,7 @@ fn main() {
         .y_label("Y Axis")
         .legend(Legend::TopRightOutside)
         .grid(Grid::Solid)
-        .data(vec![
+        .data([
             Series::builder()
                 .name("Sine Curve")
                 .color("Blue")
