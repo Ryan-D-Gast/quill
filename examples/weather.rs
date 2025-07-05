@@ -43,6 +43,7 @@ fn main() {
                 .marker(Marker::Circle)
                 .marker_size(4.0)
                 .line(Line::Solid)
+                .interpolation(Interpolation::Spline)
                 .build(),
             Series::builder()
                 .name("Humidity (%)")
@@ -51,6 +52,7 @@ fn main() {
                 .marker(Marker::Square)
                 .marker_size(4.0)
                 .line(Line::Dashed)
+                .interpolation(Interpolation::Spline)
                 .build(),
         ])
         .build();
