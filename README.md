@@ -9,6 +9,7 @@ A lightweight Rust plotting library for creating simple SVG 2D plots. Quill is d
 - 🔧 **Builder Pattern**: Clean API with method chaining
 - 📈 **Multiple Data Series**: Support for multiple datasets on a single plot
 - 🖼️ **SVG Output**: Export to SVG files or return as `svg::Document` for programmatic use
+- 🖼️ **PNG Support**: Optional PNG output via `png` feature
 - ⚡ **Lightweight**: Minimal dependencies for fast compilation
 
 ## Quick Start
