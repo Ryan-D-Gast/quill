@@ -18,7 +18,7 @@ where
 {
     let mut data_group = Group::new().set("clip-path", "url(#plotAreaClip)");
     for series in data {
-        let color_val = match color_fn(&series.color) {
+        let color_val = match color_fn(series.color) {
             Some(c) => c,
             None => color("Black").unwrap(),
         };

@@ -33,7 +33,7 @@ pub fn draw_legend<T: PlotValue>(
         let swatch_x = legend_x_base + legend_config.padding;
         let swatch_y =
             item_base_y + (legend_config.item_height - legend_config.item_height * 0.8) / 2.0;
-        let color_val = match color_fn(&series.color) {
+        let color_val = match color_fn(series.color) {
             Some(c) => c,
             None => color("Black").unwrap(),
         };

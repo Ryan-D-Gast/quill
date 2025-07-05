@@ -296,8 +296,8 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         // --- Draw Title ---
         document = draw_title(
             document,
-            &self.title,
-            &self.font,
+            self.title,
+            self.font,
             &self.title_config,
             plot_area_x_start,
             plot_area_width,
@@ -307,8 +307,8 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         // --- Draw X-axis Label ---
         document = draw_x_label(
             document,
-            &self.x_label,
-            &self.font,
+            self.x_label,
+            self.font,
             &self.x_label_config,
             plot_area_x_start,
             plot_area_width,
@@ -320,8 +320,8 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         // --- Draw Y-axis Label ---
         document = draw_y_label(
             document,
-            &self.y_label,
-            &self.font,
+            self.y_label,
+            self.font,
             &self.y_label_config,
             current_effective_margin_left,
             plot_area_y_start,
@@ -404,7 +404,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
             self.grid,
             &self.tick_config,
             &self.grid_config,
-            &self.font,
+            self.font,
             plot_area_x_start,
             plot_area_y_start,
             plot_area_width,
@@ -428,7 +428,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         document = document.add(defs);
 
         // --- Data Series Drawing ---
-        let data_group = draw_data_series(&self.data[..], pigment::color, &map_x, &map_y);
+        let data_group = draw_data_series(&self.data[..], pigment::color, map_x, map_y);
         document = document.add(data_group);
 
         // --- Legend Drawing ---
@@ -508,7 +508,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
             document = draw_legend(
                 document,
                 &self.data[..],
-                &self.font,
+                self.font,
                 &self.legend_config,
                 legend_x_base,
                 legend_y_base,
