@@ -1,4 +1,4 @@
-use pigment::{color, Color};
+use pigment::{Color, color};
 
 #[derive(Clone, Debug)]
 pub struct GridConfig {

@@ -6,18 +6,14 @@ pub fn to_svg_color_string(color: &Color) -> String {
     format!("#{:02x}{:02x}{:02x}", r, g, b)
 }
 
-mod label;
 mod axis;
-mod ticks_and_grids;
 mod data_series;
+mod label;
 mod legend;
+mod ticks_and_grids;
 
-pub use label::{
-    draw_title,
-    draw_x_label,
-    draw_y_label,
-};
 pub use axis::draw_axis_lines;
-pub use ticks_and_grids::draw_ticks_and_grids;
 pub use data_series::draw_data_series;
+pub use label::{draw_title, draw_x_label, draw_y_label};
 pub use legend::draw_legend;
+pub use ticks_and_grids::draw_ticks_and_grids;

@@ -1,10 +1,18 @@
-use svg::node::element::{Line as SvgLine, Rectangle};
-use svg::Document;
-use crate::style::*;
-use crate::elements::Axis;
 use super::to_svg_color_string;
+use crate::elements::Axis;
+use crate::style::*;
+use svg::Document;
+use svg::node::element::{Line as SvgLine, Rectangle};
 
-pub fn draw_axis_lines(document: Document, axis: Axis, axis_config: &AxisConfig, plot_area_x_start: f32, plot_area_y_start: f32, plot_area_width: f32, plot_area_height: f32) -> Document {
+pub fn draw_axis_lines(
+    document: Document,
+    axis: Axis,
+    axis_config: &AxisConfig,
+    plot_area_x_start: f32,
+    plot_area_y_start: f32,
+    plot_area_width: f32,
+    plot_area_height: f32,
+) -> Document {
     let axis_color = to_svg_color_string(&axis_config.color);
     let axis_stroke_width = axis_config.line_width;
     match axis {

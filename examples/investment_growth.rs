@@ -7,7 +7,10 @@ fn main() {
         .title("Hypothetical Investment Growth")
         .x_label("Years")
         .y_label("Value ($)")
-        .x_range(Range::Manual { min: 0.0, max: 10.0 })
+        .x_range(Range::Manual {
+            min: 0.0,
+            max: 10.0,
+        })
         .legend(Legend::TopLeftInside)
         .grid(Grid::Dotted)
         .font("Times New Roman")
@@ -56,7 +59,7 @@ fn main() {
                 .data(vec![
                     (0.0, 1000.0),
                     (1.0, 1200.0),
-                    (2.0, 900.0),  // Illustrative dip for high-risk
+                    (2.0, 900.0), // Illustrative dip for high-risk
                     (3.0, 1500.0),
                     (4.0, 2000.0),
                     (5.0, 1800.0), // Another dip

@@ -1,5 +1,5 @@
-use pigment::{Color, color};
 use crate::elements::Scale;
+use pigment::{Color, color};
 
 #[derive(Clone, Debug)]
 pub struct TickConfig {

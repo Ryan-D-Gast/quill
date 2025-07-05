@@ -1,20 +1,19 @@
-mod legend;
 mod axis;
-mod tick;
 mod grid;
-mod range;
+mod interpolation;
+mod legend;
 mod line;
 mod marker;
+mod range;
 mod scale;
-mod interpolation;
+mod tick;
 
-pub use legend::Legend;
 pub use axis::Axis;
-pub use tick::Tick;
 pub use grid::Grid;
-pub use range::Range;
+pub use interpolation::Interpolation;
+pub use legend::Legend;
 pub use line::Line;
 pub use marker::Marker;
+pub use range::Range;
 pub use scale::Scale;
-pub use interpolation::Interpolation;
-
+pub use tick::Tick;

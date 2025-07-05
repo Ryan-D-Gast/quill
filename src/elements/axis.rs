@@ -4,5 +4,5 @@ pub enum Axis {
     Box,
     // TODO: Add more axis positions
     // TopRight,
-    // Centered, 
+    // Centered,
 }

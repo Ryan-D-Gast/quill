@@ -1,9 +1,9 @@
-use svg::node::element::{Text, Line as SvgLine};
-use svg::node::Text as SvgNodeText;
-use svg::Document;
-use crate::style::*;
-use crate::elements::{Axis, Grid, Tick, Scale};
 use super::to_svg_color_string;
+use crate::elements::{Axis, Grid, Scale, Tick};
+use crate::style::*;
+use svg::Document;
+use svg::node::Text as SvgNodeText;
+use svg::node::element::{Line as SvgLine, Text};
 
 pub fn draw_ticks_and_grids<FX, FY>(
     document: Document,
@@ -56,10 +56,11 @@ where
                     if temp_max >= 10.0 || (temp_max < 1.0 && temp_max > 0.0) {
                         current_power = temp_max.log10().floor() as i32;
                     }
-                } else { // Engineering: normalize to xxx.xxxx with exponent multiple of 3
+                } else {
+                    // Engineering: normalize to xxx.xxxx with exponent multiple of 3
                     let exp = temp_max.log10().floor() as i32;
                     current_power = (exp / 3) * 3;
-                     // Adjust temp_max to reflect the engineering scaling for the following format call, if needed
+                    // Adjust temp_max to reflect the engineering scaling for the following format call, if needed
                     // This ensures that the number of digits before decimal is between 1 and 3.
                     let scaled_val_check = temp_max / 10.0_f32.powi(current_power);
                     if scaled_val_check >= 1000.0 {
@@ -71,10 +72,9 @@ where
                         // if current_power is 0 and val is < 1, we might want to shift to e.g. 123u * 10^-3
                         if current_power == 0 && scaled_val_check < 1.0 {
                             let sub_exp = scaled_val_check.log10().floor() as i32;
-                            current_power = ((sub_exp -2) / 3) * 3; // Aim for xxx.yyy, so shift by 2 more than usual
+                            current_power = ((sub_exp - 2) / 3) * 3; // Aim for xxx.yyy, so shift by 2 more than usual
                         }
                     }
-
                 }
 
                 if current_power != 0 {
@@ -88,7 +88,9 @@ where
     for &tick_val in x_ticks.iter() {
         let screen_x = map_x(tick_val);
         let is_origin = (screen_x - plot_area_x_start).abs() < 0.1;
-        if screen_x >= plot_area_x_start - 0.1 && screen_x <= plot_area_x_start + plot_area_width + 0.1 {
+        if screen_x >= plot_area_x_start - 0.1
+            && screen_x <= plot_area_x_start + plot_area_width + 0.1
+        {
             match grid {
                 Grid::None => {}
                 Grid::Solid | Grid::Dashed | Grid::Dotted => {
@@ -96,7 +98,9 @@ where
                     if is_origin {
                         skip_grid_line = true;
                     }
-                    if axis == Axis::Box && (screen_x - (plot_area_x_start + plot_area_width)).abs() < 0.1 {
+                    if axis == Axis::Box
+                        && (screen_x - (plot_area_x_start + plot_area_width)).abs() < 0.1
+                    {
                         skip_grid_line = true;
                     }
                     if !skip_grid_line {
@@ -165,7 +169,7 @@ where
     if y_scale_factor != 1.0 && tick_config.y_scale_type != Scale::None {
         let exponent_str = scale_exponent;
         let base_text_node = SvgNodeText::new("·10");
-        
+
         let exponent_tspan = svg::node::element::TSpan::new()
             .set("dy", "-0.4em") // Shift exponent upwards. Adjust value if needed.
             .set("dx", "-0.2em") // Shift left to align with base
@@ -173,7 +177,7 @@ where
 
         let scale_label_svg = Text::new()
             .set("x", plot_area_x_start + tick_config.text_padding)
-            .set("y", plot_area_y_start - tick_config.text_padding) 
+            .set("y", plot_area_y_start - tick_config.text_padding)
             .set("font-family", font)
             .set("font-size", tick_config.font_size)
             .set("fill", tick_label_color_svg.clone())
@@ -185,7 +189,9 @@ where
     }
     for &tick_val in y_ticks.iter() {
         let screen_y = map_y(tick_val);
-        if screen_y >= plot_area_y_start - 0.1 && screen_y <= plot_area_y_start + plot_area_height + 0.1 {
+        if screen_y >= plot_area_y_start - 0.1
+            && screen_y <= plot_area_y_start + plot_area_height + 0.1
+        {
             match grid {
                 Grid::None => {}
                 Grid::Solid | Grid::Dashed | Grid::Dotted => {
@@ -246,7 +252,16 @@ where
                 let display_val = tick_val / y_scale_factor;
                 let tick_label_text = format!("{:.1}", display_val);
                 let tick_label_svg = Text::new()
-                    .set("x", tick_x_left - tick_config.text_padding - (if tick_direction > 0.0 { 0.0 } else { tick_config.length }))
+                    .set(
+                        "x",
+                        tick_x_left
+                            - tick_config.text_padding
+                            - (if tick_direction > 0.0 {
+                                0.0
+                            } else {
+                                tick_config.length
+                            }),
+                    )
                     .set("y", screen_y)
                     .set("font-family", font)
                     .set("font-size", tick_config.font_size)

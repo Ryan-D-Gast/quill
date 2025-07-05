@@ -12,7 +12,16 @@ readme = "README.md"
 keywords = ["plotting", "svg", "charts", "graphs", "visualization"]
 categories = ["visualization", "graphics"]
 
+[features]
+default = []
+png = ["resvg", "tiny-skia"]
+
 [dependencies]
 bon = "3.6.3"
 pigment = "0.1.2"
 svg = "0.13"
+resvg = { version = "0.45.1", optional = true }
+tiny-skia = { version = "0.11.4", optional = true }
+
+[dev-dependencies]
+quill = { path = ".", features = ["png"] } 

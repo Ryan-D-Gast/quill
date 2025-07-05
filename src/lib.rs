@@ -9,15 +9,15 @@
 // - if y_min and x_min are the same use one number for the origin e.g. (0.0 y axis, 0.0 x axis) is rendered as one 0.0 at vertex of x-y axis
 // - Real testing of all the enum options for settings
 
-mod traits;
 mod draw;
+pub mod elements;
 mod plot;
 mod series;
-pub mod elements;
 pub mod style;
+mod traits;
 
-pub use traits::PlotValue;
+pub use elements::*;
 pub use plot::Plot;
 pub use series::Series;
-pub use elements::*;
 pub use style::*;
+pub use traits::PlotValue;

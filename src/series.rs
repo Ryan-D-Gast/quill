@@ -1,5 +1,5 @@
+use crate::{Interpolation, Line, Marker};
 use bon::Builder;
-use crate::{Line, Marker, Interpolation};
 
 #[derive(Builder)]
 pub struct Series<'a, T = f32> {

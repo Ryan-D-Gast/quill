@@ -1,11 +1,11 @@
-use svg::node::element::{Text, Rectangle};
-use svg::node::Text as SvgNodeText;
-use svg::Document;
-use pigment::{color, Color};
+use super::to_svg_color_string;
+use crate::PlotValue;
 use crate::series::Series;
 use crate::style::*;
-use crate::PlotValue;
-use super::to_svg_color_string;
+use pigment::{Color, color};
+use svg::Document;
+use svg::node::Text as SvgNodeText;
+use svg::node::element::{Rectangle, Text};
 
 pub fn draw_legend<T: PlotValue>(
     document: Document,
@@ -28,9 +28,11 @@ pub fn draw_legend<T: PlotValue>(
         .set("stroke-width", 1.0);
     let mut document = document.add(legend_box_svg);
     for (i, series) in data.iter().enumerate() {
-        let item_base_y = legend_y_base + legend_config.padding + i as f32 * legend_config.item_height;
+        let item_base_y =
+            legend_y_base + legend_config.padding + i as f32 * legend_config.item_height;
         let swatch_x = legend_x_base + legend_config.padding;
-        let swatch_y = item_base_y + (legend_config.item_height - legend_config.item_height * 0.8) / 2.0;
+        let swatch_y =
+            item_base_y + (legend_config.item_height - legend_config.item_height * 0.8) / 2.0;
         let color_val = match color_fn(&series.color) {
             Some(c) => c,
             None => color("Black").unwrap(),

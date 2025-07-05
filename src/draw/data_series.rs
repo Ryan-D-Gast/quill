@@ -1,11 +1,16 @@
-use svg::node::element::{Rectangle, Path, Group};
-use pigment::{color, Color};
-use crate::series::Series;
-use crate::elements::{Line, Marker, Interpolation};
-use crate::PlotValue;
 use super::to_svg_color_string;
+use crate::PlotValue;
+use crate::elements::{Interpolation, Line, Marker};
+use crate::series::Series;
+use pigment::{Color, color};
+use svg::node::element::{Group, Path, Rectangle};
 
-pub fn draw_data_series<T, Fx, Fy>(data: &[Series<T>], color_fn: fn(&str) -> Option<Color>, map_x: Fx, map_y: Fy) -> Group
+pub fn draw_data_series<T, Fx, Fy>(
+    data: &[Series<T>],
+    color_fn: fn(&str) -> Option<Color>,
+    map_x: Fx,
+    map_y: Fy,
+) -> Group
 where
     T: PlotValue,
     Fx: Fn(T) -> f32,
@@ -18,7 +23,7 @@ where
             None => color("Black").unwrap(),
         };
         let series_color_svg = to_svg_color_string(&color_val);
-        
+
         // Draw lines/curves based on interpolation type
         if series.line != Line::None && series.data.len() > 1 {
             let line_path = match series.interpolation {
@@ -27,7 +32,7 @@ where
                 Interpolation::Bezier => draw_bezier_path(series, &map_x, &map_y),
                 Interpolation::Spline => draw_spline_path(series, &map_x, &map_y),
             };
-            
+
             if let Some(mut path) = line_path {
                 path = path
                     .set("fill", "none")
@@ -39,7 +44,7 @@ where
                 data_group = data_group.add(path);
             }
         }
-        
+
         // Draw markers
         if series.marker != Marker::None {
             let marker_size = series.marker_size;
@@ -96,7 +101,7 @@ where
     if series.data.is_empty() {
         return None;
     }
-    
+
     let mut line_data = svg::node::element::path::Data::new();
     if let Some((first_x, first_y)) = series.data.first() {
         line_data = line_data.move_to((map_x(*first_x), map_y(*first_y)));
@@ -116,15 +121,15 @@ where
     if series.data.is_empty() {
         return None;
     }
-    
+
     let mut line_data = svg::node::element::path::Data::new();
     if let Some((first_x, first_y)) = series.data.first() {
         line_data = line_data.move_to((map_x(*first_x), map_y(*first_y)));
-        
+
         for window in series.data.windows(2) {
             let (_curr_x, curr_y) = window[0];
             let (next_x, _next_y) = window[1];
-            
+
             // Draw horizontal line to next x position
             line_data = line_data.line_to((map_x(next_x), map_y(curr_y)));
             // Draw vertical line to next y position
@@ -143,39 +148,66 @@ where
     if series.data.len() < 2 {
         return None;
     }
-    
+
     let mut line_data = svg::node::element::path::Data::new();
-    let points: Vec<(f32, f32)> = series.data.iter()
+    let points: Vec<(f32, f32)> = series
+        .data
+        .iter()
         .map(|(x, y)| (map_x(*x), map_y(*y)))
         .collect();
-    
+
     if let Some(&first_point) = points.first() {
         line_data = line_data.move_to(first_point);
-        
+
         for i in 1..points.len() {
             let current = points[i - 1];
             let next = points[i];
-            
+
             // Calculate control points for smooth curve
-            let control_distance = ((next.0 - current.0).powi(2) + (next.1 - current.1).powi(2)).sqrt() * 0.25;
-            
+            let control_distance =
+                ((next.0 - current.0).powi(2) + (next.1 - current.1).powi(2)).sqrt() * 0.25;
+
             let prev_point = if i > 1 { points[i - 2] } else { current };
-            let next_next_point = if i < points.len() - 1 { points[i + 1] } else { next };
-            
+            let next_next_point = if i < points.len() - 1 {
+                points[i + 1]
+            } else {
+                next
+            };
+
             // Control point 1 (end of current segment)
             let slope1_x = (next.0 - prev_point.0) / 2.0;
             let slope1_y = (next.1 - prev_point.1) / 2.0;
             let length1 = (slope1_x.powi(2) + slope1_y.powi(2)).sqrt();
-            let cp1_x = current.0 + if length1 > 0.0 { slope1_x / length1 * control_distance } else { 0.0 };
-            let cp1_y = current.1 + if length1 > 0.0 { slope1_y / length1 * control_distance } else { 0.0 };
-            
+            let cp1_x = current.0
+                + if length1 > 0.0 {
+                    slope1_x / length1 * control_distance
+                } else {
+                    0.0
+                };
+            let cp1_y = current.1
+                + if length1 > 0.0 {
+                    slope1_y / length1 * control_distance
+                } else {
+                    0.0
+                };
+
             // Control point 2 (start of next segment)
             let slope2_x = (next_next_point.0 - current.0) / 2.0;
             let slope2_y = (next_next_point.1 - current.1) / 2.0;
             let length2 = (slope2_x.powi(2) + slope2_y.powi(2)).sqrt();
-            let cp2_x = next.0 - if length2 > 0.0 { slope2_x / length2 * control_distance } else { 0.0 };
-            let cp2_y = next.1 - if length2 > 0.0 { slope2_y / length2 * control_distance } else { 0.0 };
-            
+            let cp2_x = next.0
+                - if length2 > 0.0 {
+                    slope2_x / length2 * control_distance
+                } else {
+                    0.0
+                };
+            let cp2_y = next.1
+                - if length2 > 0.0 {
+                    slope2_y / length2 * control_distance
+                } else {
+                    0.0
+                };
+
             line_data = line_data.cubic_curve_to(((cp1_x, cp1_y), (cp2_x, cp2_y), next));
         }
     }
@@ -192,33 +224,38 @@ where
         // Fall back to linear for insufficient points
         return draw_linear_path(series, map_x, map_y);
     }
-    
+
     let mut line_data = svg::node::element::path::Data::new();
-    let points: Vec<(f32, f32)> = series.data.iter()
+    let points: Vec<(f32, f32)> = series
+        .data
+        .iter()
         .map(|(x, y)| (map_x(*x), map_y(*y)))
         .collect();
-    
+
     if let Some(&first_point) = points.first() {
         line_data = line_data.move_to(first_point);
-        
+
         // Simple cardinal spline implementation
         let tension = 0.5; // Controls how tight the curve is
-        
+
         for i in 1..points.len() {
             let p0 = if i > 1 { points[i - 2] } else { points[i - 1] };
             let p1 = points[i - 1];
             let p2 = points[i];
-            let p3 = if i < points.len() - 1 { points[i + 1] } else { points[i] };
-            
+            let p3 = if i < points.len() - 1 {
+                points[i + 1]
+            } else {
+                points[i]
+            };
+
             // Calculate control points using cardinal spline formula
             let cp1_x = p1.0 + tension * (p2.0 - p0.0) / 6.0;
             let cp1_y = p1.1 + tension * (p2.1 - p0.1) / 6.0;
             let cp2_x = p2.0 - tension * (p3.0 - p1.0) / 6.0;
             let cp2_y = p2.1 - tension * (p3.1 - p1.1) / 6.0;
-            
+
             line_data = line_data.cubic_curve_to(((cp1_x, cp1_y), (cp2_x, cp2_y), p2));
         }
     }
     Some(Path::new().set("d", line_data))
 }
-
