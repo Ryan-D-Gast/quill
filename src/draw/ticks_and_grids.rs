@@ -61,6 +61,8 @@ pub fn draw_ticks_and_grids<FX, FY>(
     tick: Tick,
     grid: Grid,
     minor_grid: MinorGrid,
+    x_scale: Scale,
+    y_scale: Scale,
     tick_config: &TickConfig,
     grid_config: &GridConfig,
     font: &str,
@@ -87,7 +89,7 @@ where
     // Generate minor ticks for all scale types when enabled
     let x_minor_ticks = match minor_grid {
         MinorGrid::XAxis | MinorGrid::Both => {
-            match tick_config.x_scale_type {
+            match x_scale {
                 Scale::Log => generate_minor_log_ticks(x_ticks),
                 _ => generate_minor_linear_ticks(x_ticks, 4), // 4 minor ticks between major ticks for linear scales
             }
@@ -97,7 +99,7 @@ where
     
     let y_minor_ticks = match minor_grid {
         MinorGrid::YAxis | MinorGrid::Both => {
-            match tick_config.y_scale_type {
+            match y_scale {
                 Scale::Log => generate_minor_log_ticks(y_ticks),
                 _ => generate_minor_linear_ticks(y_ticks, 4), // 4 minor ticks between major ticks for linear scales
             }
@@ -109,7 +111,7 @@ where
     let mut y_scale_factor = 1.0;
     let mut y_scale_exponent = 0;
 
-    match tick_config.y_scale_type {
+    match y_scale {
         Scale::None => {
             // No scaling, factor remains 1.0, exponent 0
         }
@@ -130,7 +132,7 @@ where
                 let mut current_power = 0;
                 let temp_max = max_tick_abs;
 
-                if tick_config.y_scale_type == Scale::Scientific {
+                if y_scale == Scale::Scientific {
                     // Scientific: normalize to 1.xxxx
                     if temp_max >= 10.0 || (temp_max < 1.0 && temp_max > 0.0) {
                         current_power = temp_max.log10().floor() as i32;
@@ -168,7 +170,7 @@ where
     let mut x_scale_factor = 1.0;
     let mut x_scale_exponent = 0;
 
-    match tick_config.x_scale_type {
+    match x_scale {
         Scale::None => {
             // No scaling, factor remains 1.0, exponent 0
         }
@@ -189,7 +191,7 @@ where
                 let mut current_power = 0;
                 let temp_max = max_tick_abs;
 
-                if tick_config.x_scale_type == Scale::Scientific {
+                if x_scale == Scale::Scientific {
                     // Scientific: normalize to 1.xxxx
                     if temp_max >= 10.0 || (temp_max < 1.0 && temp_max > 0.0) {
                         current_power = temp_max.log10().floor() as i32;
@@ -271,7 +273,7 @@ where
                             .set("stroke", tick_line_color_svg.clone())
                             .set("stroke-width", 1.0);
                         document = document.add(tick_line_bottom);
-                        let tick_label_text_bottom = if tick_config.x_scale_type == Scale::Log {
+                        let tick_label_text_bottom = if x_scale == Scale::Log {
                             // For log scale, always use scientific notation like "10³"
                             let abs_value = tick_val.abs();
                             if abs_value == 0.0 {
@@ -298,7 +300,7 @@ where
                         };
 
                         // Handle logarithmic labels with proper superscript formatting for x-axis
-                        if tick_config.x_scale_type == Scale::Log && (tick_label_text_bottom.contains("10^") || tick_label_text_bottom.contains("·10^")) {
+                        if x_scale == Scale::Log && (tick_label_text_bottom.contains("10^") || tick_label_text_bottom.contains("·10^")) {
                             // Handle both "10^exponent" and "coefficient·10^exponent" formats
                             if let Some(cap) = tick_label_text_bottom.strip_prefix("10^") {
                                 // Simple "10^exponent" format
@@ -386,7 +388,7 @@ where
         }
     }
     // Draw Y-axis scale factor label if needed
-    if y_scale_factor != 1.0 && tick_config.y_scale_type != Scale::None && tick_config.y_scale_type != Scale::Log {
+    if y_scale_factor != 1.0 && y_scale != Scale::None && y_scale != Scale::Log {
         let exponent_str = y_scale_exponent;
         let base_text_node = SvgNodeText::new("·10");
 
@@ -409,7 +411,7 @@ where
     }
 
     // Draw X-axis scale factor label if needed
-    if x_scale_factor != 1.0 && tick_config.x_scale_type != Scale::None && tick_config.x_scale_type != Scale::Log {
+    if x_scale_factor != 1.0 && x_scale != Scale::None && x_scale != Scale::Log {
         let exponent_str = x_scale_exponent;
         let base_text_node = SvgNodeText::new("·10");
 
@@ -560,7 +562,7 @@ where
                     document = document.add(tick_line_right);
                 }
                 let display_val = tick_val / y_scale_factor;
-                let tick_label_text = if tick_config.y_scale_type == Scale::Log {
+                let tick_label_text = if y_scale == Scale::Log {
                     // For log scale, always use scientific notation like "10³"
                     let abs_value = tick_val.abs();
                     if abs_value == 0.0 {
@@ -587,7 +589,7 @@ where
                 };
 
                 // Handle logarithmic labels with proper superscript formatting
-                if tick_config.y_scale_type == Scale::Log && (tick_label_text.contains("10^") || tick_label_text.contains("·10^")) {
+                if y_scale == Scale::Log && (tick_label_text.contains("10^") || tick_label_text.contains("·10^")) {
                     // Handle both "10^exponent" and "coefficient·10^exponent" formats
                     if let Some(cap) = tick_label_text.strip_prefix("10^") {
                         // Simple "10^exponent" format

@@ -44,6 +44,10 @@ pub struct Plot<'a, T: PlotValue = f32, const N: usize = 1> {
     pub grid: Grid,
     #[builder(default = MinorGrid::None)]
     pub minor_grid: MinorGrid,
+    #[builder(default = Scale::None)]
+    pub x_scale: Scale,
+    #[builder(default = Scale::Engineering)]
+    pub y_scale: Scale,
     #[builder(default = "Times New Roman")]
     pub font: &'a str,
 
@@ -176,7 +180,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                         (min_x - T::from_f32(0.5), max_x + T::from_f32(0.5))
                     } else {
                         // For logarithmic X scale, expand to nice power-of-10 bounds
-                        if self.tick_config.x_scale_type == Scale::Log && min_x.to_f32() > 0.0 {
+                        if self.x_scale == Scale::Log && min_x.to_f32() > 0.0 {
                             let min_log = min_x.to_f32().log10().floor();
                             let max_log = max_x.to_f32().log10().ceil();
                             (T::from_f32(10.0_f32.powi(min_log as i32)), T::from_f32(10.0_f32.powi(max_log as i32)))
@@ -210,7 +214,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                         (min_y - T::from_f32(0.5), max_y + T::from_f32(0.5))
                     } else {
                         // For logarithmic Y scale, expand to nice power-of-10 bounds
-                        if self.tick_config.y_scale_type == Scale::Log && min_y.to_f32() > 0.0 {
+                        if self.y_scale == Scale::Log && min_y.to_f32() > 0.0 {
                             let min_log = min_y.to_f32().log10().floor();
                             let max_log = max_y.to_f32().log10().ceil();
                             (T::from_f32(10.0_f32.powi(min_log as i32)), T::from_f32(10.0_f32.powi(max_log as i32)))
@@ -293,7 +297,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 let actual_x_max_f32 = actual_x_max.to_f32();
                 
                 // Apply logarithmic transformation if needed
-                if self.tick_config.x_scale_type == Scale::Log {
+                if self.x_scale == Scale::Log {
                     // Ensure positive values for logarithmic scale
                     let safe_data_x = if data_x_f32 > 0.0 { data_x_f32 } else { 0.001 };
                     let safe_min = if actual_x_min_f32 > 0.0 { actual_x_min_f32 } else { 1.0 };
@@ -324,7 +328,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 let actual_y_max_f32 = actual_y_max.to_f32();
                 
                 // Apply logarithmic transformation if needed
-                if self.tick_config.y_scale_type == Scale::Log {
+                if self.y_scale == Scale::Log {
                     // Ensure positive values for logarithmic scale
                     let safe_data_y = if data_y_f32 > 0.0 { data_y_f32 } else { 0.001 };
                     let safe_min = if actual_y_min_f32 > 0.0 { actual_y_min_f32 } else { 1.0 };
@@ -488,13 +492,13 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
             ticks
         };
 
-        let x_ticks = if self.tick_config.x_scale_type == Scale::Log {
+        let x_ticks = if self.x_scale == Scale::Log {
             calculate_log_ticks(actual_x_min.to_f32(), actual_x_max.to_f32())
         } else {
             calculate_linear_ticks(actual_x_min.to_f32(), actual_x_max.to_f32(), num_x_ticks)
         };
 
-        let y_ticks = if self.tick_config.y_scale_type == Scale::Log {
+        let y_ticks = if self.y_scale == Scale::Log {
             calculate_log_ticks(actual_y_min.to_f32(), actual_y_max.to_f32())
         } else {
             calculate_linear_ticks(actual_y_min.to_f32(), actual_y_max.to_f32(), num_y_ticks)
@@ -506,6 +510,8 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
             self.tick,
             self.grid,
             self.minor_grid,
+            self.x_scale,
+            self.y_scale,
             &self.tick_config,
             &self.grid_config,
             self.font,
