@@ -275,9 +275,24 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 let data_x_f32 = data_x.to_f32();
                 let actual_x_min_f32 = actual_x_min.to_f32();
                 let actual_x_max_f32 = actual_x_max.to_f32();
-                plot_area_x_start
-                    + ((data_x_f32 - actual_x_min_f32) / (actual_x_max_f32 - actual_x_min_f32)
-                        * plot_area_width)
+                
+                // Apply logarithmic transformation if needed
+                if self.tick_config.x_scale_type == Scale::Log {
+                    // Ensure positive values for logarithmic scale
+                    let log_data_x = if data_x_f32 > 0.0 { data_x_f32.log10() } else { 0.0 };
+                    let log_min = if actual_x_min_f32 > 0.0 { actual_x_min_f32.log10() } else { 0.0 };
+                    let log_max = if actual_x_max_f32 > 0.0 { actual_x_max_f32.log10() } else { 1.0 };
+                    
+                    if (log_max - log_min).abs() < f32::EPSILON {
+                        plot_area_x_start + plot_area_width / 2.0
+                    } else {
+                        plot_area_x_start + ((log_data_x - log_min) / (log_max - log_min) * plot_area_width)
+                    }
+                } else {
+                    plot_area_x_start
+                        + ((data_x_f32 - actual_x_min_f32) / (actual_x_max_f32 - actual_x_min_f32)
+                            * plot_area_width)
+                }
             }
         };
         let map_y = |data_y: T| -> f32 {
@@ -287,9 +302,25 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 let data_y_f32 = data_y.to_f32();
                 let actual_y_min_f32 = actual_y_min.to_f32();
                 let actual_y_max_f32 = actual_y_max.to_f32();
-                plot_area_y_start + plot_area_height
-                    - ((data_y_f32 - actual_y_min_f32) / (actual_y_max_f32 - actual_y_min_f32)
-                        * plot_area_height)
+                
+                // Apply logarithmic transformation if needed
+                if self.tick_config.y_scale_type == Scale::Log {
+                    // Ensure positive values for logarithmic scale
+                    let log_data_y = if data_y_f32 > 0.0 { data_y_f32.log10() } else { 0.0 };
+                    let log_min = if actual_y_min_f32 > 0.0 { actual_y_min_f32.log10() } else { 0.0 };
+                    let log_max = if actual_y_max_f32 > 0.0 { actual_y_max_f32.log10() } else { 1.0 };
+                    
+                    if (log_max - log_min).abs() < f32::EPSILON {
+                        plot_area_y_start + plot_area_height / 2.0
+                    } else {
+                        plot_area_y_start + plot_area_height
+                            - ((log_data_y - log_min) / (log_max - log_min) * plot_area_height)
+                    }
+                } else {
+                    plot_area_y_start + plot_area_height
+                        - ((data_y_f32 - actual_y_min_f32) / (actual_y_max_f32 - actual_y_min_f32)
+                            * plot_area_height)
+                }
             }
         };
 
@@ -343,7 +374,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         let num_x_ticks = (plot_area_width / self.tick_config.density_x).max(2.0) as usize;
         let num_y_ticks = (plot_area_height / self.tick_config.density_y).max(2.0) as usize;
 
-        let calculate_ticks = |min_val: f32, max_val: f32, max_ticks: usize| -> Vec<f32> {
+        let calculate_linear_ticks = |min_val: f32, max_val: f32, max_ticks: usize| -> Vec<f32> {
             if (max_val - min_val).abs() < f32::EPSILON {
                 return vec![min_val];
             }
@@ -394,8 +425,55 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
             ticks
         };
 
-        let x_ticks = calculate_ticks(actual_x_min.to_f32(), actual_x_max.to_f32(), num_x_ticks);
-        let y_ticks = calculate_ticks(actual_y_min.to_f32(), actual_y_max.to_f32(), num_y_ticks);
+        let calculate_log_ticks = |min_val: f32, max_val: f32| -> Vec<f32> {
+            if min_val <= 0.0 || max_val <= 0.0 {
+                return vec![1.0, 10.0, 100.0]; // Default safe values
+            }
+
+            let log_min = min_val.log10().floor();
+            let log_max = max_val.log10().ceil();
+            let mut ticks = Vec::new();
+
+            // Generate major ticks (powers of 10)
+            for exp in (log_min as i32)..=(log_max as i32) {
+                let tick_value = 10.0_f32.powi(exp);
+                if tick_value >= min_val && tick_value <= max_val {
+                    ticks.push(tick_value);
+                }
+            }
+
+            // Add minor ticks (2, 3, 4, 5, 6, 7, 8, 9 times powers of 10) if there's space
+            let mut all_ticks = ticks.clone();
+            for exp in (log_min as i32)..=(log_max as i32) {
+                let base = 10.0_f32.powi(exp);
+                for multiplier in 2..=9 {
+                    let tick_value = base * multiplier as f32;
+                    if tick_value >= min_val && tick_value <= max_val {
+                        all_ticks.push(tick_value);
+                    }
+                }
+            }
+            all_ticks.sort_by(|a, b| a.partial_cmp(b).unwrap());
+
+            // If we have too many ticks, just use the major ones
+            if all_ticks.len() > 20 {
+                ticks
+            } else {
+                all_ticks
+            }
+        };
+
+        let x_ticks = if self.tick_config.x_scale_type == Scale::Log {
+            calculate_log_ticks(actual_x_min.to_f32(), actual_x_max.to_f32())
+        } else {
+            calculate_linear_ticks(actual_x_min.to_f32(), actual_x_max.to_f32(), num_x_ticks)
+        };
+
+        let y_ticks = if self.tick_config.y_scale_type == Scale::Log {
+            calculate_log_ticks(actual_y_min.to_f32(), actual_y_max.to_f32())
+        } else {
+            calculate_linear_ticks(actual_y_min.to_f32(), actual_y_max.to_f32(), num_y_ticks)
+        };
 
         document = draw_ticks_and_grids(
             document,

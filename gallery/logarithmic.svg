@@ -1,0 +1,171 @@
+<svg height="600" viewBox="0 0 800 600" width="800" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="600" width="800" x="0" y="0"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="20" text-anchor="middle" x="415" y="30">
+Logarithmic Y-Scale Example
+</text>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" x="415" y="576">
+Time
+</text>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" transform="rotate(-90, 18, 300)" x="18" y="300">
+Value (Log Scale)
+</text>
+<rect fill="none" height="480" stroke="#000000" stroke-width="1.5" width="710" x="60" y="60"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="60" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="60" y="549">
+0.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="60" x2="60" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="131" x2="131" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="131" x2="131" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="131" y="549">
+2.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="131" x2="131" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="202" x2="202" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="202" x2="202" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="202" y="549">
+4.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="202" x2="202" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="273" x2="273" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="273" x2="273" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="273" y="549">
+6.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="273" x2="273" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="344" x2="344" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="344" x2="344" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="344" y="549">
+8.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="344" x2="344" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="415" x2="415" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="415" x2="415" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="415" y="549">
+10.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="415" x2="415" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="486.00003" x2="486.00003" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="486.00003" x2="486.00003" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="486.00003" y="549">
+12.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="486.00003" x2="486.00003" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="557" x2="557" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="557" x2="557" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="557" y="549">
+14.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="557" x2="557" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="628" x2="628" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="628" x2="628" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="628" y="549">
+16.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="628" x2="628" y1="60" y2="65"/>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="699" x2="699" y1="60" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="699" x2="699" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="699" y="549">
+18.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="699" x2="699" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="770" y1="540" y2="535"/>
+<text dominant-baseline="hanging" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="middle" x="770" y="549">
+20.0
+</text>
+<line stroke="#000000" stroke-width="1" x1="770" x2="770" y1="60" y2="65"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="540" y2="540"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="540" y2="540"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="540">
+10
+<tspan dx="-0.2em" dy="-0.4em">
+0
+</tspan>
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="770" y1="417.0205" y2="417.0205"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="417.0205" y2="417.0205"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="417.0205" y2="417.0205"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="417.0205">
+10
+<tspan dx="-0.2em" dy="-0.4em">
+1
+</tspan>
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="770" y1="294.04102" y2="294.04102"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="294.04102" y2="294.04102"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="294.04102" y2="294.04102"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="294.04102">
+10
+<tspan dx="-0.2em" dy="-0.4em">
+2
+</tspan>
+</text>
+<line stroke="#d3d3d3" stroke-width="0.5" x1="60" x2="770" y1="171.06152" y2="171.06152"/>
+<line stroke="#000000" stroke-width="1" x1="60" x2="65" y1="171.06152" y2="171.06152"/>
+<line stroke="#000000" stroke-width="1" x1="770" x2="765" y1="171.06152" y2="171.06152"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="10" text-anchor="end" x="52" y="171.06152">
+10
+<tspan dx="-0.2em" dy="-0.4em">
+3
+</tspan>
+</text>
+<defs>
+<clipPath id="plotAreaClip">
+<rect height="480" width="710" x="60" y="60"/>
+</clipPath>
+</defs>
+<g clip-path="url(#plotAreaClip)">
+<path d="M60,540 L95.5,527.702 L131,515.4041 L166.5,503.10617 L202,490.8082 L237.5,478.51025 L273,466.2123 L308.5,453.91437 L344,441.6164 L379.5,429.31848 L415,417.0205 L450.5,404.72256 L486.00003,392.42462 L521.5,380.12668 L557,367.82874 L592.5,355.53076 L628,343.23282 L663.5,330.93488 L699,318.63693 L734.5,306.339 L770,294.04102" fill="none" stroke="#ff0000" stroke-width="2"/>
+<circle cx="60" cy="540" fill="#ff0000" r="2"/>
+<circle cx="95.5" cy="527.702" fill="#ff0000" r="2"/>
+<circle cx="131" cy="515.4041" fill="#ff0000" r="2"/>
+<circle cx="166.5" cy="503.10617" fill="#ff0000" r="2"/>
+<circle cx="202" cy="490.8082" fill="#ff0000" r="2"/>
+<circle cx="237.5" cy="478.51025" fill="#ff0000" r="2"/>
+<circle cx="273" cy="466.2123" fill="#ff0000" r="2"/>
+<circle cx="308.5" cy="453.91437" fill="#ff0000" r="2"/>
+<circle cx="344" cy="441.6164" fill="#ff0000" r="2"/>
+<circle cx="379.5" cy="429.31848" fill="#ff0000" r="2"/>
+<circle cx="415" cy="417.0205" fill="#ff0000" r="2"/>
+<circle cx="450.5" cy="404.72256" fill="#ff0000" r="2"/>
+<circle cx="486.00003" cy="392.42462" fill="#ff0000" r="2"/>
+<circle cx="521.5" cy="380.12668" fill="#ff0000" r="2"/>
+<circle cx="557" cy="367.82874" fill="#ff0000" r="2"/>
+<circle cx="592.5" cy="355.53076" fill="#ff0000" r="2"/>
+<circle cx="628" cy="343.23282" fill="#ff0000" r="2"/>
+<circle cx="663.5" cy="330.93488" fill="#ff0000" r="2"/>
+<circle cx="699" cy="318.63693" fill="#ff0000" r="2"/>
+<circle cx="734.5" cy="306.339" fill="#ff0000" r="2"/>
+<circle cx="770" cy="294.04102" fill="#ff0000" r="2"/>
+<path d="M95.5,540 L131,428.93848 L166.5,363.97162 L202,317.87692 L237.5,282.1231 L273,252.9101 L308.5,228.21085 L344,206.81537 L379.5,187.94324 L415,171.06152 L450.5,155.79016 L486.00003,141.84851 L521.5,129.02347 L557,117.14929 L592.5,106.09473 L628,95.753845 L663.5,86.0401 L699,76.881714 L734.5,68.21863 L770,60" fill="none" stroke="#0000ff" stroke-dasharray="5 5" stroke-width="2"/>
+<rect fill="#0000ff" height="4" width="4" x="93.5" y="538"/>
+<rect fill="#0000ff" height="4" width="4" x="129" y="426.93848"/>
+<rect fill="#0000ff" height="4" width="4" x="164.5" y="361.97162"/>
+<rect fill="#0000ff" height="4" width="4" x="200" y="315.87692"/>
+<rect fill="#0000ff" height="4" width="4" x="235.5" y="280.1231"/>
+<rect fill="#0000ff" height="4" width="4" x="271" y="250.9101"/>
+<rect fill="#0000ff" height="4" width="4" x="306.5" y="226.21085"/>
+<rect fill="#0000ff" height="4" width="4" x="342" y="204.81537"/>
+<rect fill="#0000ff" height="4" width="4" x="377.5" y="185.94324"/>
+<rect fill="#0000ff" height="4" width="4" x="413" y="169.06152"/>
+<rect fill="#0000ff" height="4" width="4" x="448.5" y="153.79016"/>
+<rect fill="#0000ff" height="4" width="4" x="484.00003" y="139.84851"/>
+<rect fill="#0000ff" height="4" width="4" x="519.5" y="127.02347"/>
+<rect fill="#0000ff" height="4" width="4" x="555" y="115.14929"/>
+<rect fill="#0000ff" height="4" width="4" x="590.5" y="104.09473"/>
+<rect fill="#0000ff" height="4" width="4" x="626" y="93.753845"/>
+<rect fill="#0000ff" height="4" width="4" x="661.5" y="84.0401"/>
+<rect fill="#0000ff" height="4" width="4" x="697" y="74.881714"/>
+<rect fill="#0000ff" height="4" width="4" x="732.5" y="66.21863"/>
+<rect fill="#0000ff" height="4" width="4" x="768" y="58"/>
+</g>
+<rect fill="white" height="56" stroke="#000000" stroke-width="1" width="84.8" x="70" y="70"/>
+<rect fill="#ff0000" height="14.400001" width="15" x="80" y="81.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="100" y="89">
+10^(x/10)
+</text>
+<rect fill="#0000ff" height="14.400001" width="15" x="80" y="99.8"/>
+<text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="12" text-anchor="start" x="100" y="107">
+x³
+</text>
+</svg>

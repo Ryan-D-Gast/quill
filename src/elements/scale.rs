@@ -3,4 +3,5 @@ pub enum Scale {
     None,
     Scientific,
     Engineering,
+    Log,
 }
