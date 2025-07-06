@@ -442,13 +442,25 @@ where
                 match grid {
                     Grid::None => {}
                     Grid::Solid | Grid::Dashed | Grid::Dotted => {
-                        let minor_grid_line = SvgLine::new()
+                        let mut minor_grid_line = SvgLine::new()
                             .set("x1", screen_x)
                             .set("y1", plot_area_y_start)
                             .set("x2", screen_x)
                             .set("y2", plot_area_y_start + plot_area_height)
                             .set("stroke", minor_grid_color_svg.clone())
                             .set("stroke-width", grid_config.minor_line_width);
+                        
+                        // Apply the same dash pattern as the major grid
+                        match grid {
+                            Grid::Dotted => {
+                                minor_grid_line = minor_grid_line.set("stroke-dasharray", "1 2");
+                            }
+                            Grid::Dashed => {
+                                minor_grid_line = minor_grid_line.set("stroke-dasharray", "4 4");
+                            }
+                            Grid::Solid | Grid::None => {}
+                        }
+                        
                         document = document.add(minor_grid_line);
                     }
                 }
@@ -698,13 +710,25 @@ where
                 match grid {
                     Grid::None => {}
                     Grid::Solid | Grid::Dashed | Grid::Dotted => {
-                        let minor_grid_line = SvgLine::new()
+                        let mut minor_grid_line = SvgLine::new()
                             .set("x1", plot_area_x_start)
                             .set("y1", screen_y)
                             .set("x2", plot_area_x_start + plot_area_width)
                             .set("y2", screen_y)
                             .set("stroke", minor_grid_color_svg.clone())
                             .set("stroke-width", grid_config.minor_line_width);
+                        
+                        // Apply the same dash pattern as the major grid
+                        match grid {
+                            Grid::Dotted => {
+                                minor_grid_line = minor_grid_line.set("stroke-dasharray", "1 2");
+                            }
+                            Grid::Dashed => {
+                                minor_grid_line = minor_grid_line.set("stroke-dasharray", "4 4");
+                            }
+                            Grid::Solid | Grid::None => {}
+                        }
+                        
                         document = document.add(minor_grid_line);
                     }
                 }

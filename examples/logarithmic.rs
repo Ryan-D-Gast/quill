@@ -29,7 +29,7 @@ fn main() {
         .y_label("Value (Log Scale)")
         .legend(Legend::TopLeftInside)
         .grid(Grid::Solid)
-        .minor_grid(MinorGrid::YAxis) // Enable minor ticks and grid lines only on Y-axis
+        .minor_grid(MinorGrid::YAxis)
         .tick_config(TickConfig {
             y_scale_type: Scale::Log, // Enable logarithmic scaling on Y-axis
             ..Default::default()

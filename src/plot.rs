@@ -175,7 +175,14 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                     if (max_x - min_x) < T::epsilon() {
                         (min_x - T::from_f32(0.5), max_x + T::from_f32(0.5))
                     } else {
-                        (min_x, max_x)
+                        // For logarithmic X scale, expand to nice power-of-10 bounds
+                        if self.tick_config.x_scale_type == Scale::Log && min_x.to_f32() > 0.0 {
+                            let min_log = min_x.to_f32().log10().floor();
+                            let max_log = max_x.to_f32().log10().ceil();
+                            (T::from_f32(10.0_f32.powi(min_log as i32)), T::from_f32(10.0_f32.powi(max_log as i32)))
+                        } else {
+                            (min_x, max_x)
+                        }
                     }
                 }
             }
@@ -202,7 +209,14 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                     if (max_y - min_y) < T::epsilon() {
                         (min_y - T::from_f32(0.5), max_y + T::from_f32(0.5))
                     } else {
-                        (min_y, max_y)
+                        // For logarithmic Y scale, expand to nice power-of-10 bounds
+                        if self.tick_config.y_scale_type == Scale::Log && min_y.to_f32() > 0.0 {
+                            let min_log = min_y.to_f32().log10().floor();
+                            let max_log = max_y.to_f32().log10().ceil();
+                            (T::from_f32(10.0_f32.powi(min_log as i32)), T::from_f32(10.0_f32.powi(max_log as i32)))
+                        } else {
+                            (min_y, max_y)
+                        }
                     }
                 }
             }
@@ -281,9 +295,13 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 // Apply logarithmic transformation if needed
                 if self.tick_config.x_scale_type == Scale::Log {
                     // Ensure positive values for logarithmic scale
-                    let log_data_x = if data_x_f32 > 0.0 { data_x_f32.log10() } else { 0.0 };
-                    let log_min = if actual_x_min_f32 > 0.0 { actual_x_min_f32.log10() } else { 0.0 };
-                    let log_max = if actual_x_max_f32 > 0.0 { actual_x_max_f32.log10() } else { 1.0 };
+                    let safe_data_x = if data_x_f32 > 0.0 { data_x_f32 } else { 0.001 };
+                    let safe_min = if actual_x_min_f32 > 0.0 { actual_x_min_f32 } else { 1.0 };
+                    let safe_max = if actual_x_max_f32 > 0.0 { actual_x_max_f32 } else { 10.0 };
+                    
+                    let log_data_x = safe_data_x.log10();
+                    let log_min = safe_min.log10();
+                    let log_max = safe_max.log10();
                     
                     if (log_max - log_min).abs() < f32::EPSILON {
                         plot_area_x_start + plot_area_width / 2.0
@@ -308,9 +326,13 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 // Apply logarithmic transformation if needed
                 if self.tick_config.y_scale_type == Scale::Log {
                     // Ensure positive values for logarithmic scale
-                    let log_data_y = if data_y_f32 > 0.0 { data_y_f32.log10() } else { 0.0 };
-                    let log_min = if actual_y_min_f32 > 0.0 { actual_y_min_f32.log10() } else { 0.0 };
-                    let log_max = if actual_y_max_f32 > 0.0 { actual_y_max_f32.log10() } else { 1.0 };
+                    let safe_data_y = if data_y_f32 > 0.0 { data_y_f32 } else { 0.001 };
+                    let safe_min = if actual_y_min_f32 > 0.0 { actual_y_min_f32 } else { 1.0 };
+                    let safe_max = if actual_y_max_f32 > 0.0 { actual_y_max_f32 } else { 10.0 };
+                    
+                    let log_data_y = safe_data_y.log10();
+                    let log_min = safe_min.log10();
+                    let log_max = safe_max.log10();
                     
                     if (log_max - log_min).abs() < f32::EPSILON {
                         plot_area_y_start + plot_area_height / 2.0
@@ -428,41 +450,42 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         };
 
         let calculate_log_ticks = |min_val: f32, max_val: f32| -> Vec<f32> {
-            if min_val <= 0.0 || max_val <= 0.0 {
-                return vec![1.0, 10.0, 100.0]; // Default safe values
-            }
+            // Handle cases where min_val is 0 or negative by using a small positive value
+            let safe_min_val = if min_val <= 0.0 {
+                if max_val > 1.0 {
+                    1.0 // Start from 1 if max is reasonable
+                } else {
+                    0.001 // Use a small positive value
+                }
+            } else {
+                min_val
+            };
+            
+            let safe_max_val = if max_val <= 0.0 {
+                safe_min_val * 1000.0 // Ensure we have a reasonable range
+            } else {
+                max_val
+            };
 
-            let log_min = min_val.log10().floor();
-            let log_max = max_val.log10().ceil();
+            let log_min = safe_min_val.log10().floor();
+            let log_max = safe_max_val.log10().ceil();
             let mut ticks = Vec::new();
 
-            // Generate major ticks (powers of 10)
+            // Generate only major ticks (powers of 10)
             for exp in (log_min as i32)..=(log_max as i32) {
                 let tick_value = 10.0_f32.powi(exp);
-                if tick_value >= min_val && tick_value <= max_val {
+                if tick_value >= safe_min_val && tick_value <= safe_max_val {
                     ticks.push(tick_value);
                 }
             }
 
-            // Add minor ticks (2, 3, 4, 5, 6, 7, 8, 9 times powers of 10) if there's space
-            let mut all_ticks = ticks.clone();
-            for exp in (log_min as i32)..=(log_max as i32) {
-                let base = 10.0_f32.powi(exp);
-                for multiplier in 2..=9 {
-                    let tick_value = base * multiplier as f32;
-                    if tick_value >= min_val && tick_value <= max_val {
-                        all_ticks.push(tick_value);
-                    }
-                }
+            // Ensure we have at least some ticks
+            if ticks.is_empty() {
+                ticks.push(safe_min_val);
+                ticks.push(safe_max_val);
             }
-            all_ticks.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
-            // If we have too many ticks, just use the major ones
-            if all_ticks.len() > 20 {
-                ticks
-            } else {
-                all_ticks
-            }
+            ticks
         };
 
         let x_ticks = if self.tick_config.x_scale_type == Scale::Log {
