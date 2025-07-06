@@ -21,6 +21,8 @@ fn main() {
         .grid(Grid::Solid)
         .font("Verdana")
         .margin(Margin::default().add_left(10.0))
+        .axis(Axis::BottomLeft)
+        .tick(Tick::Outward)
         .data([
             Series::builder()
                 .name("Product A")

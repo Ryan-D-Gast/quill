@@ -257,7 +257,7 @@ where
                         tick_x_left
                             - tick_config.text_padding
                             - (if tick_direction > 0.0 {
-                                0.0
+                                tick_config.length
                             } else {
                                 tick_config.length
                             }),
