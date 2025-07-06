@@ -42,6 +42,8 @@ pub struct Plot<'a, T: PlotValue = f32, const N: usize = 1> {
     pub tick: Tick,
     #[builder(default = Grid::Solid)]
     pub grid: Grid,
+    #[builder(default = MinorGrid::None)]
+    pub minor_grid: MinorGrid,
     #[builder(default = "Times New Roman")]
     pub font: &'a str,
 
@@ -480,6 +482,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
             self.axis,
             self.tick,
             self.grid,
+            self.minor_grid,
             &self.tick_config,
             &self.grid_config,
             self.font,

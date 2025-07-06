@@ -24,11 +24,12 @@ fn main() {
     // Example 1: Exponential data with log Y-axis
     let log_plot = Plot::builder()
         .dimensions((800, 600))
-        .title("Logarithmic Y-Scale Example")
+        .title("Logarithmic Y-Scale Example with Minor Ticks")
         .x_label("Time")
         .y_label("Value (Log Scale)")
         .legend(Legend::TopLeftInside)
         .grid(Grid::Solid)
+        .minor_grid(MinorGrid::YAxis) // Enable minor ticks and grid lines only on Y-axis
         .tick_config(TickConfig {
             y_scale_type: Scale::Log, // Enable logarithmic scaling on Y-axis
             ..Default::default()

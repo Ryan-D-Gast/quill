@@ -1,7 +1,7 @@
 <svg height="600" viewBox="0 0 800 600" width="800" xmlns="http://www.w3.org/2000/svg">
 <rect fill="white" height="600" width="800" x="0" y="0"/>
 <text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="20" text-anchor="middle" x="415" y="30">
-Logarithmic Y-Scale Example
+Logarithmic Y-Scale Example with Minor Ticks
 </text>
 <text dominant-baseline="middle" fill="#000000" font-family="Times New Roman" font-size="14" text-anchor="middle" x="415" y="576">
 Time
@@ -109,6 +109,78 @@ Value (Log Scale)
 3
 </tspan>
 </text>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="502.9795" y2="502.9795"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="502.9795" y2="502.9795"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="502.9795" y2="502.9795"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="481.32388" y2="481.32388"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="481.32388" y2="481.32388"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="481.32388" y2="481.32388"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="465.95898" y2="465.95898"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="465.95898" y2="465.95898"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="465.95898" y2="465.95898"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="454.04102" y2="454.04102"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="454.04102" y2="454.04102"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="454.04102" y2="454.04102"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="444.30334" y2="444.30334"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="444.30334" y2="444.30334"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="444.30334" y2="444.30334"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="436.07028" y2="436.07028"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="436.07028" y2="436.07028"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="436.07028" y2="436.07028"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="428.93848" y2="428.93848"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="428.93848" y2="428.93848"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="428.93848" y2="428.93848"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="422.64777" y2="422.64777"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="422.64777" y2="422.64777"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="422.64777" y2="422.64777"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="380" y2="380"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="380" y2="380"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="380" y2="380"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="358.3444" y2="358.3444"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="358.3444" y2="358.3444"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="358.3444" y2="358.3444"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="342.9795" y2="342.9795"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="342.9795" y2="342.9795"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="342.9795" y2="342.9795"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="331.06155" y2="331.06155"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="331.06155" y2="331.06155"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="331.06155" y2="331.06155"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="321.32388" y2="321.32388"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="321.32388" y2="321.32388"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="321.32388" y2="321.32388"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="313.0908" y2="313.0908"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="313.0908" y2="313.0908"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="313.0908" y2="313.0908"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="305.95898" y2="305.95898"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="305.95898" y2="305.95898"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="305.95898" y2="305.95898"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="299.66827" y2="299.66827"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="299.66827" y2="299.66827"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="299.66827" y2="299.66827"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="257.0205" y2="257.0205"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="257.0205" y2="257.0205"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="257.0205" y2="257.0205"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="235.3649" y2="235.3649"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="235.3649" y2="235.3649"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="235.3649" y2="235.3649"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="220" y2="220"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="220" y2="220"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="220" y2="220"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="208.08206" y2="208.08206"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="208.08206" y2="208.08206"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="208.08206" y2="208.08206"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="198.34439" y2="198.34439"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="198.34439" y2="198.34439"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="198.34439" y2="198.34439"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="190.11133" y2="190.11133"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="190.11133" y2="190.11133"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="190.11133" y2="190.11133"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="182.97949" y2="182.97949"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="182.97949" y2="182.97949"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="182.97949" y2="182.97949"/>
+<line stroke="#d3d3d3" stroke-width="0.3" x1="60" x2="770" y1="176.68878" y2="176.68878"/>
+<line stroke="#000000" stroke-width="0.5" x1="60" x2="63" y1="176.68878" y2="176.68878"/>
+<line stroke="#000000" stroke-width="0.5" x1="770" x2="767" y1="176.68878" y2="176.68878"/>
 <defs>
 <clipPath id="plotAreaClip">
 <rect height="480" width="710" x="60" y="60"/>

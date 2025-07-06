@@ -1,15 +1,66 @@
 use super::to_svg_color_string;
-use crate::elements::{Axis, Grid, Scale, Tick};
+use crate::elements::{Axis, Grid, Scale, Tick, MinorGrid};
 use crate::style::*;
 use svg::Document;
 use svg::node::Text as SvgNodeText;
 use svg::node::element::{Line as SvgLine, Text};
+
+/// Generate minor tick values for logarithmic scale between major ticks
+fn generate_minor_log_ticks(major_ticks: &[f32]) -> Vec<f32> {
+    let mut minor_ticks = Vec::new();
+    
+    for i in 0..major_ticks.len().saturating_sub(1) {
+        let current_major = major_ticks[i];
+        let next_major = major_ticks[i + 1];
+        
+        // Calculate the order of magnitude for current major tick
+        if current_major > 0.0 && next_major > 0.0 {
+            let current_log = current_major.log10();
+            let next_log = next_major.log10();
+            
+            // Only add minor ticks if we're moving by exactly one order of magnitude
+            if (next_log - current_log - 1.0).abs() < 0.1 {
+                let magnitude = 10.0_f32.powi(current_log.floor() as i32);
+                
+                // Add minor ticks at 2×10^n, 3×10^n, ..., 9×10^n
+                for factor in 2..=9 {
+                    let minor_tick = (factor as f32) * magnitude;
+                    if minor_tick > current_major && minor_tick < next_major {
+                        minor_ticks.push(minor_tick);
+                    }
+                }
+            }
+        }
+    }
+    
+    minor_ticks
+}
+
+/// Generate minor tick values for linear scales between major ticks
+fn generate_minor_linear_ticks(major_ticks: &[f32], num_minor_per_major: usize) -> Vec<f32> {
+    let mut minor_ticks = Vec::new();
+    
+    for i in 0..major_ticks.len().saturating_sub(1) {
+        let current_major = major_ticks[i];
+        let next_major = major_ticks[i + 1];
+        let interval = (next_major - current_major) / (num_minor_per_major + 1) as f32;
+        
+        // Add minor ticks between current and next major tick
+        for j in 1..=num_minor_per_major {
+            let minor_tick = current_major + interval * j as f32;
+            minor_ticks.push(minor_tick);
+        }
+    }
+    
+    minor_ticks
+}
 
 pub fn draw_ticks_and_grids<FX, FY>(
     document: Document,
     axis: Axis,
     tick: Tick,
     grid: Grid,
+    minor_grid: MinorGrid,
     tick_config: &TickConfig,
     grid_config: &GridConfig,
     font: &str,
@@ -28,8 +79,31 @@ where
 {
     let tick_label_color_svg = to_svg_color_string(&tick_config.label_color);
     let tick_line_color_svg = to_svg_color_string(&tick_config.line_color);
+    let minor_tick_color_svg = to_svg_color_string(&tick_config.minor_tick_color);
     let grid_line_color_svg = to_svg_color_string(&grid_config.color);
+    let minor_grid_color_svg = to_svg_color_string(&grid_config.minor_color);
     let mut document = document;
+
+    // Generate minor ticks for all scale types when enabled
+    let x_minor_ticks = match minor_grid {
+        MinorGrid::XAxis | MinorGrid::Both => {
+            match tick_config.x_scale_type {
+                Scale::Log => generate_minor_log_ticks(x_ticks),
+                _ => generate_minor_linear_ticks(x_ticks, 4), // 4 minor ticks between major ticks for linear scales
+            }
+        }
+        _ => Vec::new(),
+    };
+    
+    let y_minor_ticks = match minor_grid {
+        MinorGrid::YAxis | MinorGrid::Both => {
+            match tick_config.y_scale_type {
+                Scale::Log => generate_minor_log_ticks(y_ticks),
+                _ => generate_minor_linear_ticks(y_ticks, 4), // 4 minor ticks between major ticks for linear scales
+            }
+        }
+        _ => Vec::new(),
+    };
 
     // Determine Y-axis scaling factor
     let mut y_scale_factor = 1.0;
@@ -356,6 +430,61 @@ where
             .add(exponent_tspan);
         document = document.add(scale_label_svg);
     }
+
+    // Draw X-axis minor ticks and grids
+    for &minor_tick_val in x_minor_ticks.iter() {
+        let screen_x = map_x(minor_tick_val);
+        if screen_x >= plot_area_x_start - 0.1
+            && screen_x <= plot_area_x_start + plot_area_width + 0.1
+        {
+            // Draw minor grid lines
+            if matches!(minor_grid, MinorGrid::XAxis | MinorGrid::Both) {
+                match grid {
+                    Grid::None => {}
+                    Grid::Solid | Grid::Dashed | Grid::Dotted => {
+                        let minor_grid_line = SvgLine::new()
+                            .set("x1", screen_x)
+                            .set("y1", plot_area_y_start)
+                            .set("x2", screen_x)
+                            .set("y2", plot_area_y_start + plot_area_height)
+                            .set("stroke", minor_grid_color_svg.clone())
+                            .set("stroke-width", grid_config.minor_line_width);
+                        document = document.add(minor_grid_line);
+                    }
+                }
+            }
+
+            // Draw minor tick marks
+            if tick != Tick::None {
+                let tick_direction = if tick == Tick::Inward { -1.0 } else { 1.0 };
+                let tick_y_bottom = plot_area_y_start + plot_area_height;
+                match axis {
+                    Axis::BottomLeft | Axis::Box => {
+                        let minor_tick_line_bottom = SvgLine::new()
+                            .set("x1", screen_x)
+                            .set("y1", tick_y_bottom)
+                            .set("x2", screen_x)
+                            .set("y2", tick_y_bottom + tick_config.minor_tick_length * tick_direction)
+                            .set("stroke", minor_tick_color_svg.clone())
+                            .set("stroke-width", 0.5);
+                        document = document.add(minor_tick_line_bottom);
+                    }
+                }
+                if axis == Axis::Box {
+                    let tick_y_top = plot_area_y_start;
+                    let minor_tick_line_top = SvgLine::new()
+                        .set("x1", screen_x)
+                        .set("y1", tick_y_top)
+                        .set("x2", screen_x)
+                        .set("y2", tick_y_top - tick_config.minor_tick_length * tick_direction)
+                        .set("stroke", minor_tick_color_svg.clone())
+                        .set("stroke-width", 0.5);
+                    document = document.add(minor_tick_line_top);
+                }
+            }
+        }
+    }
+
     for &tick_val in y_ticks.iter() {
         let screen_y = map_y(tick_val);
         if screen_y >= plot_area_y_start - 0.1
@@ -557,5 +686,60 @@ where
             }
         }
     }
+
+    // Draw Y-axis minor ticks and grids
+    for &minor_tick_val in y_minor_ticks.iter() {
+        let screen_y = map_y(minor_tick_val);
+        if screen_y >= plot_area_y_start - 0.1
+            && screen_y <= plot_area_y_start + plot_area_height + 0.1
+        {
+            // Draw minor grid lines
+            if matches!(minor_grid, MinorGrid::YAxis | MinorGrid::Both) {
+                match grid {
+                    Grid::None => {}
+                    Grid::Solid | Grid::Dashed | Grid::Dotted => {
+                        let minor_grid_line = SvgLine::new()
+                            .set("x1", plot_area_x_start)
+                            .set("y1", screen_y)
+                            .set("x2", plot_area_x_start + plot_area_width)
+                            .set("y2", screen_y)
+                            .set("stroke", minor_grid_color_svg.clone())
+                            .set("stroke-width", grid_config.minor_line_width);
+                        document = document.add(minor_grid_line);
+                    }
+                }
+            }
+
+            // Draw minor tick marks
+            if tick != Tick::None {
+                let tick_direction = if tick == Tick::Inward { -1.0 } else { 1.0 };
+                let tick_x_left = plot_area_x_start;
+                let tick_x_right = plot_area_x_start + plot_area_width;
+                match axis {
+                    Axis::BottomLeft | Axis::Box => {
+                        let minor_tick_line_left = SvgLine::new()
+                            .set("x1", tick_x_left)
+                            .set("y1", screen_y)
+                            .set("x2", tick_x_left - tick_config.minor_tick_length * tick_direction)
+                            .set("y2", screen_y)
+                            .set("stroke", minor_tick_color_svg.clone())
+                            .set("stroke-width", 0.5);
+                        document = document.add(minor_tick_line_left);
+                    }
+                }
+                if axis == Axis::Box {
+                    let minor_tick_line_right = SvgLine::new()
+                        .set("x1", tick_x_right)
+                        .set("y1", screen_y)
+                        .set("x2", tick_x_right + tick_config.minor_tick_length * tick_direction)
+                        .set("y2", screen_y)
+                        .set("stroke", minor_tick_color_svg.clone())
+                        .set("stroke-width", 0.5);
+                    document = document.add(minor_tick_line_right);
+                }
+            }
+        }
+    }
+
     document
 }

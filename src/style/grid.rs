@@ -4,6 +4,8 @@ use pigment::{Color, color};
 pub struct GridConfig {
     pub color: Color,
     pub line_width: f32,
+    pub minor_color: Color,
+    pub minor_line_width: f32,
 }
 
 impl Default for GridConfig {
@@ -11,6 +13,8 @@ impl Default for GridConfig {
         Self {
             color: color("lightgray").unwrap(),
             line_width: 0.5,
+            minor_color: color("lightgray").unwrap(),
+            minor_line_width: 0.3,
         }
     }
 }
