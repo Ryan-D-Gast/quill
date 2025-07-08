@@ -1,6 +1,6 @@
 [package]
 name = "quill"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2024"
 description = "A lightweight Rust plotting library for creating simple SVG 2D plots"
 license = "Apache-2.0"
