@@ -1,4 +1,4 @@
-use pigment::{Color, color};
+use crate::Color;
 
 #[derive(Clone, Debug)]
 pub struct LegendConfig {
@@ -15,8 +15,8 @@ impl Default for LegendConfig {
     fn default() -> Self {
         Self {
             font_size: 12.0,
-            text_color: color("black").unwrap(),
-            border_color: color("black").unwrap(),
+            text_color: Color::Black,
+            border_color: Color::Black,
             padding: 10.0,
             item_height: 18.0,
             color_swatch_width: 15.0,

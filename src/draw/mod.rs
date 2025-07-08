@@ -1,10 +1,4 @@
 // Drawing helper functions for Plot SVG rendering
-use pigment::Color;
-
-pub fn to_svg_color_string(color: &Color) -> String {
-    let (r, g, b) = color.rgb();
-    format!("#{:02x}{:02x}{:02x}", r, g, b)
-}
 
 mod axis;
 mod data_series;

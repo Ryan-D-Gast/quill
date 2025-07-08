@@ -34,7 +34,7 @@ fn main() {
         .data([
             Series::builder()
                 .name("10^(x/10)")
-                .color("Red")
+                .color(Color::Red)
                 .data(exponential_data())
                 .marker(Marker::Circle)
                 .marker_size(4.0)
@@ -44,7 +44,7 @@ fn main() {
                 .build(),
             Series::builder()
                 .name("x³")
-                .color("Blue")
+                .color(Color::Blue)
                 .data(power_law_data())
                 .marker(Marker::Square)
                 .marker_size(4.0)

@@ -26,7 +26,7 @@ fn main() {
         .data([
             Series::builder()
                 .name("Product A")
-                .color("Blue")
+                .color(Color::Blue)
                 .data(vec![
                     (1.0, 150.0),
                     (2.0, 160.0),
@@ -46,7 +46,7 @@ fn main() {
                 .build(),
             Series::builder()
                 .name("Product B")
-                .color("Firebrick")
+                .color(Color::Red)
                 .data(vec![
                     (1.0, 80.0),
                     (2.0, 85.0),
@@ -66,7 +66,7 @@ fn main() {
                 .build(),
             Series::builder()
                 .name("Product C (New)")
-                .color("Dark Sea Green")
+                .color(Color::Green)
                 // Product C launched in April (month 4)
                 .data(vec![
                     (4.0, 30.0),
@@ -84,7 +84,7 @@ fn main() {
                 .build(),
             Series::builder()
                 .name("Product D (Negative Trend)")
-                .color("Dark Orange")
+                .color(Color::Orange)
                 // Product D launched in June (month 6)
                 .data(vec![
                     (6.0, 200.0),

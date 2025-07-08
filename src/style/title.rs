@@ -1,4 +1,4 @@
-use pigment::{Color, color};
+use crate::Color;
 
 #[derive(Clone, Debug)]
 pub struct TitleConfig {
@@ -10,7 +10,7 @@ impl Default for TitleConfig {
     fn default() -> Self {
         Self {
             font_size: 20.0,
-            color: color("black").unwrap(),
+            color: Color::Black,
         }
     }
 }

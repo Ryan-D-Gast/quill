@@ -1,4 +1,4 @@
-use crate::{Interpolation, Line, Marker};
+use crate::{Interpolation, Line, Marker, Color};
 use bon::Builder;
 
 #[derive(Clone, Builder)]
@@ -6,8 +6,8 @@ pub struct Series<'a, T = f32> {
     pub data: Vec<(T, T)>,
     #[builder(default = "")]
     pub name: &'a str,
-    #[builder(default = "Black")]
-    pub color: &'a str,
+    #[builder(default = Color::Black, into)]
+    pub color: Color,
     #[builder(default = Line::Solid)]
     pub line: Line,
     #[builder(default = Marker::None)]

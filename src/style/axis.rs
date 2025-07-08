@@ -1,4 +1,4 @@
-use pigment::{Color, color};
+use crate::Color;
 
 #[derive(Clone, Debug)]
 pub struct AxisConfig {
@@ -9,7 +9,7 @@ pub struct AxisConfig {
 impl Default for AxisConfig {
     fn default() -> Self {
         Self {
-            color: color("black").unwrap(),
+            color: Color::Black,
             line_width: 1.5,
         }
     }

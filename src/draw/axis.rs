@@ -1,4 +1,3 @@
-use super::to_svg_color_string;
 use crate::elements::Axis;
 use crate::style::*;
 use svg::Document;
@@ -13,7 +12,7 @@ pub fn draw_axis_lines(
     plot_area_width: f32,
     plot_area_height: f32,
 ) -> Document {
-    let axis_color = to_svg_color_string(&axis_config.color);
+    let axis_color = axis_config.color.to_hex_string();
     let axis_stroke_width = axis_config.line_width;
     match axis {
         Axis::BottomLeft => {

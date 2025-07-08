@@ -1,4 +1,4 @@
-use pigment::{Color, color};
+use crate::Color;
 
 #[derive(Clone, Debug)]
 pub struct TickConfig {
@@ -17,14 +17,14 @@ impl Default for TickConfig {
     fn default() -> Self {
         Self {
             font_size: 10.0,
-            label_color: color("black").unwrap(),
-            line_color: color("black").unwrap(),
+            label_color: Color::Black,
+            line_color: Color::Black,
             length: 5.0,
             text_padding: 3.0,
             density_x: 50.0,
             density_y: 50.0,
             minor_tick_length: 3.0,
-            minor_tick_color: color("black").unwrap(),
+            minor_tick_color: Color::Black,
         }
     }
 }

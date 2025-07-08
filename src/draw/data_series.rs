@@ -1,13 +1,10 @@
-use super::to_svg_color_string;
 use crate::PlotValue;
 use crate::elements::{Interpolation, Line, Marker};
 use crate::series::Series;
-use pigment::{Color, color};
 use svg::node::element::{Group, Path, Rectangle};
 
 pub fn draw_data_series<T, Fx, Fy>(
     data: &[Series<T>],
-    color_fn: fn(&str) -> Option<Color>,
     map_x: Fx,
     map_y: Fy,
 ) -> Group
@@ -18,11 +15,7 @@ where
 {
     let mut data_group = Group::new().set("clip-path", "url(#plotAreaClip)");
     for series in data {
-        let color_val = match color_fn(series.color) {
-            Some(c) => c,
-            None => color("Black").unwrap(),
-        };
-        let series_color_svg = to_svg_color_string(&color_val);
+        let series_color_hex = series.color.to_hex_string();
 
         // Draw lines/curves based on interpolation type
         if series.line != Line::None && series.data.len() > 1 {
@@ -36,7 +29,7 @@ where
             if let Some(mut path) = line_path {
                 path = path
                     .set("fill", "none")
-                    .set("stroke", series_color_svg.clone())
+                    .set("stroke", series_color_hex.clone())
                     .set("stroke-width", series.line_width);
                 if series.line == Line::Dashed {
                     path = path.set("stroke-dasharray", "5 5");
@@ -57,7 +50,7 @@ where
                             .set("cx", screen_x)
                             .set("cy", screen_y)
                             .set("r", marker_size / 2.0)
-                            .set("fill", series_color_svg.clone());
+                            .set("fill", series_color_hex.clone());
                         data_group = data_group.add(circle);
                     }
                     Marker::Square => {
@@ -66,7 +59,7 @@ where
                             .set("y", screen_y - marker_size / 2.0)
                             .set("width", marker_size)
                             .set("height", marker_size)
-                            .set("fill", series_color_svg.clone());
+                            .set("fill", series_color_hex.clone());
                         data_group = data_group.add(square);
                     }
                     Marker::Cross => {
@@ -78,7 +71,7 @@ where
                             .line_to((screen_x + d, screen_y - d));
                         let cross_path = Path::new()
                             .set("d", cross_data)
-                            .set("stroke", series_color_svg.clone())
+                            .set("stroke", series_color_hex.clone())
                             .set("stroke-width", 1.0)
                             .set("fill", "none");
                         data_group = data_group.add(cross_path);

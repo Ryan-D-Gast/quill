@@ -1,4 +1,3 @@
-use super::to_svg_color_string;
 use crate::elements::{Axis, Grid, Scale, Tick, MinorGrid};
 use crate::style::*;
 use svg::Document;
@@ -79,11 +78,11 @@ where
     FX: Fn(f32) -> f32,
     FY: Fn(f32) -> f32,
 {
-    let tick_label_color_svg = to_svg_color_string(&tick_config.label_color);
-    let tick_line_color_svg = to_svg_color_string(&tick_config.line_color);
-    let minor_tick_color_svg = to_svg_color_string(&tick_config.minor_tick_color);
-    let grid_line_color_svg = to_svg_color_string(&grid_config.color);
-    let minor_grid_color_svg = to_svg_color_string(&grid_config.minor_color);
+    let tick_label_color_svg = tick_config.label_color.to_hex_string();
+    let tick_line_color_svg = tick_config.line_color.to_hex_string();
+    let minor_tick_color_svg = tick_config.minor_tick_color.to_hex_string();
+    let grid_line_color_svg = grid_config.color.to_hex_string();
+    let minor_grid_color_svg = grid_config.minor_color.to_hex_string();
     let mut document = document;
 
     // Generate minor ticks for all scale types when enabled

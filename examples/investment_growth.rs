@@ -17,7 +17,7 @@ fn main() {
         .data([
             Series::builder()
                 .name("Low-Risk Investment")
-                .color("Green")
+                .color(Color::Green) // Note "Green" is also valid
                 .data(vec![
                     (0.0, 1000.0),
                     (1.0, 1050.0),

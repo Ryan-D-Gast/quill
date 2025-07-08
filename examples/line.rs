@@ -20,7 +20,7 @@ fn main() {
         .grid(Grid::Solid)
         .data([Series::builder()
             .name("Sine Curve")
-            .color("Blue")
+            .color(Color::Blue)
             .data(line_data())
             .marker(Marker::None)
             .line(Line::Solid)

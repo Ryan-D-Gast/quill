@@ -1,4 +1,3 @@
-use super::to_svg_color_string;
 use crate::style::*;
 use svg::Document;
 use svg::node::Text as SvgNodeText;
@@ -21,7 +20,7 @@ pub fn draw_title(
             .set("y", title_text_y)
             .set("font-family", font)
             .set("font-size", title_config.font_size)
-            .set("fill", to_svg_color_string(&title_config.color))
+            .set("fill", title_config.color.to_hex_string())
             .set("text-anchor", "middle")
             .set("dominant-baseline", "middle")
             .add(SvgNodeText::new(title));
@@ -50,7 +49,7 @@ pub fn draw_x_label(
             .set("y", x_label_text_y)
             .set("font-family", font)
             .set("font-size", x_label_config.font_size)
-            .set("fill", to_svg_color_string(&x_label_config.color))
+            .set("fill", x_label_config.color.to_hex_string())
             .set("text-anchor", "middle")
             .set("dominant-baseline", "middle")
             .add(SvgNodeText::new(x_label));
@@ -76,7 +75,7 @@ pub fn draw_y_label(
             .set("y", y_label_text_y)
             .set("font-family", font)
             .set("font-size", y_label_config.font_size)
-            .set("fill", to_svg_color_string(&y_label_config.color))
+            .set("fill", y_label_config.color.to_hex_string())
             .set("text-anchor", "middle")
             .set("dominant-baseline", "middle")
             .set(

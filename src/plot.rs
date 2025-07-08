@@ -538,7 +538,7 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
         document = document.add(defs);
 
         // --- Data Series Drawing ---
-        let data_group = draw_data_series(&self.data[..], pigment::color, map_x, map_y);
+        let data_group = draw_data_series(&self.data[..], map_x, map_y);
         document = document.add(data_group);
 
         // --- Legend Drawing ---
@@ -622,7 +622,6 @@ impl<'a, T: PlotValue, const N: usize> Plot<'a, T, N> {
                 &self.legend_config,
                 legend_x_base,
                 legend_y_base,
-                pigment::color,
                 legend_actual_box_width,
                 legend_height,
             );
