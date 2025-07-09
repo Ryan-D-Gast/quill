@@ -1,6 +1,6 @@
 # Quill 🪶
 
-A lightweight Rust plotting library for creating simple SVG 2D plots. Quill is designed for simplicity and ease of use, making it perfect for generating basic plots for reports, examples, or any application that needs clean, vector-based visualizations.
+A lightweight Rust plotting library for creating simple 2D plots. Quill is designed for simplicity and ease of use, making it perfect for generating basic plots for reports, examples, or any application that needs clean, vector-based visualizations.
 
 ## Features
 
@@ -18,7 +18,7 @@ Add Quill to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-quill = "0.1.0"
+quill = "0.1.6"
 ```
 
 ### Basic Line Plot
@@ -127,14 +127,14 @@ let plot = Plot::builder()
     .data([
         Series::builder()
             .name("Product A")
-            .color("Blue")
+            .color(Color::Blue) // Both Color::(ColorName) and string colors are supported
             .data(product_a_data)
             .marker(Marker::Circle)
             .line(Line::Solid)
             .build(),
         Series::builder()
             .name("Product B")
-            .color("Firebrick")
+            .color("Red")
             .data(product_b_data)
             .marker(Marker::Square)
             .line(Line::Dotted)
@@ -209,9 +209,6 @@ Series::builder()
     .build()
 ```
 
-Note the Colors are derived from the `pigment` crate. More information at [pigment](https://github.com/crazywolf132/pigment).
-
-
 ### Output Options
 
 ```rust
@@ -222,7 +219,7 @@ plot.to_svg("output.svg").unwrap();
 let svg_doc: svg::Document = plot.to_document();
 ```
 
-### Available Options
+### Example of Available Options
 
 #### Markers
 - `Marker::None` - No markers
@@ -255,13 +252,6 @@ let svg_doc: svg::Document = plot.to_document();
 - `Legend::TopCenter`
 - `Legend::BottomCenter`
 - `Legend::None`
-
-## Dependencies
-
-Quill has minimal dependencies to keep your build fast:
-- `bon` - For builder patterns
-- `pigment` - For color handling
-- `svg` - For SVG generation
 
 ## License
 
