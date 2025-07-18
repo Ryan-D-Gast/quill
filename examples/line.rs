@@ -18,6 +18,7 @@ fn main() {
         .y_label("Y Axis")
         .legend(Legend::TopRightOutside)
         .grid(Grid::Solid)
+        .x_scale(Scale::Pi)
         .data([Series::builder()
             .name("Sine Curve")
             .color(Color::Blue)

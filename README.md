@@ -32,25 +32,33 @@ fn main() {
         (xf, xf.sin())
     }).collect();
 
-    let plot = Plot::builder()
-        .dimensions((600, 400))
-        .title("Sine Wave")
-        .x_label("X Axis")
-        .y_label("Y Axis")
-        .data([
-            Series::builder()
-                .name("sin(x)")
-                .color("Blue")
-                .data(data)
+    fn main() {
+        let line_plot = Plot::builder()
+            .dimensions((600, 400))
+            .title("Line Graph Example")
+            .x_label("X Axis")
+            .y_label("Y Axis")
+            .legend(Legend::TopRightOutside)
+            .grid(Grid::Solid)
+            .x_scale(Scale::Pi)
+            .data([Series::builder()
+                .name("Sine Curve")
+                .color(Color::Blue)
+                .data(line_data())
+                .marker(Marker::None)
                 .line(Line::Solid)
-                .build(),
-        ])
-        .build();
+                .build()])
+            .build();
+        line_plot.to_svg("./gallery/line.svg").unwrap();
+    }
     
     plot.to_svg("output.svg").unwrap();
     
     // Or get the SVG document for programmatic use
     let svg_doc = plot.to_document();
+
+    // With feature "png", you can also save as PNG
+    plot.to_png("output.png").unwrap();
 }
 ```
 

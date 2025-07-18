@@ -4,4 +4,5 @@ pub enum Scale {
     Scientific,
     Engineering,
     Log,
+    Pi,
 }
