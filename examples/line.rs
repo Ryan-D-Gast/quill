@@ -1,4 +1,4 @@
-use quill::*;
+use quill::prelude::*;
 
 fn line_data() -> Vec<(f64, f64)> {
     // Simple sine wave data for line graph

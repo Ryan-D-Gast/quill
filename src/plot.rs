@@ -1,5 +1,5 @@
 use crate::{
-    PlotValue,
+    traits::PlotValue,
     draw::{
         draw_axis_lines, draw_data_series, draw_legend, draw_ticks_and_grids, draw_title,
         draw_x_label, draw_y_label,

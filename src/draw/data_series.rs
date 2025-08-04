@@ -1,6 +1,8 @@
-use crate::PlotValue;
-use crate::elements::{Interpolation, Line, Marker};
-use crate::series::Series;
+use crate::{
+    traits::PlotValue,
+    elements::{Interpolation, Line, Marker},
+    series::Series,
+};
 use svg::node::element::{Group, Path, Rectangle};
 
 pub fn draw_data_series<T, Fx, Fy>(

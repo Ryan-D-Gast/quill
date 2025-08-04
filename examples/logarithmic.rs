@@ -1,4 +1,4 @@
-use quill::*;
+use quill::prelude::*;
 
 fn exponential_data() -> Vec<(f64, f64)> {
     // Exponential growth data - perfect for log scale demonstration

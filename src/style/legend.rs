@@ -1,4 +1,4 @@
-use crate::Color;
+use crate::color::Color;
 
 #[derive(Clone, Debug)]
 pub struct LegendConfig {

@@ -1,4 +1,4 @@
-use quill::*;
+use quill::prelude::*;
 
 fn daily_temperature_data() -> Vec<(i32, i32)> {
     // Daily temperatures over a month (day, temperature in Fahrenheit)

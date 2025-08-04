@@ -24,7 +24,7 @@ quill = "0.1.7"
 ### Basic Line Plot
 
 ```rust
-use quill::*;
+use quill::prelude::*;
 
 fn main() {
     let data = (0..=100).map(|x| {
@@ -32,19 +32,18 @@ fn main() {
         (xf, xf.sin())
     }).collect();
 
-    fn main() {
-        let line_plot = Plot::builder()
-            .dimensions((600, 400))
-            .title("Line Graph Example")
-            .x_label("X Axis")
-            .y_label("Y Axis")
-            .legend(Legend::TopRightOutside)
-            .grid(Grid::Solid)
+    let line_plot = Plot::builder()
+        .dimensions((600, 400))
+        .title("Line Graph Example")
+        .x_label("X Axis")
+        .y_label("Y Axis")
+        .legend(Legend::TopRightOutside)
+        .grid(Grid::Solid)
             .x_scale(Scale::Pi)
             .data([Series::builder()
                 .name("Sine Curve")
                 .color(Color::Blue)
-                .data(line_data())
+                .data(data)
                 .marker(Marker::None)
                 .line(Line::Solid)
                 .build()])
@@ -70,7 +69,7 @@ A simple sine wave visualization with connected points:
 ![Line Chart](gallery/line.svg)
 
 ```rust
-use quill::*;
+use quill::prelude::*;
 
 let line_plot = Plot::builder()
     .dimensions((600, 400))
@@ -97,7 +96,7 @@ Data points without connecting lines:
 ![Scatter Plot](gallery/scatter.svg)
 
 ```rust
-use quill::*;
+use quill::prelude::*;
 
 let scatter_plot = Plot::builder()
     .dimensions((600, 400))
@@ -123,7 +122,7 @@ Multiple datasets on the same plot:
 ![Monthly Sales](gallery/monthly_sales.svg)
 
 ```rust
-use quill::*;
+use quill::prelude::*;
 
 let plot = Plot::builder()
     .dimensions((900, 500))
@@ -158,7 +157,7 @@ Points with different line styles:
 ![Investment Growth](gallery/investment_growth.svg)
 
 ```rust
-use quill::*;
+use quill::prelude::*;
 
 let plot = Plot::builder()
     .dimensions((800, 600))
@@ -225,41 +224,11 @@ plot.to_svg("output.svg").unwrap();
 
 // Get SVG document for programmatic use
 let svg_doc: svg::Document = plot.to_document();
+
+// Save to PNG file (requires "png" feature)
+let scale = 1.0; // Scale factor for PNG
+plot.to_png("output.png", scale).unwrap();
 ```
-
-### Example of Available Options
-
-#### Markers
-- `Marker::None` - No markers
-- `Marker::Circle` - Circular points
-- `Marker::Square` - Square points  
-- `Marker::Cross` - Cross markers
-
-#### Line Styles
-- `Line::Solid` - Solid lines
-- `Line::Dashed` - Dashed lines
-- `Line::Dotted` - Dotted lines
-- `Line::None` - No connecting lines
-
-#### Grid Styles
-- `Grid::Solid` - Solid grid lines
-- `Grid::Dashed` - Dashed grid lines
-- `Grid::Dotted` - Dotted grid lines
-- `Grid::None` - No grid
-
-#### Legend Positions
-- `Legend::TopLeftInside`
-- `Legend::TopRightInside`
-- `Legend::TopRightOutside`
-- `Legend::BottomLeftInside`
-- `Legend::BottomRightInside`
-- `Legend::BottomRightOutside`
-- `Legend::LeftCenterInside`
-- `Legend::RightCenterInside`
-- `Legend::RightCenterOutside`
-- `Legend::TopCenter`
-- `Legend::BottomCenter`
-- `Legend::None`
 
 ## License
 

@@ -1,4 +1,7 @@
-use crate::{Interpolation, Line, Marker, Color};
+use crate::{
+    elements::{Interpolation, Line, Marker}, 
+    color::Color
+};
 use bon::Builder;
 
 #[derive(Clone, Builder)]

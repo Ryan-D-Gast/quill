@@ -1,4 +1,4 @@
-use quill::*;
+use quill::prelude::*;
 
 fn scatter_data() -> Vec<(f32, f32)> {
     // Lissajous curve for interesting scatter pattern

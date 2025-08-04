@@ -7,7 +7,7 @@
 //! ## Quick Start
 //!
 //! ```rust
-//! use quill::*;
+//! use quill::prelude::*;
 //!
 //! // Generate some sample data
 //! let data: Vec<(f64, f64)> = (0..=50)
@@ -39,7 +39,8 @@
 //! plot.to_svg("sine_wave.svg").unwrap();
 //!
 //! // With feat="png"
-//! plot.to_png("sine_wave.png").unwrap();
+//! let scale = 1.0; // Scale factor for PNG
+//! plot.to_png("sine_wave.png", scale).unwrap();
 //! ```
 //!
 //! ## More Examples
@@ -72,18 +73,13 @@
 // - if y_min and x_min are the same use one number for the origin e.g. (0.0 y axis, 0.0 x axis) is rendered as one 0.0 at vertex of x-y axis
 // - Real testing of all the enum options for settings
 
-mod color;
-mod draw;
-mod plot;
-mod series;
-mod traits;
-
+pub mod color;
+pub mod draw;
+pub mod plot;
+pub mod series;
+pub mod traits;
 pub mod elements;
 pub mod style;
 
-pub use color::Color;
-pub use elements::*;
-pub use plot::Plot;
-pub use series::Series;
-pub use style::*;
-pub use traits::PlotValue;
+// Users should use the prelude for convenience as it re-exports what they need for almost all use cases
+pub mod prelude;

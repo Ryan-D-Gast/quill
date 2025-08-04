@@ -1,4 +1,4 @@
-use quill::*;
+use quill::prelude::*;
 
 fn main() {
     // Create a new plot with a builder

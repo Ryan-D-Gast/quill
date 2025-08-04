@@ -1,6 +1,8 @@
-use crate::PlotValue;
-use crate::series::Series;
-use crate::style::*;
+use crate::{
+    traits::PlotValue,
+    series::Series,
+    style::*,
+};
 use svg::Document;
 use svg::node::Text as SvgNodeText;
 use svg::node::element::{Rectangle, Text};
