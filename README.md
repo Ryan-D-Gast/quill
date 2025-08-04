@@ -18,7 +18,7 @@ Add Quill to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-quill = "0.1.7"
+quill = "0.2.0"
 ```
 
 ### Basic Line Plot
