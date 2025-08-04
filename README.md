@@ -57,7 +57,8 @@ fn main() {
     let svg_doc = plot.to_document();
 
     // With feature "png", you can also save as PNG
-    plot.to_png("output.png").unwrap();
+    let scale = 1.0; // Scale of size applied to dimensions of svg plot
+    plot.to_png("output.png", scale).unwrap();
 }
 ```
 
